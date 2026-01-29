@@ -31,15 +31,6 @@
     <script src="components/profile-manager/profile-manager.js"></script>
     <script src="components/site-browser/site-browser.js"></script>
 
-    <!-- Shared Components (Phase 4) -->
-    <script src="components/shared/html-editor/html-editor.js"></script>
-    <script src="components/shared/graph-visualizer/graph-visualizer.js"></script>
-    <script src="components/shared/transform-config/transform-config.js"></script>
-
-    <!-- Mini apps (Phase 4 - Analysis) -->
-    <script src="components/page-analysis/page-analysis.js"></script>
-    <script src="components/site-analysis/site-analysis.js"></script>
-
     <!-- Initialize the shell -->
     <workbench-shell></workbench-shell>
 
@@ -52,10 +43,6 @@
             window.workbench.router.register(SiteBrowser);
             window.workbench.router.register(ProfileManager);
             window.workbench.router.register(ApiExplorer);
-
-            // Register Phase 4 - Analysis
-            window.workbench.router.register(PageAnalysis);
-            window.workbench.router.register(SiteAnalysis);
 
             // Register Phase 2 - Settings and Debug Tools
             window.workbench.router.register(SettingsPanel);
