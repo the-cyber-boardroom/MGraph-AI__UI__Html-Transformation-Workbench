@@ -52,6 +52,28 @@
             // Register Phase 1 validation apps (for testing/development)
             window.workbench.router.register(HelloWorld1);
             window.workbench.router.register(HelloWorld2);
+
+            // Add version switcher to header
+            const header = document.querySelector('.shell-header');
+            if (header) {
+                const switcher = document.createElement('div');
+                switcher.className = 'version-switcher';
+                switcher.style.cssText = 'margin-left:auto;display:flex;align-items:center;gap:8px;';
+                switcher.innerHTML = `
+                    <label style="font-size:11px;color:rgba(255,255,255,0.7);">Version:</label>
+                    <select id="version-select" style="padding:4px 8px;border:1px solid rgba(255,255,255,0.3);border-radius:4px;background:rgba(255,255,255,0.1);color:#fff;font-size:11px;cursor:pointer;">
+                        <option value="v0.1.0" selected>v0.1.0 (Base)</option>
+                        <option value="v0.1.1">v0.1.1 (Analysis)</option>
+                        <option value="v0.1.2">v0.1.2 (Latest)</option>
+                    </select>
+                `;
+                header.appendChild(switcher);
+
+                document.getElementById('version-select').addEventListener('change', function(e) {
+                    const basePath = window.location.pathname.replace(/v0\.1\.\d+\/index\.html$/, '');
+                    window.location.href = basePath + e.target.value + '/index.html';
+                });
+            }
         });
     </script>
 </body>

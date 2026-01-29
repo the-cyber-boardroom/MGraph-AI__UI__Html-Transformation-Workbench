@@ -1,0 +1,259 @@
+/**
+ * v0.1.2 CSS Overrides
+ *
+ * Purpose: Darker, more professional theme + sidebar layout
+ * Surgical override of v0.1.0/css/shell.css
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARKER THEME - Override gradient and colors
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Darker header */
+.shell-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+/* Darker nav bar */
+nav-bar {
+    background: #252836;
+    border-bottom: 1px solid #3a3f4f;
+}
+
+.nav-item {
+    color: #a0a0b0;
+}
+
+.nav-item:hover {
+    background: #3a3f4f;
+    color: #ffffff;
+}
+
+.nav-item.active {
+    background: #0f3460;
+    color: #e94560;
+}
+
+/* Darker buttons */
+.btn-primary {
+    background: #0f3460;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #1a4a7a;
+}
+
+.btn-secondary {
+    background: #3a3f4f;
+    color: #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background: #4a4f5f;
+}
+
+/* Darker footer */
+.shell-footer {
+    background: #1a1a2e;
+    border-top: 1px solid #3a3f4f;
+    color: #a0a0b0;
+}
+
+.shell-footer .status {
+    color: #00d9a0;
+}
+
+.shell-footer .active-app {
+    color: #e94560;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VERSION SWITCHER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.version-switcher {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.version-switcher label {
+    font-size: 11px;
+    color: #888;
+}
+
+.version-switcher select {
+    padding: 4px 8px;
+    border: 1px solid #3a3f4f;
+    border-radius: 4px;
+    background: #252836;
+    color: #a0a0b0;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.version-switcher select:hover {
+    border-color: #0f3460;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIDEBAR LAYOUT - For Events/API Log panels
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Main area becomes flex container */
+.shell-main-area {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Main content takes remaining space */
+.shell-container {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+    background: #ffffff;
+    min-width: 0; /* Allow shrinking */
+}
+
+/* Right sidebar */
+.shell-sidebar {
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+    background: #f5f5f5;
+    border-left: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.2s ease;
+}
+
+.shell-sidebar.open {
+    width: 400px;
+    min-width: 280px;
+}
+
+/* Sidebar resize handle */
+.sidebar-resize-handle {
+    width: 5px;
+    cursor: col-resize;
+    background: #e0e0e0;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.sidebar-resize-handle:hover,
+.sidebar-resize-handle.dragging {
+    background: #0f3460;
+}
+
+/* Sidebar header with tabs */
+.sidebar-header {
+    display: flex;
+    background: #252836;
+    border-bottom: 1px solid #3a3f4f;
+    flex-shrink: 0;
+}
+
+.sidebar-tab {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    color: #a0a0b0;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+}
+
+.sidebar-tab:hover {
+    background: #3a3f4f;
+    color: #ffffff;
+}
+
+.sidebar-tab.active {
+    background: #0f3460;
+    color: #e94560;
+}
+
+.sidebar-close {
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    color: #a0a0b0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.sidebar-close:hover {
+    color: #e94560;
+    background: #3a3f4f;
+}
+
+/* Sidebar content */
+.sidebar-content {
+    flex: 1;
+    overflow: auto;
+}
+
+.sidebar-content > * {
+    display: none;
+    height: 100%;
+}
+
+.sidebar-content > *.active {
+    display: block;
+}
+
+/* Sidebar toggle button in footer */
+.sidebar-toggle {
+    padding: 4px 12px;
+    border: 1px solid #3a3f4f;
+    border-radius: 4px;
+    background: transparent;
+    color: #a0a0b0;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+    margin-right: 16px;
+}
+
+.sidebar-toggle:hover {
+    background: #3a3f4f;
+    color: #ffffff;
+}
+
+.sidebar-toggle.active {
+    background: #0f3460;
+    color: #e94560;
+    border-color: #0f3460;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MISC OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Input focus color */
+.input:focus {
+    border-color: #0f3460;
+    box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.15);
+}
+
+/* Spinner color */
+.spinner {
+    border-top-color: #e94560;
+}
+
+/* Code blocks */
+.code-block {
+    background: #252836;
+    color: #e0e0e0;
+}
+
+.mono {
+    background: #252836;
+    color: #e0e0e0;
+}
