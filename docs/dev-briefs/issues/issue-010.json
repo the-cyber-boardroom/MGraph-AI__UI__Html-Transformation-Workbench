@@ -1,0 +1,17 @@
+{
+  "id": "issue-010",
+  "title": "QA checklist feature for reviews",
+  "description": "Add QA review functionality to the version viewer. When a version is in review status, display a checklist for human reviewers to verify:\n- All targeted issues marked complete\n- README accurately describes changes\n- No console errors\n- Per-issue verification checklist",
+  "status": "backlog",
+  "labels": ["feature", "frontend", "phase-1"],
+  "created": "2026-01-29T15:00:00Z",
+  "updated": "2026-01-29T15:00:00Z",
+  "targetVersion": "v0.2.0",
+  "comments": [],
+  "checklist": [
+    { "item": "Design QA checklist template", "done": false },
+    { "item": "Add QA mode to version viewer", "done": false },
+    { "item": "Implement checklist UI", "done": false },
+    { "item": "Save review state", "done": false }
+  ]
+}

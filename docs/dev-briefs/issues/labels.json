@@ -1,0 +1,14 @@
+{
+  "labels": [
+    { "name": "feature", "color": "#22c55e", "description": "New functionality" },
+    { "name": "bug", "color": "#ef4444", "description": "Something isn't working" },
+    { "name": "enhancement", "color": "#3b82f6", "description": "Improvement to existing feature" },
+    { "name": "documentation", "color": "#8b5cf6", "description": "Documentation updates" },
+    { "name": "frontend", "color": "#f59e0b", "description": "UI/frontend work" },
+    { "name": "backend", "color": "#ec4899", "description": "Requires backend changes" },
+    { "name": "infrastructure", "color": "#6b7280", "description": "Build, deploy, CI/CD" },
+    { "name": "blocked", "color": "#dc2626", "description": "Blocked by dependency" },
+    { "name": "phase-1", "color": "#14b8a6", "description": "Phase 1 - Frontend only" },
+    { "name": "phase-2", "color": "#f97316", "description": "Phase 2 - Requires backend" }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "issue-005",
+  "title": "Implement left nav with sections",
+  "description": "Redesign the navigation to use a left-hand sidebar with collapsible sections instead of the top nav bar.\n\nSections:\n- Main: HTML Workbench, Site Browser, Profile Manager\n- Analysis: Page Analysis, Site Analysis\n- Admin: Kanban Board, Version Viewer\n- Dev: API Explorer, Docs Viewer, Settings\n\nThe right sidebar should remain for transient panels (Events, API Log, Automation).",
+  "status": "in-progress",
+  "labels": ["feature", "frontend", "enhancement"],
+  "created": "2026-01-29T17:00:00Z",
+  "updated": "2026-01-29T18:00:00Z",
+  "targetVersion": "v0.1.6",
+  "comments": [
+    {
+      "author": "human",
+      "timestamp": "2026-01-29T17:00:00Z",
+      "text": "The top nav is getting crowded. Move to a left sidebar with sections to organize apps better."
+    }
+  ],
+  "checklist": [
+    { "item": "Create new shell layout with left sidebar", "done": false },
+    { "item": "Implement collapsible sections", "done": false },
+    { "item": "Organize apps into sections", "done": false },
+    { "item": "Keep right sidebar for debug panels", "done": false }
+  ]
+}

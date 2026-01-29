@@ -1,0 +1,18 @@
+{
+  "id": "issue-007",
+  "title": "Create Issue Detail mini app",
+  "description": "Create a mini app that displays full issue details:\n- Title, status, labels\n- Description (rendered markdown)\n- Checklist with progress\n- Comments thread\n- Target version",
+  "status": "todo",
+  "labels": ["feature", "frontend", "phase-1"],
+  "created": "2026-01-29T15:00:00Z",
+  "updated": "2026-01-29T15:00:00Z",
+  "targetVersion": "v0.1.6",
+  "comments": [],
+  "checklist": [
+    { "item": "Create issue-detail component", "done": false },
+    { "item": "Display issue metadata", "done": false },
+    { "item": "Render description with markdown", "done": false },
+    { "item": "Show checklist with checkboxes", "done": false },
+    { "item": "Display comments thread", "done": false }
+  ]
+}

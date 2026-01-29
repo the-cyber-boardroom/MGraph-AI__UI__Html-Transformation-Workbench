@@ -1,0 +1,31 @@
+{
+  "id": "issue-001",
+  "title": "Implement issue tracking system",
+  "description": "Create a file-system based issue tracking system for the HTML Transformation Workbench. This enables structured communication between developer and Claude Code through JSON files and markdown documentation.\n\nThe system should support:\n- Issue creation and viewing\n- Kanban board visualization\n- Status workflow (backlog → todo → in-progress → review → done)\n- Labels and categorization\n- Version targeting",
+  "status": "in-progress",
+  "labels": ["feature", "frontend", "phase-1"],
+  "created": "2026-01-29T15:00:00Z",
+  "updated": "2026-01-29T18:00:00Z",
+  "targetVersion": "v0.1.6",
+  "comments": [
+    {
+      "author": "human",
+      "timestamp": "2026-01-29T15:00:00Z",
+      "text": "Created dev brief for issue tracking system. See v0.2.1__dev-brief-issue-tracking-system.md"
+    },
+    {
+      "author": "claude-code",
+      "timestamp": "2026-01-29T18:00:00Z",
+      "text": "Starting implementation of v0.1.6. Creating issue data files, services, and UI components."
+    }
+  ],
+  "checklist": [
+    { "item": "Create issues folder structure", "done": true },
+    { "item": "Create labels.json", "done": true },
+    { "item": "Create issues.json index", "done": true },
+    { "item": "Create individual issue files", "done": false },
+    { "item": "Implement issue service", "done": false },
+    { "item": "Create Kanban board UI", "done": false },
+    { "item": "Create Issue Detail UI", "done": false }
+  ]
+}

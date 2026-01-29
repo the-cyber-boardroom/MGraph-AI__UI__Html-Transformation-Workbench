@@ -1,0 +1,23 @@
+{
+  "lastUpdated": "2026-01-29T18:00:00Z",
+  "nextId": 11,
+  "issues": [
+    { "id": "issue-001", "title": "Implement issue tracking system", "status": "in-progress" },
+    { "id": "issue-002", "title": "Create markdown parser service", "status": "in-progress" },
+    { "id": "issue-003", "title": "Implement Kanban board view", "status": "in-progress" },
+    { "id": "issue-004", "title": "Create issue service", "status": "in-progress" },
+    { "id": "issue-005", "title": "Implement left nav with sections", "status": "in-progress" },
+    { "id": "issue-006", "title": "Create Version Viewer mini app", "status": "todo" },
+    { "id": "issue-007", "title": "Create Issue Detail mini app", "status": "todo" },
+    { "id": "issue-008", "title": "Add resizable left nav panel", "status": "in-progress" },
+    { "id": "issue-009", "title": "Backend API for issue CRUD", "status": "backlog" },
+    { "id": "issue-010", "title": "QA checklist feature for reviews", "status": "backlog" }
+  ],
+  "statusCounts": {
+    "backlog": 2,
+    "todo": 2,
+    "in-progress": 6,
+    "review": 0,
+    "done": 0
+  }
+}

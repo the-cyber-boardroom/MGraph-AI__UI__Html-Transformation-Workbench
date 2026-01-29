@@ -1,0 +1,18 @@
+{
+  "id": "issue-006",
+  "title": "Create Version Viewer mini app",
+  "description": "Create a mini app that displays version information including:\n- README.md rendered with markdown parser\n- changelog.json showing files changed\n- Issues addressed in this version\n- Version selector dropdown",
+  "status": "todo",
+  "labels": ["feature", "frontend", "phase-1"],
+  "created": "2026-01-29T15:00:00Z",
+  "updated": "2026-01-29T15:00:00Z",
+  "targetVersion": "v0.1.6",
+  "comments": [],
+  "checklist": [
+    { "item": "Create version-viewer component", "done": false },
+    { "item": "Add version selector", "done": false },
+    { "item": "Render README with markdown parser", "done": false },
+    { "item": "Display changelog files", "done": false },
+    { "item": "Show issues for version", "done": false }
+  ]
+}

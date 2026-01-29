@@ -1,0 +1,17 @@
+{
+  "id": "issue-008",
+  "title": "Add resizable left nav panel",
+  "description": "Make the left navigation panel resizable by dragging its right edge. Save the width preference to localStorage.",
+  "status": "in-progress",
+  "labels": ["enhancement", "frontend"],
+  "created": "2026-01-29T17:00:00Z",
+  "updated": "2026-01-29T18:00:00Z",
+  "targetVersion": "v0.1.6",
+  "comments": [],
+  "checklist": [
+    { "item": "Add resize handle to left nav", "done": false },
+    { "item": "Implement drag resize logic", "done": false },
+    { "item": "Set min/max width constraints", "done": false },
+    { "item": "Save width to localStorage", "done": false }
+  ]
+}
