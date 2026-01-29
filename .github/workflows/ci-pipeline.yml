@@ -20,7 +20,7 @@ on:
         default: false
 
 env:
-  PACKAGE_NAME: 'mgraph-ai-ui-html-transformation-workbench'
+  PACKAGE_NAME: 'mgraph_ai_ui_html_transformation_workbench'
 
 jobs:
   increment-tag:
