@@ -1,0 +1,67 @@
+{
+  "status": "success",
+  "data": {
+    "path": "/",
+    "type": "directory",
+    "children": [
+      {
+        "name": "index.md",
+        "type": "file",
+        "path": "/index.md"
+      },
+      {
+        "name": "v0.1.1__create__workbench-architecture-and-stories",
+        "type": "directory",
+        "path": "/v0.1.1__create__workbench-architecture-and-stories",
+        "children": [
+          { "name": "part-1__LLM_BRIEF__HTML_Transformation_Workbench_UI.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/part-1__LLM_BRIEF__HTML_Transformation_Workbench_UI.md" },
+          { "name": "part-2__ARCHITECTURE__HTML_Transformation_Workbench.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/part-2__ARCHITECTURE__HTML_Transformation_Workbench.md" },
+          { "name": "part-3__IFD_METHODOLOGY.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/part-3__IFD_METHODOLOGY.md" },
+          { "name": "part-3__STORY_INDEX.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/part-3__STORY_INDEX.md" },
+          { "name": "part-3__Stories__SHARED_BRIEFING.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/part-3__Stories__SHARED_BRIEFING.md" },
+          {
+            "name": "stories",
+            "type": "directory",
+            "path": "/v0.1.1__create__workbench-architecture-and-stories/stories",
+            "children": [
+              { "name": "B1_Profile_CRUD_APIs.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/B1_Profile_CRUD_APIs.md" },
+              { "name": "B2_Site_Browsing_API.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/B2_Site_Browsing_API.md" },
+              { "name": "B3_Page_Analysis_APIs.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/B3_Page_Analysis_APIs.md" },
+              { "name": "B4_Site_Analysis_APIs.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/B4_Site_Analysis_APIs.md" },
+              { "name": "B5_Graph_Generation_APIs.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/B5_Graph_Generation_APIs.md" },
+              { "name": "D1_Events_Viewer_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/D1_Events_Viewer_Mini_App.md" },
+              { "name": "D2_API_Logger_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/D2_API_Logger_Mini_App.md" },
+              { "name": "F1_Foundation_Shell_Router.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/F1_Foundation_Shell_Router.md" },
+              { "name": "F2_Event_Bus_Service.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/F2_Event_Bus_Service.md" },
+              { "name": "F3_API_Client_Service.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/F3_API_Client_Service.md" },
+              { "name": "F4_Config_Manager_Service.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/F4_Config_Manager_Service.md" },
+              { "name": "F5_Hello_World_Validation_Apps.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/F5_Hello_World_Validation_Apps.md" },
+              { "name": "M1_Settings_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M1_Settings_Mini_App.md" },
+              { "name": "M2_API_Explorer_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M2_API_Explorer_Mini_App.md" },
+              { "name": "M3_HTML_Workbench_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M3_HTML_Workbench_Mini_App.md" },
+              { "name": "M4_Profile_Manager_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M4_Profile_Manager_Mini_App.md" },
+              { "name": "M5_Site_Browser_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M5_Site_Browser_Mini_App.md" },
+              { "name": "M6_Page_Analysis_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M6_Page_Analysis_Mini_App.md" },
+              { "name": "M7_Site_Analysis_Mini_App.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/M7_Site_Analysis_Mini_App.md" },
+              { "name": "S1_HTML_Editor_Component.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/S1_HTML_Editor_Component.md" },
+              { "name": "S2_Graph_Visualizer_Component.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/S2_Graph_Visualizer_Component.md" },
+              { "name": "S3_Transform_Config_Component.md", "type": "file", "path": "/v0.1.1__create__workbench-architecture-and-stories/stories/S3_Transform_Config_Component.md" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "v0.1.2__implement-workbench-using-claude-code",
+        "type": "directory",
+        "path": "/v0.1.2__implement-workbench-using-claude-code",
+        "children": [
+          { "name": "v0.1.2__brief__claude-code-orchestrator-briefing.md", "type": "file", "path": "/v0.1.2__implement-workbench-using-claude-code/v0.1.2__brief__claude-code-orchestrator-briefing.md" }
+        ]
+      }
+    ]
+  },
+  "meta": {
+    "totalFiles": 27,
+    "totalDirectories": 4
+  }
+}
