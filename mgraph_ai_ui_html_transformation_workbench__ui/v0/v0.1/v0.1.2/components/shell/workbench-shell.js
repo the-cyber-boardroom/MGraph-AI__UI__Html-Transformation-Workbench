@@ -17,7 +17,8 @@ const AVAILABLE_VERSIONS = [
     { id: 'v0.1.1', label: 'v0.1.1 (Analysis)' },
     { id: 'v0.1.2', label: 'v0.1.2 (UI)' },
     { id: 'v0.1.3', label: 'v0.1.3 (Docs)' },
-    { id: 'v0.1.4', label: 'v0.1.4 (Latest)' }
+    { id: 'v0.1.4', label: 'v0.1.4 (Fixes)' },
+    { id: 'v0.1.5', label: 'v0.1.5 (Latest)' }
 ];
 
 // Override render to add sidebar structure and version switcher
