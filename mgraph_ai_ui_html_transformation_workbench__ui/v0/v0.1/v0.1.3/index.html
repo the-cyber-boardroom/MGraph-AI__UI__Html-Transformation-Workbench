@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Transformation Workbench v0.1.1</title>
+    <title>HTML Transformation Workbench v0.1.3</title>
+
     <!-- Load base CSS from v0.1.0 -->
     <link rel="stylesheet" href="../v0.1.0/css/shell.css">
+    <!-- v0.1.2 CSS overrides (darker theme + sidebar) -->
+    <link rel="stylesheet" href="../v0.1.2/css/shell.css">
 </head>
 <body>
     <!-- ═══════════════════════════════════════════════════════════════════════
@@ -17,9 +20,15 @@
     <script src="../v0.1.0/js/config-manager.js"></script>
     <script src="../v0.1.0/js/api-client.js"></script>
 
-    <!-- Shell and nav bar -->
+    <!-- v0.1.2 config override (new URLs) - must load after config-manager -->
+    <script src="../v0.1.2/js/config-manager.js"></script>
+
+    <!-- Shell and nav bar from v0.1.0 -->
     <script src="../v0.1.0/components/shell/nav-bar.js"></script>
     <script src="../v0.1.0/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.2 shell override (sidebar + version switcher) - must load after shell -->
+    <script src="../v0.1.2/components/shell/workbench-shell.js"></script>
 
     <!-- Mini apps (Phase 1 - Hello World validation) -->
     <script src="../v0.1.0/components/hello-world-1/hello-world-1.js"></script>
@@ -40,14 +49,28 @@
          v0.1.1 ADDITIONS - Phase 4: Analysis & Shared Components
          ═══════════════════════════════════════════════════════════════════════ -->
 
-    <!-- Shared Components (new in v0.1.1) -->
-    <script src="components/shared/html-editor/html-editor.js"></script>
-    <script src="components/shared/graph-visualizer/graph-visualizer.js"></script>
-    <script src="components/shared/transform-config/transform-config.js"></script>
+    <!-- Shared Components (from v0.1.1) -->
+    <script src="../v0.1.1/components/shared/html-editor/html-editor.js"></script>
+    <script src="../v0.1.1/components/shared/graph-visualizer/graph-visualizer.js"></script>
+    <script src="../v0.1.1/components/shared/transform-config/transform-config.js"></script>
 
-    <!-- Mini apps - Analysis (new in v0.1.1) -->
-    <script src="components/page-analysis/page-analysis.js"></script>
-    <script src="components/site-analysis/site-analysis.js"></script>
+    <!-- Mini apps - Analysis (from v0.1.1) -->
+    <script src="../v0.1.1/components/page-analysis/page-analysis.js"></script>
+    <script src="../v0.1.1/components/site-analysis/site-analysis.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.2 ADDITIONS - Docs Viewer + UI Improvements
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Documentation Viewer (from v0.1.2) -->
+    <script src="../v0.1.2/components/docs-viewer/docs-viewer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.3 OVERRIDES - Hardcoded file tree for docs viewer
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- v0.1.3 docs-viewer override (hardcoded file tree) - must load after docs-viewer -->
+    <script src="components/docs-viewer/docs-viewer.js"></script>
 
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
 
@@ -64,11 +87,15 @@
             window.workbench.router.register(ProfileManager);
             window.workbench.router.register(ApiExplorer);
 
-            // Register Phase 4 - Analysis (new in v0.1.1)
+            // Register Phase 4 - Analysis (from v0.1.1)
             window.workbench.router.register(PageAnalysis);
             window.workbench.router.register(SiteAnalysis);
 
+            // Register v0.1.2 - Documentation Viewer
+            window.workbench.router.register(DocsViewer);
+
             // Register Phase 2 - Settings and Debug Tools
+            // Note: Events and API Log now open in sidebar (see shell override)
             window.workbench.router.register(SettingsPanel);
             window.workbench.router.register(EventsViewer);
             window.workbench.router.register(ApiLogger);
@@ -76,29 +103,6 @@
             // Register Phase 1 validation apps (for testing/development)
             window.workbench.router.register(HelloWorld1);
             window.workbench.router.register(HelloWorld2);
-
-            // Add version switcher to header
-            const header = document.querySelector('.shell-header');
-            if (header) {
-                const switcher = document.createElement('div');
-                switcher.className = 'version-switcher';
-                switcher.style.cssText = 'margin-left:auto;display:flex;align-items:center;gap:8px;';
-                switcher.innerHTML = `
-                    <label style="font-size:11px;color:rgba(255,255,255,0.7);">Version:</label>
-                    <select id="version-select" style="padding:4px 8px;border:1px solid rgba(255,255,255,0.3);border-radius:4px;background:rgba(255,255,255,0.1);color:#fff;font-size:11px;cursor:pointer;">
-                        <option value="v0.1.0">v0.1.0 (Base)</option>
-                        <option value="v0.1.1" selected>v0.1.1 (Analysis)</option>
-                        <option value="v0.1.2">v0.1.2 (UI)</option>
-                        <option value="v0.1.3">v0.1.3 (Latest)</option>
-                    </select>
-                `;
-                header.appendChild(switcher);
-
-                document.getElementById('version-select').addEventListener('change', function(e) {
-                    const basePath = window.location.pathname.replace(/v0\.1\.\d+\/index\.html$/, '');
-                    window.location.href = basePath + e.target.value + '/index.html';
-                });
-            }
         });
     </script>
 </body>

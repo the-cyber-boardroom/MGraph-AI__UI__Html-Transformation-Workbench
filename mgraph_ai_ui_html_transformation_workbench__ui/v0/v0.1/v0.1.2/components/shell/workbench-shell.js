@@ -15,7 +15,8 @@ const SIDEBAR_APPS = ['events-viewer', 'api-logger'];
 const AVAILABLE_VERSIONS = [
     { id: 'v0.1.0', label: 'v0.1.0 (Base)' },
     { id: 'v0.1.1', label: 'v0.1.1 (Analysis)' },
-    { id: 'v0.1.2', label: 'v0.1.2 (Current)' }
+    { id: 'v0.1.2', label: 'v0.1.2 (UI)' },
+    { id: 'v0.1.3', label: 'v0.1.3 (Latest)' }
 ];
 
 // Override render to add sidebar structure and version switcher
