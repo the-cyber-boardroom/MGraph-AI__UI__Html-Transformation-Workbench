@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Transformation Workbench v0.1.1</title>
+    <!-- Load base CSS from v0.1.0 -->
+    <link rel="stylesheet" href="../v0.1.0/css/shell.css">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.0 BASE - Services, Shell, and Core Mini Apps
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Services load first (order matters!) -->
+    <script src="../v0.1.0/js/event-bus.js"></script>
+    <script src="../v0.1.0/js/config-manager.js"></script>
+    <script src="../v0.1.0/js/api-client.js"></script>
+
+    <!-- Shell and nav bar -->
+    <script src="../v0.1.0/components/shell/nav-bar.js"></script>
+    <script src="../v0.1.0/components/shell/workbench-shell.js"></script>
+
+    <!-- Mini apps (Phase 1 - Hello World validation) -->
+    <script src="../v0.1.0/components/hello-world-1/hello-world-1.js"></script>
+    <script src="../v0.1.0/components/hello-world-2/hello-world-2.js"></script>
+
+    <!-- Mini apps (Phase 2 - Debug Tools & Settings) -->
+    <script src="../v0.1.0/components/settings-panel/settings-panel.js"></script>
+    <script src="../v0.1.0/components/events-viewer/events-viewer.js"></script>
+    <script src="../v0.1.0/components/api-logger/api-logger.js"></script>
+
+    <!-- Mini apps (Phase 3 - Core Functionality) -->
+    <script src="../v0.1.0/components/html-workbench/html-workbench.js"></script>
+    <script src="../v0.1.0/components/api-explorer/api-explorer.js"></script>
+    <script src="../v0.1.0/components/profile-manager/profile-manager.js"></script>
+    <script src="../v0.1.0/components/site-browser/site-browser.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.1 ADDITIONS - Phase 4: Analysis & Shared Components
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Shared Components (new in v0.1.1) -->
+    <script src="components/shared/html-editor/html-editor.js"></script>
+    <script src="components/shared/graph-visualizer/graph-visualizer.js"></script>
+    <script src="components/shared/transform-config/transform-config.js"></script>
+
+    <!-- Mini apps - Analysis (new in v0.1.1) -->
+    <script src="components/page-analysis/page-analysis.js"></script>
+    <script src="components/site-analysis/site-analysis.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Initialize the shell -->
+    <workbench-shell></workbench-shell>
+
+    <!-- Register mini apps -->
+    <script>
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register Phase 3 - Core Functionality (main features first)
+            window.workbench.router.register(HtmlWorkbench);
+            window.workbench.router.register(SiteBrowser);
+            window.workbench.router.register(ProfileManager);
+            window.workbench.router.register(ApiExplorer);
+
+            // Register Phase 4 - Analysis (new in v0.1.1)
+            window.workbench.router.register(PageAnalysis);
+            window.workbench.router.register(SiteAnalysis);
+
+            // Register Phase 2 - Settings and Debug Tools
+            window.workbench.router.register(SettingsPanel);
+            window.workbench.router.register(EventsViewer);
+            window.workbench.router.register(ApiLogger);
+
+            // Register Phase 1 validation apps (for testing/development)
+            window.workbench.router.register(HelloWorld1);
+            window.workbench.router.register(HelloWorld2);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Transformation Workbench</title>
+    <link rel="stylesheet" href="css/shell.css">
+</head>
+<body>
+    <!-- Services load first (order matters!) -->
+    <script src="js/event-bus.js"></script>
+    <script src="js/config-manager.js"></script>
+    <script src="js/api-client.js"></script>
+
+    <!-- Shell and nav bar -->
+    <script src="components/shell/nav-bar.js"></script>
+    <script src="components/shell/workbench-shell.js"></script>
+
+    <!-- Mini apps (Phase 1 - Hello World validation) -->
+    <script src="components/hello-world-1/hello-world-1.js"></script>
+    <script src="components/hello-world-2/hello-world-2.js"></script>
+
+    <!-- Mini apps (Phase 2 - Debug Tools & Settings) -->
+    <script src="components/settings-panel/settings-panel.js"></script>
+    <script src="components/events-viewer/events-viewer.js"></script>
+    <script src="components/api-logger/api-logger.js"></script>
+
+    <!-- Mini apps (Phase 3 - Core Functionality) -->
+    <script src="components/html-workbench/html-workbench.js"></script>
+    <script src="components/api-explorer/api-explorer.js"></script>
+    <script src="components/profile-manager/profile-manager.js"></script>
+    <script src="components/site-browser/site-browser.js"></script>
+
+    <!-- Initialize the shell -->
+    <workbench-shell></workbench-shell>
+
+    <!-- Register mini apps -->
+    <script>
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Register Phase 3 - Core Functionality (main features first)
+            window.workbench.router.register(HtmlWorkbench);
+            window.workbench.router.register(SiteBrowser);
+            window.workbench.router.register(ProfileManager);
+            window.workbench.router.register(ApiExplorer);
+
+            // Register Phase 2 - Settings and Debug Tools
+            window.workbench.router.register(SettingsPanel);
+            window.workbench.router.register(EventsViewer);
+            window.workbench.router.register(ApiLogger);
+
+            // Register Phase 1 validation apps (for testing/development)
+            window.workbench.router.register(HelloWorld1);
+            window.workbench.router.register(HelloWorld2);
+        });
+    </script>
+</body>
+</html>
