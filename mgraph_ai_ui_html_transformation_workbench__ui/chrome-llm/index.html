@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nano Classifier — On-Device Sentiment Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0b">
+</head>
+<body>
+  <div class="app">
+    <!-- Status Bar -->
+    <header class="status-bar">
+      <div class="status-item" id="ai-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Checking AI...</span>
+      </div>
+      <div class="status-item" id="network-status">
+        <span class="status-dot"></span>
+        <span class="status-text">Online</span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="hero">
+        <h1 class="title">
+          <span class="title-prefix">nano</span>Classifier
+        </h1>
+        <p class="subtitle">On-device sentiment analysis powered by Chrome's built-in Gemini Nano</p>
+      </div>
+
+      <!-- Input Section -->
+      <section class="input-section">
+        <label for="text-input" class="input-label">
+          <span class="label-text">Input Text</span>
+          <span class="char-count" id="char-count">0 chars</span>
+        </label>
+        <textarea 
+          id="text-input" 
+          class="text-input" 
+          placeholder="Enter text to analyze sentiment..."
+          rows="5"
+        ></textarea>
+        <button id="classify-btn" class="classify-btn" disabled>
+          <span class="btn-text">Classify</span>
+          <span class="btn-icon">→</span>
+        </button>
+      </section>
+
+      <!-- Output Section -->
+      <section class="output-section" id="output-section" hidden>
+        <div class="result-header">
+          <h2 class="result-title">Analysis Result</h2>
+          <span class="inference-time" id="inference-time"></span>
+        </div>
+
+        <div class="primary-result" id="primary-result">
+          <div class="sentiment-badge" id="sentiment-badge">
+            <span class="sentiment-icon"></span>
+            <span class="sentiment-label">—</span>
+          </div>
+          <div class="confidence-value" id="confidence-value">—%</div>
+        </div>
+
+        <div class="scores-breakdown">
+          <h3 class="breakdown-title">Score Distribution</h3>
+          <div class="score-bars" id="score-bars">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Error/Info Messages -->
+      <div class="message-box" id="message-box" hidden>
+        <div class="message-icon"></div>
+        <div class="message-content">
+          <p class="message-title" id="message-title"></p>
+          <p class="message-text" id="message-text"></p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">
+        All inference runs locally via Chrome's built-in AI. 
+        <span class="footer-highlight">No data leaves your device.</span>
+      </p>
+    </footer>
+  </div>
+
+  <script src="src/ai.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
