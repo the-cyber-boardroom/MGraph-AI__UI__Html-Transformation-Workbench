@@ -347,3 +347,7 @@ sites that work:
 
 - https://chrome.dev/web-ai-demos/prompt-api-playground/
 - https://prompt-api.com/
+
+demo
+
+- http://localhost:10041/workbench/chrome-llm/index.html

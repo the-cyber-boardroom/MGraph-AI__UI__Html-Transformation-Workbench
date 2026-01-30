@@ -3,99 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nano Classifier — On-Device Sentiment Analysis</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Nano AI — On-Device Chat & Sentiment Analysis</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0a0a0b">
 </head>
 <body>
   <div class="app">
-    <!-- Status Bar -->
-    <header class="status-bar">
-      <div class="status-item" id="ai-status">
-        <span class="status-dot"></span>
-        <span class="status-text">Checking AI...</span>
-      </div>
-      <div class="status-item" id="network-status">
-        <span class="status-dot"></span>
-        <span class="status-text">Online</span>
+    <!-- Header -->
+    <header class="header">
+      <h1 class="logo"><span class="logo-accent">nano</span>AI</h1>
+      <div class="status-bar">
+        <div class="status-item" id="ai-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Checking AI...</span>
+        </div>
+        <div class="status-item" id="network-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Online</span>
+        </div>
       </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <div class="hero">
-        <h1 class="title">
-          <span class="title-prefix">nano</span>Classifier
-        </h1>
-        <p class="subtitle">On-device sentiment analysis powered by Chrome's built-in Gemini Nano</p>
-      </div>
-
-      <!-- Input Section -->
-      <section class="input-section">
-        <label for="text-input" class="input-label">
-          <span class="label-text">Input Text</span>
-          <span class="char-count" id="char-count">0 chars</span>
-        </label>
-        <textarea 
-          id="text-input" 
-          class="text-input" 
-          placeholder="Enter text to analyze sentiment..."
-          rows="5"
-        ></textarea>
-        <button id="classify-btn" class="classify-btn" disabled>
-          <span class="btn-text">Classify</span>
-          <span class="btn-icon">→</span>
-        </button>
-      </section>
-
-      <!-- Output Section -->
-      <section class="output-section" id="output-section" hidden>
-        <div class="result-header">
-          <h2 class="result-title">Analysis Result</h2>
-          <span class="inference-time" id="inference-time"></span>
+    <!-- Main Grid -->
+    <main class="main-grid">
+      
+      <!-- Column 1: Chatbot -->
+      <section class="panel chat-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">💬 Chat</h2>
+          <button class="btn-icon" id="clear-chat" title="Clear chat">🗑️</button>
         </div>
-
-        <div class="primary-result" id="primary-result">
-          <div class="sentiment-badge" id="sentiment-badge">
-            <span class="sentiment-icon"></span>
-            <span class="sentiment-label">—</span>
-          </div>
-          <div class="confidence-value" id="confidence-value">—%</div>
-        </div>
-
-        <div class="scores-breakdown">
-          <h3 class="breakdown-title">Score Distribution</h3>
-          <div class="score-bars" id="score-bars">
-            <!-- Populated by JS -->
+        
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-welcome">
+            <p>Chat with Gemini Nano running locally on your device.</p>
+            <p class="chat-hint">All processing happens offline — no data leaves your browser.</p>
           </div>
         </div>
-
-        <div class="reasoning-section" id="reasoning-section" hidden>
-          <h3 class="breakdown-title">Model Reasoning</h3>
-          <p class="reasoning-text" id="reasoning-text"></p>
+        
+        <div class="chat-input-area">
+          <textarea 
+            id="chat-input" 
+            class="chat-input" 
+            placeholder="Type a message..."
+            rows="2"
+          ></textarea>
+          <button id="chat-send" class="btn-primary" disabled>
+            Send
+          </button>
         </div>
       </section>
 
-      <!-- Error/Info Messages -->
-      <div class="message-box" id="message-box" hidden>
-        <div class="message-icon"></div>
-        <div class="message-content">
-          <p class="message-title" id="message-title"></p>
-          <p class="message-text" id="message-text"></p>
+      <!-- Column 2: Sentiment Classifier -->
+      <section class="panel classifier-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">🎯 Sentiment Classifier</h2>
         </div>
-      </div>
+        
+        <div class="classifier-content">
+          <div class="input-group">
+            <label for="text-input" class="input-label">
+              <span>Input Text</span>
+              <span class="char-count" id="char-count">0 chars</span>
+            </label>
+            <textarea 
+              id="text-input" 
+              class="text-input" 
+              placeholder="Enter text to analyze sentiment..."
+              rows="4"
+            ></textarea>
+            <button id="classify-btn" class="btn-primary btn-full" disabled>
+              Classify Sentiment
+            </button>
+          </div>
+
+          <!-- Results -->
+          <div class="results-section" id="output-section" hidden>
+            <div class="result-header">
+              <span class="result-label">Result</span>
+              <span class="inference-time" id="inference-time"></span>
+            </div>
+
+            <div class="primary-result">
+              <div class="sentiment-badge" id="sentiment-badge">
+                <span class="sentiment-icon"></span>
+                <span class="sentiment-label">—</span>
+              </div>
+              <div class="confidence-value" id="confidence-value">—%</div>
+            </div>
+
+            <div class="score-bars" id="score-bars"></div>
+
+            <div class="reasoning-section" id="reasoning-section" hidden>
+              <div class="reasoning-label">Reasoning</div>
+              <p class="reasoning-text" id="reasoning-text"></p>
+            </div>
+          </div>
+
+          <!-- Error Messages -->
+          <div class="message-box" id="message-box" hidden>
+            <div class="message-icon"></div>
+            <div class="message-content">
+              <p class="message-title" id="message-title"></p>
+              <p class="message-text" id="message-text"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Column 3: Message Log -->
+      <section class="panel log-panel">
+        <div class="panel-header">
+          <h2 class="panel-title">📋 Message Log</h2>
+          <button class="btn-icon" id="clear-log" title="Clear log">🗑️</button>
+        </div>
+        
+        <div class="log-messages" id="log-messages">
+          <div class="log-empty">No messages yet</div>
+        </div>
+      </section>
+
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-      <p class="footer-text">
-        All inference runs locally via Chrome's built-in AI. 
-        <span class="footer-highlight">No data leaves your device.</span>
-      </p>
+      <p>All inference runs locally via Chrome's built-in Gemini Nano. <strong>No data leaves your device.</strong></p>
     </footer>
   </div>
 

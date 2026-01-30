@@ -23,7 +23,7 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
             _.version        = version__mgraph_ai_service_html_graph
             _.description    = FAST_API__DESCRIPTION
 
-            _.enable_api_key = False        # because of chrome-llm/manifest.json
+            #_.enable_api_key = False        # because of chrome-llm/manifest.json
             self.add_chrome_llm_routes()
         return super().setup()
 

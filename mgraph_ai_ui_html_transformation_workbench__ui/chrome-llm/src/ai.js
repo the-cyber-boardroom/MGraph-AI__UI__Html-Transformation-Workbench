@@ -1,16 +1,15 @@
 /**
  * ai.js — Chrome Built-in AI (Gemini Nano) Integration
- * 
- * Chrome AI API (Jan 2025):
- * - LanguageModel is exposed as a global
- * - LanguageModel.availability() checks model status
- * - LanguageModel.create() initializes a session
- * - session.prompt() runs inference
+ * Supports both chat and sentiment classification
  */
 
 window.NanoAI = (function() {
   
-  let aiSession = null;
+  let chatSession = null;
+  let classifierSession = null;
+  
+  // Message log for debugging
+  const messageLog = [];
 
   const AIStatus = {
     UNAVAILABLE: 'unavailable',
@@ -18,6 +17,30 @@ window.NanoAI = (function() {
     READY: 'ready',
     ERROR: 'error'
   };
+
+  // Log a message (sent, received, error, system)
+  function logMessage(type, content, metadata) {
+    const entry = {
+      type: type,
+      content: content,
+      metadata: metadata || {},
+      timestamp: new Date()
+    };
+    messageLog.push(entry);
+    
+    // Dispatch event for UI
+    window.dispatchEvent(new CustomEvent('ai-log', { detail: entry }));
+    
+    return entry;
+  }
+
+  function getLog() {
+    return messageLog.slice();
+  }
+
+  function clearLog() {
+    messageLog.length = 0;
+  }
 
   function isAIAvailable() {
     if (typeof LanguageModel !== 'undefined') {
@@ -30,6 +53,7 @@ window.NanoAI = (function() {
 
   async function initAI() {
     if (!isAIAvailable()) {
+      logMessage('system', 'Chrome built-in AI not available');
       return {
         ready: false,
         status: AIStatus.UNAVAILABLE,
@@ -38,12 +62,14 @@ window.NanoAI = (function() {
     }
 
     try {
+      logMessage('system', 'Checking AI availability...');
+      
       let availability = 'available';
       try {
         availability = await LanguageModel.availability();
-        console.log('[AI] Availability:', availability);
+        logMessage('system', 'Availability: ' + availability);
       } catch (e) {
-        console.log('[AI] Could not check availability:', e.message);
+        logMessage('system', 'Could not check availability: ' + e.message);
       }
 
       if (availability === 'unavailable') {
@@ -54,26 +80,24 @@ window.NanoAI = (function() {
         };
       }
 
-      const sessionOptions = {
-        systemPrompt: 'You are a sentiment classifier. Respond ONLY with valid JSON in this format: {"positive": 0.0, "negative": 0.0, "neutral": 0.0}. Scores must be between 0-1 and sum to 1.'
-      };
+      // Create chat session (general purpose)
+      logMessage('system', 'Creating chat session...');
+      chatSession = await LanguageModel.create({
+        systemPrompt: 'You are a helpful AI assistant. Be concise and friendly.'
+      });
 
-      if (availability === 'downloadable' || availability === 'downloading') {
-        console.log('[AI] Model downloading...');
-        sessionOptions.monitor = function(m) {
-          m.addEventListener('downloadprogress', function(e) {
-            console.log('[AI] Download:', Math.round(e.loaded * 100) + '%');
-          });
-        };
-      }
+      // Create classifier session (structured output)
+      logMessage('system', 'Creating classifier session...');
+      classifierSession = await LanguageModel.create({
+        systemPrompt: 'You are a sentiment classifier. Analyze text and provide sentiment scores.'
+      });
 
-      aiSession = await LanguageModel.create(sessionOptions);
-      console.log('[AI] Session created');
+      logMessage('system', 'AI initialization complete');
       
       return { ready: true, status: AIStatus.READY };
 
     } catch (error) {
-      console.error('[AI] Init error:', error);
+      logMessage('error', 'Initialization failed: ' + error.message);
       return {
         ready: false,
         status: AIStatus.ERROR,
@@ -82,62 +106,118 @@ window.NanoAI = (function() {
     }
   }
 
+  // ====== Chat Functions ======
+  
+  async function chat(message) {
+    if (!chatSession) throw new Error('Chat session not initialized');
+    if (!message || !message.trim()) throw new Error('Message required');
+
+    const text = message.trim();
+    logMessage('sent', text, { type: 'chat' });
+
+    try {
+      const start = performance.now();
+      const response = await chatSession.prompt(text);
+      const elapsed = Math.round(performance.now() - start);
+
+      logMessage('received', response, { type: 'chat', time: elapsed + 'ms' });
+
+      return {
+        message: response,
+        time: elapsed
+      };
+
+    } catch (error) {
+      logMessage('error', 'Chat failed: ' + error.message);
+      throw new Error('Chat failed: ' + error.message);
+    }
+  }
+
+  async function chatStreaming(message, onChunk) {
+    if (!chatSession) throw new Error('Chat session not initialized');
+    if (!message || !message.trim()) throw new Error('Message required');
+
+    const text = message.trim();
+    logMessage('sent', text, { type: 'chat-stream' });
+
+    try {
+      const start = performance.now();
+      let fullResponse = '';
+
+      const stream = chatSession.promptStreaming(text);
+      
+      for await (const chunk of stream) {
+        fullResponse += chunk;
+        if (onChunk) onChunk(chunk, fullResponse);
+      }
+
+      const elapsed = Math.round(performance.now() - start);
+      logMessage('received', fullResponse, { type: 'chat-stream', time: elapsed + 'ms' });
+
+      return {
+        message: fullResponse,
+        time: elapsed
+      };
+
+    } catch (error) {
+      logMessage('error', 'Chat stream failed: ' + error.message);
+      throw new Error('Chat failed: ' + error.message);
+    }
+  }
+
+  // ====== Classification Functions ======
+
   async function classifyText(input) {
-    if (!aiSession) throw new Error('AI not initialized');
+    if (!classifierSession) throw new Error('Classifier not initialized');
     if (!input || !input.trim()) throw new Error('Input required');
 
     const text = input.length > 4000 ? input.substring(0, 4000) : input;
+    
+    logMessage('sent', text, { type: 'classify' });
 
     try {
-      console.log('[AI] Classifying...');
       const start = performance.now();
       
-      // Define JSON Schema for structured output
+      // Try structured output first
       const responseSchema = {
         type: "object",
         properties: {
-          sentiment: {
-            type: "string",
-            enum: ["positive", "negative", "neutral"]
-          },
-          confidence: {
-            type: "number",
-            minimum: 0,
-            maximum: 1
-          },
-          positive_score: {
-            type: "number",
-            minimum: 0,
-            maximum: 1
-          },
-          negative_score: {
-            type: "number",
-            minimum: 0,
-            maximum: 1
-          },
-          neutral_score: {
-            type: "number",
-            minimum: 0,
-            maximum: 1
-          },
-          reasoning: {
-            type: "string"
-          }
+          sentiment: { type: "string", enum: ["positive", "negative", "neutral"] },
+          confidence: { type: "number" },
+          positive_score: { type: "number" },
+          negative_score: { type: "number" },
+          neutral_score: { type: "number" },
+          reasoning: { type: "string" }
         },
-        required: ["sentiment", "confidence", "positive_score", "negative_score", "neutral_score"]
+        required: ["sentiment", "positive_score", "negative_score", "neutral_score"]
       };
 
-      const prompt = 'Analyze the sentiment of this text. Provide scores for each sentiment (positive, negative, neutral) that sum to 1.0.\n\nText: "' + text + '"';
+      const prompt = 'Analyze the sentiment of this text. Provide scores for positive, negative, and neutral that sum to 1.0.\n\nText: "' + text + '"';
 
-      const response = await aiSession.prompt(prompt, {
-        responseConstraint: responseSchema
-      });
-      
+      let response;
+      let useStructured = true;
+
+      try {
+        response = await classifierSession.prompt(prompt, {
+          responseConstraint: responseSchema
+        });
+      } catch (e) {
+        // Fallback to unstructured
+        useStructured = false;
+        response = await classifierSession.prompt(
+          'Classify the sentiment as positive, negative, or neutral. Respond with JSON: {"sentiment": "...", "positive_score": 0.0, "negative_score": 0.0, "neutral_score": 0.0, "reasoning": "..."}\n\nText: "' + text + '"'
+        );
+      }
+
       const elapsed = Math.round(performance.now() - start);
-      console.log('[AI] Done in ' + elapsed + 'ms:', response);
+      
+      logMessage('received', response, { 
+        type: 'classify', 
+        time: elapsed + 'ms',
+        structured: useStructured 
+      });
 
-      // Parse the structured response
-      const result = parseStructuredResponse(response);
+      const result = parseClassification(response);
       
       return {
         label: result.sentiment,
@@ -153,114 +233,72 @@ window.NanoAI = (function() {
       };
 
     } catch (error) {
-      console.error('[AI] Error:', error);
-      
-      // Fallback to non-structured if responseConstraint fails
-      if (error.message && error.message.indexOf('responseConstraint') !== -1) {
-        console.log('[AI] Falling back to unstructured prompt...');
-        return classifyTextFallback(text);
-      }
-      
+      logMessage('error', 'Classification failed: ' + error.message);
       throw new Error('Classification failed: ' + error.message);
     }
   }
 
-  // Fallback for browsers that don't support responseConstraint
-  async function classifyTextFallback(text) {
-    const start = performance.now();
-    
-    const response = await aiSession.prompt(
-      'Classify sentiment as positive, negative, or neutral. Respond with JSON: {"sentiment": "...", "confidence": 0.0, "positive_score": 0.0, "negative_score": 0.0, "neutral_score": 0.0}\n\nText: "' + text + '"'
-    );
-    
-    const elapsed = Math.round(performance.now() - start);
-    const scores = parseScores(response);
-    
-    return {
-      label: getTopLabel(scores),
-      scores: scores,
-      inferenceTime: elapsed,
-      raw: response
-    };
-  }
-
-  function parseStructuredResponse(response) {
+  function parseClassification(response) {
     try {
-      // Response should already be valid JSON from responseConstraint
-      const parsed = typeof response === 'string' ? JSON.parse(response) : response;
+      // Try to parse as JSON
+      const text = typeof response === 'string' ? response : JSON.stringify(response);
+      const match = text.match(/\{[\s\S]*\}/);
       
-      return {
-        sentiment: parsed.sentiment || 'neutral',
-        confidence: clamp(parsed.confidence || 0.5),
-        positive_score: clamp(parsed.positive_score || 0),
-        negative_score: clamp(parsed.negative_score || 0),
-        neutral_score: clamp(parsed.neutral_score || 0),
-        reasoning: parsed.reasoning || ''
-      };
-    } catch (e) {
-      console.warn('[AI] Structured parse failed, using fallback:', e);
-      const scores = parseScores(response);
-      return {
-        sentiment: getTopLabel(scores),
-        confidence: Math.max(scores.positive, scores.negative, scores.neutral),
-        positive_score: scores.positive,
-        negative_score: scores.negative,
-        neutral_score: scores.neutral,
-        reasoning: ''
-      };
-    }
-  }
-
-  function parseScores(response) {
-    try {
-      const match = response.match(/\{[\s\S]*?\}/);
       if (match) {
-        const p = JSON.parse(match[0]);
+        const parsed = JSON.parse(match[0]);
         
-        // Format 1: Model returned scores directly {"positive": 0.8, "negative": 0.1, "neutral": 0.1}
-        if (typeof p.positive === 'number' || typeof p.negative === 'number' || typeof p.neutral === 'number') {
+        // If we have numeric scores
+        if (typeof parsed.positive_score === 'number') {
           const scores = {
-            positive: clamp(p.positive || 0),
-            negative: clamp(p.negative || 0),
-            neutral: clamp(p.neutral || 0)
+            positive_score: clamp(parsed.positive_score),
+            negative_score: clamp(parsed.negative_score || 0),
+            neutral_score: clamp(parsed.neutral_score || 0)
           };
-          const total = scores.positive + scores.negative + scores.neutral;
+          
+          // Normalize
+          const total = scores.positive_score + scores.negative_score + scores.neutral_score;
           if (total > 0) {
-            scores.positive /= total;
-            scores.negative /= total;
-            scores.neutral /= total;
+            scores.positive_score /= total;
+            scores.negative_score /= total;
+            scores.neutral_score /= total;
           }
-          return scores;
+          
+          return {
+            sentiment: parsed.sentiment || getTopLabel(scores),
+            confidence: clamp(parsed.confidence || Math.max(scores.positive_score, scores.negative_score, scores.neutral_score)),
+            positive_score: scores.positive_score,
+            negative_score: scores.negative_score,
+            neutral_score: scores.neutral_score,
+            reasoning: parsed.reasoning || ''
+          };
         }
         
-        // Format 2: Model returned a label {"sentiment": "negative"} or {"label": "positive"}
-        const label = (p.sentiment || p.label || p.classification || '').toLowerCase();
-        if (label.indexOf('positive') !== -1) {
-          return { positive: 0.85, negative: 0.05, neutral: 0.10 };
+        // If we have a sentiment label only
+        const sentiment = (parsed.sentiment || parsed.label || '').toLowerCase();
+        if (sentiment.indexOf('positive') !== -1) {
+          return { sentiment: 'positive', confidence: 0.85, positive_score: 0.85, negative_score: 0.05, neutral_score: 0.10, reasoning: parsed.reasoning || '' };
         }
-        if (label.indexOf('negative') !== -1) {
-          return { positive: 0.05, negative: 0.85, neutral: 0.10 };
+        if (sentiment.indexOf('negative') !== -1) {
+          return { sentiment: 'negative', confidence: 0.85, positive_score: 0.05, negative_score: 0.85, neutral_score: 0.10, reasoning: parsed.reasoning || '' };
         }
-        if (label.indexOf('neutral') !== -1) {
-          return { positive: 0.10, negative: 0.10, neutral: 0.80 };
+        if (sentiment.indexOf('neutral') !== -1) {
+          return { sentiment: 'neutral', confidence: 0.80, positive_score: 0.10, negative_score: 0.10, neutral_score: 0.80, reasoning: parsed.reasoning || '' };
         }
       }
     } catch (e) {
       console.warn('[AI] Parse error:', e);
     }
     
-    // Fallback: scan for keywords in raw response
+    // Fallback: keyword scan
     const lower = response.toLowerCase();
     if (lower.indexOf('negative') !== -1 && lower.indexOf('positive') === -1) {
-      return { positive: 0.05, negative: 0.85, neutral: 0.10 };
+      return { sentiment: 'negative', confidence: 0.70, positive_score: 0.10, negative_score: 0.70, neutral_score: 0.20, reasoning: '' };
     }
     if (lower.indexOf('positive') !== -1 && lower.indexOf('negative') === -1) {
-      return { positive: 0.85, negative: 0.05, neutral: 0.10 };
+      return { sentiment: 'positive', confidence: 0.70, positive_score: 0.70, negative_score: 0.10, neutral_score: 0.20, reasoning: '' };
     }
-    if (lower.indexOf('neutral') !== -1) {
-      return { positive: 0.10, negative: 0.10, neutral: 0.80 };
-    }
-    return { positive: 0.33, negative: 0.33, neutral: 0.34 };
+    
+    return { sentiment: 'neutral', confidence: 0.50, positive_score: 0.33, negative_score: 0.33, neutral_score: 0.34, reasoning: '' };
   }
 
   function clamp(v) { 
@@ -268,16 +306,35 @@ window.NanoAI = (function() {
   }
 
   function getTopLabel(scores) {
-    if (scores.positive >= scores.negative && scores.positive >= scores.neutral) return 'positive';
-    if (scores.negative >= scores.positive && scores.negative >= scores.neutral) return 'negative';
+    if (scores.positive_score >= scores.negative_score && scores.positive_score >= scores.neutral_score) return 'positive';
+    if (scores.negative_score >= scores.positive_score && scores.negative_score >= scores.neutral_score) return 'negative';
     return 'neutral';
+  }
+
+  // Reset sessions (clear context)
+  async function resetChat() {
+    if (chatSession) {
+      try {
+        const newSession = await chatSession.clone();
+        chatSession.destroy();
+        chatSession = newSession;
+        logMessage('system', 'Chat session reset');
+      } catch (e) {
+        logMessage('error', 'Failed to reset chat: ' + e.message);
+      }
+    }
   }
 
   return {
     AIStatus: AIStatus,
     initAI: initAI,
+    chat: chat,
+    chatStreaming: chatStreaming,
     classifyText: classifyText,
-    hasActiveSession: function() { return aiSession !== null; }
+    resetChat: resetChat,
+    getLog: getLog,
+    clearLog: clearLog,
+    hasActiveSession: function() { return chatSession !== null; }
   };
 
 })();

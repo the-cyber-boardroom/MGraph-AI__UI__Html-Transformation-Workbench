@@ -1,12 +1,13 @@
 /**
  * main.js — Application Bootstrap
+ * Wires together AI, UI, and Service Worker
  */
 
 (function() {
 
   var state = { aiReady: false };
 
-  // Register Service Worker
+  // Register Service Worker for offline support
   function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
@@ -27,40 +28,62 @@
     
     if (result.ready) {
       state.aiReady = true;
-      NanoUI.updateAIStatus('ready');
-      NanoUI.setButtonEnabled(true);
+      NanoUI.updateAIStatus('ready', 'AI Ready (On-Device)');
+      NanoUI.setButtonsEnabled(true);
       console.log('[App] AI ready');
     } else {
       state.aiReady = false;
       NanoUI.updateAIStatus('error', 'AI Unavailable');
-      NanoUI.setButtonEnabled(false);
-      NanoUI.showMessage('error', 'Chrome AI Not Available', result.reason);
+      NanoUI.setButtonsEnabled(false);
+      NanoUI.showClassifierMessage('error', 'Chrome AI Not Available', result.reason);
+    }
+  }
+
+  // Handle chat message
+  async function handleChat(message) {
+    if (!state.aiReady) {
+      NanoUI.showChatError('AI not ready');
+      return;
+    }
+
+    try {
+      // Use streaming for better UX
+      await NanoAI.chatStreaming(message, function(chunk, fullText) {
+        NanoUI.updateChatResponse(fullText, false);
+      });
+      
+      // Mark as done
+      NanoUI.updateChatResponse(null, true);
+      
+    } catch (error) {
+      console.error('[App] Chat error:', error);
+      NanoUI.showChatError(error.message);
     }
   }
 
   // Handle classification
   async function handleClassify(text) {
     if (!state.aiReady) {
-      NanoUI.showMessage('error', 'AI Not Ready', 'Please wait for initialization.');
+      NanoUI.showClassifierMessage('error', 'AI Not Ready', 'Please wait for initialization.');
       return;
     }
 
-    NanoUI.setButtonLoading(true);
-    NanoUI.clearResults();
+    NanoUI.setClassifyLoading(true);
+    NanoUI.hideClassifierMessage();
 
     try {
       var result = await NanoAI.classifyText(text);
-      NanoUI.showResults(result);
-      console.log('[App] Result:', result);
+      NanoUI.showClassifierResults(result);
+      console.log('[App] Classification result:', result);
     } catch (error) {
-      console.error('[App] Error:', error);
-      NanoUI.showMessage('error', 'Classification Failed', error.message);
+      console.error('[App] Classification error:', error);
+      NanoUI.showClassifierMessage('error', 'Classification Failed', error.message);
     } finally {
-      NanoUI.setButtonLoading(false);
+      NanoUI.setClassifyLoading(false);
     }
   }
 
-  // Network listeners
+  // Network status listeners
   function setupNetworkListeners() {
     window.addEventListener('online', function() {
       NanoUI.updateNetworkStatus();
@@ -70,20 +93,20 @@
     });
   }
 
-  // Main init
+  // Main initialization
   function init() {
-    console.log('[App] Initializing...');
+    console.log('[App] Initializing Nano AI...');
     
     registerServiceWorker();
     setupNetworkListeners();
     
     NanoUI.init({
+      onChat: handleChat,
       onClassify: handleClassify,
       isReady: function() { return state.aiReady; }
     });
     
     initializeAI();
-    NanoUI.focusInput();
     
     console.log('[App] Init complete');
   }
