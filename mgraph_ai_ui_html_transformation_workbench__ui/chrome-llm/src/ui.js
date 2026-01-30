@@ -119,10 +119,25 @@ window.NanoUI = (function() {
     badge.querySelector('.sentiment-icon').textContent = config.icon;
     badge.querySelector('.sentiment-label').textContent = config.label;
 
-    var confidence = Math.round(result.scores[result.label] * 100);
+    // Use confidence from structured output if available, otherwise derive from scores
+    var confidence = result.confidence 
+      ? Math.round(result.confidence * 100)
+      : Math.round(result.scores[result.label] * 100);
     elements.confidenceValue.textContent = confidence + '%';
 
     renderScoreBars(result.scores);
+    
+    // Show reasoning if available
+    var reasoningEl = document.getElementById('reasoning-text');
+    var reasoningSection = document.getElementById('reasoning-section');
+    if (result.reasoning && result.reasoning.trim()) {
+      if (reasoningEl && reasoningSection) {
+        reasoningEl.textContent = result.reasoning;
+        reasoningSection.hidden = false;
+      }
+    } else if (reasoningSection) {
+      reasoningSection.hidden = true;
+    }
   }
 
   function renderScoreBars(scores) {

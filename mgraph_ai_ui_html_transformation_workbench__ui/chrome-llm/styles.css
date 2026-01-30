@@ -408,6 +408,20 @@ body {
   text-align: right;
 }
 
+/* Reasoning Section */
+.reasoning-section {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.reasoning-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+}
+
 /* Message Box */
 .message-box {
   display: flex;

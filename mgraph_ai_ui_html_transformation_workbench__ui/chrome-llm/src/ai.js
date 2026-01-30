@@ -92,25 +92,122 @@ window.NanoAI = (function() {
       console.log('[AI] Classifying...');
       const start = performance.now();
       
-      const response = await aiSession.prompt(
-        'Classify sentiment, respond ONLY with JSON:\n\nText: "' + text + '"\n\nJSON:'
-      );
+      // Define JSON Schema for structured output
+      const responseSchema = {
+        type: "object",
+        properties: {
+          sentiment: {
+            type: "string",
+            enum: ["positive", "negative", "neutral"]
+          },
+          confidence: {
+            type: "number",
+            minimum: 0,
+            maximum: 1
+          },
+          positive_score: {
+            type: "number",
+            minimum: 0,
+            maximum: 1
+          },
+          negative_score: {
+            type: "number",
+            minimum: 0,
+            maximum: 1
+          },
+          neutral_score: {
+            type: "number",
+            minimum: 0,
+            maximum: 1
+          },
+          reasoning: {
+            type: "string"
+          }
+        },
+        required: ["sentiment", "confidence", "positive_score", "negative_score", "neutral_score"]
+      };
+
+      const prompt = 'Analyze the sentiment of this text. Provide scores for each sentiment (positive, negative, neutral) that sum to 1.0.\n\nText: "' + text + '"';
+
+      const response = await aiSession.prompt(prompt, {
+        responseConstraint: responseSchema
+      });
       
       const elapsed = Math.round(performance.now() - start);
       console.log('[AI] Done in ' + elapsed + 'ms:', response);
 
-      const scores = parseScores(response);
+      // Parse the structured response
+      const result = parseStructuredResponse(response);
       
       return {
-        label: getTopLabel(scores),
-        scores: scores,
+        label: result.sentiment,
+        scores: {
+          positive: result.positive_score,
+          negative: result.negative_score,
+          neutral: result.neutral_score
+        },
+        confidence: result.confidence,
+        reasoning: result.reasoning,
         inferenceTime: elapsed,
         raw: response
       };
 
     } catch (error) {
       console.error('[AI] Error:', error);
+      
+      // Fallback to non-structured if responseConstraint fails
+      if (error.message && error.message.indexOf('responseConstraint') !== -1) {
+        console.log('[AI] Falling back to unstructured prompt...');
+        return classifyTextFallback(text);
+      }
+      
       throw new Error('Classification failed: ' + error.message);
+    }
+  }
+
+  // Fallback for browsers that don't support responseConstraint
+  async function classifyTextFallback(text) {
+    const start = performance.now();
+    
+    const response = await aiSession.prompt(
+      'Classify sentiment as positive, negative, or neutral. Respond with JSON: {"sentiment": "...", "confidence": 0.0, "positive_score": 0.0, "negative_score": 0.0, "neutral_score": 0.0}\n\nText: "' + text + '"'
+    );
+    
+    const elapsed = Math.round(performance.now() - start);
+    const scores = parseScores(response);
+    
+    return {
+      label: getTopLabel(scores),
+      scores: scores,
+      inferenceTime: elapsed,
+      raw: response
+    };
+  }
+
+  function parseStructuredResponse(response) {
+    try {
+      // Response should already be valid JSON from responseConstraint
+      const parsed = typeof response === 'string' ? JSON.parse(response) : response;
+      
+      return {
+        sentiment: parsed.sentiment || 'neutral',
+        confidence: clamp(parsed.confidence || 0.5),
+        positive_score: clamp(parsed.positive_score || 0),
+        negative_score: clamp(parsed.negative_score || 0),
+        neutral_score: clamp(parsed.neutral_score || 0),
+        reasoning: parsed.reasoning || ''
+      };
+    } catch (e) {
+      console.warn('[AI] Structured parse failed, using fallback:', e);
+      const scores = parseScores(response);
+      return {
+        sentiment: getTopLabel(scores),
+        confidence: Math.max(scores.positive, scores.negative, scores.neutral),
+        positive_score: scores.positive,
+        negative_score: scores.negative,
+        neutral_score: scores.neutral,
+        reasoning: ''
+      };
     }
   }
 
@@ -119,7 +216,7 @@ window.NanoAI = (function() {
       const match = response.match(/\{[\s\S]*?\}/);
       if (match) {
         const p = JSON.parse(match[0]);
-
+        
         // Format 1: Model returned scores directly {"positive": 0.8, "negative": 0.1, "neutral": 0.1}
         if (typeof p.positive === 'number' || typeof p.negative === 'number' || typeof p.neutral === 'number') {
           const scores = {
@@ -135,7 +232,7 @@ window.NanoAI = (function() {
           }
           return scores;
         }
-
+        
         // Format 2: Model returned a label {"sentiment": "negative"} or {"label": "positive"}
         const label = (p.sentiment || p.label || p.classification || '').toLowerCase();
         if (label.indexOf('positive') !== -1) {
@@ -151,7 +248,7 @@ window.NanoAI = (function() {
     } catch (e) {
       console.warn('[AI] Parse error:', e);
     }
-
+    
     // Fallback: scan for keywords in raw response
     const lower = response.toLowerCase();
     if (lower.indexOf('negative') !== -1 && lower.indexOf('positive') === -1) {
@@ -166,8 +263,8 @@ window.NanoAI = (function() {
     return { positive: 0.33, negative: 0.33, neutral: 0.34 };
   }
 
-  function clamp(v) {
-    return typeof v === 'number' && !isNaN(v) ? Math.max(0, Math.min(1, v)) : 0;
+  function clamp(v) { 
+    return typeof v === 'number' && !isNaN(v) ? Math.max(0, Math.min(1, v)) : 0; 
   }
 
   function getTopLabel(scores) {
