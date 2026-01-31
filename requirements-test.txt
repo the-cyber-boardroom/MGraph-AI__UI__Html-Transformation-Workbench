@@ -1,0 +1,12 @@
+# for main app
+osbot-fast-api-serverless
+
+
+# for pytest
+pytest
+pytest-cov
+
+
+# for fastapi testing
+httpx
+requests
