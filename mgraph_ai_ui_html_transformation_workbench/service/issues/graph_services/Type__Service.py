@@ -26,7 +26,7 @@ class Type__Service(Type_Safe):                                                 
 
     def get_node_type(self                         ,                             # Get single node type
                       name : Safe_Str__Node_Type
-                 ) -> Optional[Schema__Node__Type]:
+                 ) -> Schema__Node__Type:
         types = self.repository.node_types_load()
         for t in types:
             if str(t.name) == str(name):

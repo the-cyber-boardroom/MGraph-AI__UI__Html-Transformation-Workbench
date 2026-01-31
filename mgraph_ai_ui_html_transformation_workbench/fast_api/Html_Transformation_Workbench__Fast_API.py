@@ -1,6 +1,12 @@
 import mgraph_ai_ui_html_transformation_workbench__ui
 from fastapi                                                        import Response
 from osbot_utils.utils.Files                                        import path_combine, file_contents
+
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Issues import Routes__Issues
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Labels import Routes__Labels
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Links import Routes__Links
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Nodes import Routes__Nodes
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Types import Routes__Types
 from osbot_fast_api.api.routes.Routes__Set_Cookie                   import Routes__Set_Cookie
 from starlette.responses                                            import RedirectResponse
 from starlette.staticfiles                                          import StaticFiles
@@ -26,6 +32,11 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         return super().setup()
 
     def setup_routes(self):
+        self.add_routes(Routes__Issues)
+        self.add_routes(Routes__Labels)
+        self.add_routes(Routes__Links)
+        self.add_routes(Routes__Nodes)
+        self.add_routes(Routes__Types)
         self.add_routes(Routes__Set_Cookie)
 
     def add_chrome_llm_routes(self):

@@ -47,7 +47,7 @@ class Graph__Repository(Type_Safe):                                             
     def node_load(self                              ,                            # Load node from storage
                   node_type : Safe_Str__Node_Type   ,
                   label     : Safe_Str__Node_Label
-             ) -> Optional[Schema__Node]:
+             ) -> Schema__Node:
         path = self.path_handler.path_for_node(node_type = node_type ,
                                                label     = label     )
         if self.storage_fs.file__exists(path) is False:
@@ -216,7 +216,7 @@ class Graph__Repository(Type_Safe):                                             
                         node_type : Safe_Str__Node_Type   ,
                         label     : Safe_Str__Node_Label  ,
                         filename  : str
-                   ) -> Optional[bytes]:
+                   ) -> bytes:
         path = self.path_handler.path_for_attachment(node_type = node_type ,
                                                      label     = label     ,
                                                      filename  = filename  )

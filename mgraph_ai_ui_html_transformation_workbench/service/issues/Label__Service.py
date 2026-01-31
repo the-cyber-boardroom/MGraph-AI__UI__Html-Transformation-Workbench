@@ -27,7 +27,7 @@ class Label__Service(Type_Safe):                                                
         return Schema__Labels__List__Response(success = True  ,
                                               labels  = labels)
 
-    def get_label(self, name: Safe_Str__Label_Name) -> Optional[Schema__Label]:  # Get single label
+    def get_label(self, name: Safe_Str__Label_Name) -> Schema__Label:  # Get single label
         labels = self.repository.get_labels()
         for label in labels:
             if str(label.name) == str(name):

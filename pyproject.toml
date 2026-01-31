@@ -9,8 +9,11 @@ homepage    = "https://github.com/the-cyber-boardroom/MGraph-AI__UI__Html-Transf
 repository  = "https://github.com/the-cyber-boardroom/MGraph-AI__UI__Html-Transformation-Workbench"
 
 packages    = [
-    { include = "mgraph_ai_ui_html_transformation_workbench"            },
-    { include = "mgraph_ai_ui_html_transformation_workbench__ui" }
+    { include = "mgraph_ai_ui_html_transformation_workbench"        },
+    { include = "mgraph_ai_ui_html_transformation_workbench__ui"    }]
+
+include = [
+    { path = "docs/dev-briefs", format = ["sdist", "wheel"] }
 ]
 
 [tool.poetry.dependencies]

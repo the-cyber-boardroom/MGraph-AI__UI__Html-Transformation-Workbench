@@ -78,9 +78,9 @@ class Routes__Types(Fast_API__Routes):                                          
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def setup_routes(self):                                                      # Configure all routes
-        self.add_route_get   (self.types        )
+        #self.add_route_get   (self.types        )          # todo: see why fails pydantic
         self.add_route_get   (self.type__get    )
         self.add_route_delete(self.type__delete )
-        self.add_route_get   (self.link_types   )
+        #self.add_route_get   (self.link_types   )
         self.add_route_get   (self.link_type__get)
         return self
