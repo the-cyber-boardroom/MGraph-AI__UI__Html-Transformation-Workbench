@@ -6,12 +6,15 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from fastapi                                                                                            import HTTPException
+
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Label, Safe_Str__Node_Type
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Create__Request import Schema__Link__Create__Request
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Create__Response import Schema__Link__Create__Response
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Delete__Response import Schema__Link__Delete__Response
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__List__Response import Schema__Link__List__Response
+from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Link__Service import Link__Service
 from osbot_fast_api.api.decorators.route_path                                                           import route_path
 from osbot_fast_api.api.routes.Fast_API__Routes                                                         import Fast_API__Routes
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Requests                    import Schema__Link__Create__Request, Schema__Link__Create__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Requests                    import Schema__Link__Delete__Response, Schema__Link__List__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.safe_str.Safe_Str__Graph_Types            import Safe_Str__Node_Type, Safe_Str__Node_Label
-from mgraph_ai_ui_html_transformation_workbench.service.graph.Link__Service                             import Link__Service
 
 
 TAG__ROUTES_LINKS = 'links'
