@@ -1,6 +1,6 @@
 [tool.poetry]
 name        = "mgraph-ai-ui-html-transformation-workbench"
-version     = "v0.2.9"
+version     = "v0.2.10"
 description = "UI for MGraphAI's Html Transformation Workbench"
 authors     = ["Dinis Cruz <dinis.cruz@owasp.org>"]
 license     = "MIT"
