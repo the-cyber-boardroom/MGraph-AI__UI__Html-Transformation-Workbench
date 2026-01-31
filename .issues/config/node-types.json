@@ -1,0 +1,38 @@
+{
+  "bug": {
+    "name": "bug",
+    "display_name": "Bug",
+    "color": "#ef4444",
+    "icon": "bug",
+    "description": "A defect or issue that needs to be fixed",
+    "statuses": ["backlog", "confirmed", "in-progress", "testing", "resolved", "closed"],
+    "default_status": "backlog"
+  },
+  "task": {
+    "name": "task",
+    "display_name": "Task",
+    "color": "#3b82f6",
+    "icon": "task",
+    "description": "A unit of work to be completed",
+    "statuses": ["backlog", "todo", "in-progress", "review", "done"],
+    "default_status": "backlog"
+  },
+  "feature": {
+    "name": "feature",
+    "display_name": "Feature",
+    "color": "#22c55e",
+    "icon": "feature",
+    "description": "A new capability or enhancement",
+    "statuses": ["proposed", "approved", "in-progress", "released"],
+    "default_status": "proposed"
+  },
+  "person": {
+    "name": "person",
+    "display_name": "Person",
+    "color": "#8b5cf6",
+    "icon": "person",
+    "description": "A team member or stakeholder",
+    "statuses": ["active", "inactive"],
+    "default_status": "active"
+  }
+}

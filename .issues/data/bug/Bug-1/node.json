@@ -1,0 +1,19 @@
+{
+  "node_id": "b1g001docs",
+  "node_type": "bug",
+  "node_index": 1,
+  "label": "Bug-1",
+  "title": "Add link to open API docs in UI",
+  "description": "The UI should have a convenient link to open the FastAPI documentation page.\n\nCurrently users have to manually navigate to `/docs` to access the API documentation. This should be accessible from within the workbench UI.\n\n## Expected Behavior\n- Add a visible link/button to open the docs\n- Should open at `http://localhost:10041/docs`\n\n## Suggested Implementation\n- Add a docs link in the header or dev section\n- Could be added to the API Explorer component or as a separate nav item",
+  "status": "backlog",
+  "created_at": "2026-01-31T14:00:00Z",
+  "updated_at": "2026-01-31T14:00:00Z",
+  "created_by": "claude-agent",
+  "tags": ["ui", "enhancement", "v0.1.8"],
+  "links": [],
+  "properties": {
+    "severity": "low",
+    "component": "workbench-shell",
+    "version_target": "v0.1.8"
+  }
+}

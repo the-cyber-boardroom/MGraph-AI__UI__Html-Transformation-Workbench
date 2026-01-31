@@ -1,0 +1,20 @@
+{
+  "node_id": "b2g002urls",
+  "node_type": "bug",
+  "node_index": 2,
+  "label": "Bug-2",
+  "title": "Fix incorrect API URL path in graph-service.js",
+  "description": "The graph-service.js is using an incorrect API base URL.\n\n## Current Behavior\nAPI calls are being made to:\n- `http://0.0.0.0:10041/api/nodes`\n\n## Expected Behavior\nAPI calls should be made to:\n- `http://0.0.0.0:10041/nodes/api/nodes`\n\n## Root Cause\nThe `API_BASE` constant in `graph-service.js` is set to `/api` but the actual FastAPI routes are mounted under `/nodes/api`.\n\n## Fix Required\nChange `const API_BASE = '/api';` to `const API_BASE = '/nodes/api';` in:\n- `v0.1.7/js/graph-service.js`\n\nOr create a surgical fix in v0.1.8 that overrides the API_BASE.",
+  "status": "backlog",
+  "created_at": "2026-01-31T14:00:00Z",
+  "updated_at": "2026-01-31T14:00:00Z",
+  "created_by": "claude-agent",
+  "tags": ["bug", "api", "critical", "v0.1.8"],
+  "links": [],
+  "properties": {
+    "severity": "high",
+    "component": "graph-service",
+    "version_target": "v0.1.8",
+    "file": "v0.1.7/js/graph-service.js"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "node_type": "bug",
+  "next_index": 3,
+  "count": 2,
+  "nodes": [
+    {
+      "node_id": "b1g001docs",
+      "label": "Bug-1",
+      "title": "Add link to open API docs in UI",
+      "status": "backlog"
+    },
+    {
+      "node_id": "b2g002urls",
+      "label": "Bug-2",
+      "title": "Fix incorrect API URL path in graph-service.js",
+      "status": "backlog"
+    }
+  ]
+}

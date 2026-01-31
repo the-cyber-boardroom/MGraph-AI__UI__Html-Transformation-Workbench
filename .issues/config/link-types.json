@@ -1,0 +1,47 @@
+{
+  "blocks": {
+    "verb": "blocks",
+    "inverse": "blocked-by",
+    "description": "Source prevents progress on target"
+  },
+  "blocked-by": {
+    "verb": "blocked-by",
+    "inverse": "blocks",
+    "description": "Source is blocked by target"
+  },
+  "has-task": {
+    "verb": "has-task",
+    "inverse": "task-of",
+    "description": "Feature contains sub-task"
+  },
+  "task-of": {
+    "verb": "task-of",
+    "inverse": "has-task",
+    "description": "Task belongs to feature"
+  },
+  "assigned-to": {
+    "verb": "assigned-to",
+    "inverse": "assignee-of",
+    "description": "Work assigned to person"
+  },
+  "assignee-of": {
+    "verb": "assignee-of",
+    "inverse": "assigned-to",
+    "description": "Person assigned to work"
+  },
+  "depends-on": {
+    "verb": "depends-on",
+    "inverse": "dependency-of",
+    "description": "Source requires target complete first"
+  },
+  "dependency-of": {
+    "verb": "dependency-of",
+    "inverse": "depends-on",
+    "description": "Target is dependency of source"
+  },
+  "relates-to": {
+    "verb": "relates-to",
+    "inverse": "relates-to",
+    "description": "General association (symmetric)"
+  }
+}

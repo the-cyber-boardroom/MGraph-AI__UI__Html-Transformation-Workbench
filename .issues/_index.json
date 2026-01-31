@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2026-01-31T14:00:00Z",
+  "types": {
+    "bug": {
+      "count": 2,
+      "next_index": 3
+    },
+    "task": {
+      "count": 0,
+      "next_index": 1
+    },
+    "feature": {
+      "count": 0,
+      "next_index": 1
+    },
+    "person": {
+      "count": 0,
+      "next_index": 1
+    }
+  },
+  "total_nodes": 2
+}
