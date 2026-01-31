@@ -227,7 +227,7 @@ class Issue__Service(Type_Safe):                                                
             elif status == 'done':
                 counts.done = Safe_UInt(int(counts.done) + 1)
 
-        index.statusCounts = counts
+        index.status_counts = counts
 
 
     def issue__from_number(self, number: int) -> Safe_Str__Issue_Id:                   # Create from issue number
