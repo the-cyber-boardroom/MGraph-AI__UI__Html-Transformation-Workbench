@@ -18,4 +18,4 @@ class Version(Type_Safe):
         version = file_contents(self.path_version_file()) or ""
         return Safe_Str__Version(version)
 
-version__mgraph_ai_service_html_graph = Version().value()
+version__mgraph_ai_service__html_transformation_workbench = Version().value()

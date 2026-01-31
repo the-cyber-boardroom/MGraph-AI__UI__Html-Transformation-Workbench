@@ -9,7 +9,7 @@ from starlette.staticfiles                                          import Stati
 from osbot_fast_api.api.decorators.route_path                       import route_path
 from osbot_fast_api_serverless.fast_api.Serverless__Fast_API        import Serverless__Fast_API
 from mgraph_ai_ui_html_transformation_workbench.config              import UI__CONSOLE__ROUTE__CONSOLE, FAST_API__TITLE, FAST_API__DESCRIPTION, UI__CONSOLE__MAJOR__VERSION, UI__CONSOLE__LATEST__VERSION, UI__CONSOLE__ROUTE__START_PAGE
-from mgraph_ai_ui_html_transformation_workbench.utils.Version       import version__mgraph_ai_service_html_graph
+from mgraph_ai_ui_html_transformation_workbench.utils.Version       import version__mgraph_ai_service__html_transformation_workbench
 
 ROUTES_PATHS__CONSOLE        = [f'/{UI__CONSOLE__ROUTE__CONSOLE}',
                                 '/events/server']
@@ -20,7 +20,7 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     def setup(self):
         with self.config as _:
             _.name           = FAST_API__TITLE
-            _.version        = version__mgraph_ai_service_html_graph
+            _.version        = version__mgraph_ai_service__html_transformation_workbench
             _.description    = FAST_API__DESCRIPTION
 
             #_.enable_api_key = False        # because of chrome-llm/manifest.json
