@@ -11,6 +11,7 @@ repository  = "https://github.com/the-cyber-boardroom/MGraph-AI__UI__Html-Transf
 [tool.poetry.dependencies]
 python = "^3.12"
 osbot-fast-api-serverless      = "*"
+memory_fs                      = "*"
 
 [build-system]
 requires      = ["poetry-core>=1.0.0"]
