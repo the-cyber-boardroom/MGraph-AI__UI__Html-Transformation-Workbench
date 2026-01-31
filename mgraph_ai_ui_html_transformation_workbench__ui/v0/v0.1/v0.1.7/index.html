@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Transformation Workbench v0.1.7</title>
+
+    <!-- Load base CSS from v0.1.0 -->
+    <link rel="stylesheet" href="../v0.1.0/css/shell.css">
+    <!-- v0.1.6 CSS (left nav layout) -->
+    <link rel="stylesheet" href="../v0.1.6/css/shell.css">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.0 BASE - Services and Core Mini Apps
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Services load first (order matters!) -->
+    <script src="../v0.1.0/js/event-bus.js"></script>
+    <script src="../v0.1.0/js/config-manager.js"></script>
+    <script src="../v0.1.0/js/api-client.js"></script>
+
+    <!-- v0.1.2 config override (new URLs) -->
+    <script src="../v0.1.2/js/config-manager.js"></script>
+
+    <!-- v0.1.6 services (markdown parser) -->
+    <script src="../v0.1.6/js/markdown-parser.js"></script>
+
+    <!-- v0.1.7 services (graph API client) -->
+    <script src="js/graph-service.js"></script>
+
+    <!-- Shell from v0.1.0 (base class) -->
+    <script src="../v0.1.0/components/shell/nav-bar.js"></script>
+    <script src="../v0.1.0/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.6 shell override (left nav with sections) -->
+    <script src="../v0.1.6/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.7 shell override (updated nav sections for graph API) -->
+    <script src="components/shell/workbench-shell.js"></script>
+
+    <!-- Mini apps (Phase 1 - Hello World validation) -->
+    <script src="../v0.1.0/components/hello-world-1/hello-world-1.js"></script>
+    <script src="../v0.1.0/components/hello-world-2/hello-world-2.js"></script>
+
+    <!-- Mini apps (Phase 2 - Debug Tools & Settings) -->
+    <script src="../v0.1.0/components/settings-panel/settings-panel.js"></script>
+    <script src="../v0.1.0/components/events-viewer/events-viewer.js"></script>
+    <script src="../v0.1.0/components/api-logger/api-logger.js"></script>
+
+    <!-- Mini apps (Phase 3 - Core Functionality) -->
+    <script src="../v0.1.0/components/html-workbench/html-workbench.js"></script>
+    <script src="../v0.1.0/components/api-explorer/api-explorer.js"></script>
+    <script src="../v0.1.0/components/profile-manager/profile-manager.js"></script>
+    <script src="../v0.1.0/components/site-browser/site-browser.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.1 - Analysis & Shared Components
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.1/components/shared/html-editor/html-editor.js"></script>
+    <script src="../v0.1.1/components/shared/graph-visualizer/graph-visualizer.js"></script>
+    <script src="../v0.1.1/components/shared/transform-config/transform-config.js"></script>
+    <script src="../v0.1.1/components/page-analysis/page-analysis.js"></script>
+    <script src="../v0.1.1/components/site-analysis/site-analysis.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.2 - Docs Viewer
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.2/components/docs-viewer/docs-viewer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.4 - Bug Fixes
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.4/components/docs-viewer/docs-viewer.js"></script>
+    <script src="../v0.1.4/components/site-browser/site-browser.js"></script>
+    <script src="../v0.1.4/components/api-explorer/api-explorer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.5 - Automation Runner
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.5/components/automation-runner/automation-runner.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.7 - Graph-Based Issue Tracking
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- New graph-based issue tracking components -->
+    <script src="components/node-list/node-list.js"></script>
+    <script src="components/node-detail/node-detail.js"></script>
+    <script src="components/create-node-modal/create-node-modal.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Initialize the shell -->
+    <workbench-shell></workbench-shell>
+
+    <!-- Create node modal (global, always available) -->
+    <create-node-modal></create-node-modal>
+
+    <!-- Register mini apps -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main section
+            window.workbench.router.register(HtmlWorkbench);
+            window.workbench.router.register(SiteBrowser);
+            window.workbench.router.register(ProfileManager);
+
+            // Analysis section
+            window.workbench.router.register(PageAnalysis);
+            window.workbench.router.register(SiteAnalysis);
+
+            // Issues section (new in v0.1.7 - graph-based)
+            window.workbench.router.register(NodeList);
+            window.workbench.router.register(NodeDetail);
+
+            // Dev section
+            window.workbench.router.register(ApiExplorer);
+            window.workbench.router.register(DocsViewer);
+            window.workbench.router.register(SettingsPanel);
+
+            // Debug section
+            window.workbench.router.register(HelloWorld1);
+            window.workbench.router.register(HelloWorld2);
+
+            // Sidebar apps (right panel)
+            window.workbench.router.register(EventsViewer);
+            window.workbench.router.register(ApiLogger);
+            window.workbench.router.register(AutomationRunner);
+        });
+    </script>
+</body>
+</html>
