@@ -71,9 +71,10 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
 
         self.add_route_get(redirect_to_latest)
 
-        self.add_static_route__dev_briefs()
+        # todo: find way to make this deploy to the lambda function
+        #self.add_static_route__dev_briefs()
 
-    def add_static_route__dev_briefs(self):
-        dev_briefs__folder = path_combine(mgraph_ai_ui_html_transformation_workbench.path, '../docs/dev-briefs' )
-        dev_briefs__path   = '/dev-briefs'
-        self.app().mount(dev_briefs__path, StaticFiles(directory=dev_briefs__folder), name='dev-briefs')
+    # def add_static_route__dev_briefs(self):
+    #     dev_briefs__folder = path_combine(mgraph_ai_ui_html_transformation_workbench.path, '../docs/dev-briefs' )
+    #     dev_briefs__path   = '/dev-briefs'
+    #     self.app().mount(dev_briefs__path, StaticFiles(directory=dev_briefs__folder), name='dev-briefs')
