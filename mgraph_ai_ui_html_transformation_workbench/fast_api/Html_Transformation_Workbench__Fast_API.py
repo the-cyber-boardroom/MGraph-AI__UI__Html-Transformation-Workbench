@@ -80,6 +80,7 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         if use_memory:                                                                      # 3. Create storage backend based on configuration
             storage_fs = Storage_FS__Memory()
         else:
+            self.run_in_memory = False
             storage_fs = Storage_FS__Local_Disk(root_path=issues_path)
 
         self.memory_fs = Memory_FS(storage_fs=storage_fs)                                   # 4. Create Memory-FS wrapper

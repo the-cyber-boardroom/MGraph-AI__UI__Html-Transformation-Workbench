@@ -1,0 +1,15 @@
+{
+  "node_id": "f030a109",
+  "node_type": "task",
+  "node_index": 9,
+  "label": "Task-9",
+  "title": "Add version node type with has-feature link support",
+  "description": "Add version node type for release milestones.\n\n## Config Changes\nAdd to node-types.json:\n```json\n{\n  \"name\": \"version\",\n  \"display_name\": \"Version\",\n  \"color\": \"#f59e0b\",\n  \"statuses\": [\"planned\", \"in-progress\", \"released\"]\n}\n```\n\nAdd link type:\n```json\n{ \"verb\": \"has-feature\", \"inverse_verb\": \"feature-of\", \"is_symmetric\": false }\n```",
+  "status": "backlog",
+  "created_at": 1769965000000,
+  "updated_at": 1769965000000,
+  "created_by": "dc000001",
+  "tags": ["schema", "config"],
+  "links": [{ "link_type": "task-of", "target_label": "Feature-13" }],
+  "properties": { "estimate": "S", "component": "config" }
+}

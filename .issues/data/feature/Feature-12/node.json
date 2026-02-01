@@ -1,0 +1,25 @@
+{
+  "node_id": "f030a012",
+  "node_type": "feature",
+  "node_index": 12,
+  "label": "Feature-12",
+  "title": "Graph Visualization",
+  "description": "Visualize the graph of relationships between issues.\n\n## Goals\n- See visual graph starting from any node\n- Navigate by clicking nodes\n- Understand dependencies and relationships\n\n## Technical Approach\n- D3.js or similar for rendering\n- Fetch node + N levels of connected nodes\n- Interactive pan/zoom",
+  "status": "backlog",
+  "created_at": 1769965000000,
+  "updated_at": 1769965000000,
+  "created_by": "dc000001",
+  "tags": ["ui", "visualization", "graph", "v0.3.0"],
+  "links": [
+    { "link_type": "feature-of", "target_label": "Version-1" },
+    { "link_type": "has-task", "target_label": "Task-6" },
+    { "link_type": "has-task", "target_label": "Task-7" },
+    { "link_type": "has-task", "target_label": "Task-8" },
+    { "link_type": "depends-on", "target_label": "Feature-13" }
+  ],
+  "properties": {
+    "priority": "medium",
+    "estimate": "L",
+    "component": "workbench-ui"
+  }
+}

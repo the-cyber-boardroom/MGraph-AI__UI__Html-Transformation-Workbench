@@ -1,0 +1,25 @@
+{
+  "node_id": "f030a013",
+  "node_type": "feature",
+  "node_index": 13,
+  "label": "Feature-13",
+  "title": "Schema Extensions",
+  "description": "Add new node types to support richer project planning.\n\n## New Node Types\n- `version` - Release milestone\n- `user-story` - User need / scenario  \n- `person` - Team member / assignee\n\n## New Link Types\n- `has-feature` / `feature-of`\n- `has-task` / `task-of`\n- `has-story` / `story-of`\n- `assigned-to` / `assignee-of`",
+  "status": "backlog",
+  "created_at": 1769965000000,
+  "updated_at": 1769965000000,
+  "created_by": "dc000001",
+  "tags": ["schema", "backend", "v0.3.0"],
+  "links": [
+    { "link_type": "feature-of", "target_label": "Version-1" },
+    { "link_type": "has-task", "target_label": "Task-9" },
+    { "link_type": "has-task", "target_label": "Task-10" },
+    { "link_type": "has-task", "target_label": "Task-11" },
+    { "link_type": "has-task", "target_label": "Task-12" }
+  ],
+  "properties": {
+    "priority": "high",
+    "estimate": "M",
+    "component": "graph-services"
+  }
+}

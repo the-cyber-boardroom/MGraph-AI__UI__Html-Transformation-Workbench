@@ -1,0 +1,15 @@
+{
+  "node_id": "3e0ff032",
+  "node_type": "bug",
+  "node_index": 4,
+  "label": "Bug-4",
+  "title": "when creating a 2nd issue, the 'Create *' button is not available",
+  "description": "The UI is still showing the 'Creating' button (which doesn't allow clicking)__The fix is to reset this UI after the issue is created (or when opening it up again, which ever is more efficient)",
+  "status": "confirmed",
+  "created_at": 1769972233107,
+  "updated_at": 1769972233107,
+  "created_by": "b36d206d",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

@@ -5,9 +5,9 @@
   "label": "Feature-4",
   "title": "Create issue service",
   "description": "Create a service for loading and managing issue JSON files from the filesystem.\n\nMethods needed:\n- getIssues() - Load issues.json index\n- getIssue(id) - Load individual issue file\n- getIssuesByStatus(status) - Filter issues by status\n- getIssuesByVersion(version) - Filter by target version\n- getLabels() - Load labels.json",
-  "status": "in-progress",
+  "status": "done",
   "created_at": 1769698800000,
-  "updated_at": 1769709600000,
+  "updated_at": 1769971665003,
   "created_by": "658c43e6",
   "tags": [
     "frontend",

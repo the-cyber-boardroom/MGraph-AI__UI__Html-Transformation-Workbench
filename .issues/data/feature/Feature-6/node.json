@@ -5,9 +5,9 @@
   "label": "Feature-6",
   "title": "Create Version Viewer mini app",
   "description": "Create a mini app that displays version information including:\n- README.md rendered with markdown parser\n- changelog.json showing files changed\n- Issues addressed in this version\n- Version selector dropdown",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769698800000,
-  "updated_at": 1769698800000,
+  "updated_at": 1769972246854,
   "created_by": "ed0d6d4e",
   "tags": [
     "frontend",

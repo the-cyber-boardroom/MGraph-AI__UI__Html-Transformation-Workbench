@@ -5,9 +5,9 @@
   "label": "Feature-2",
   "title": "Create markdown parser service",
   "description": "Extract markdown parsing functionality into a shared service that can be used by multiple components (DocsViewer, Issue Detail, Version Viewer).\n\nThe service should:\n- Parse headers (h1-h6)\n- Parse bullet and numbered lists\n- Parse bold and italic text\n- Parse links\n- Parse code blocks and inline code\n- Emit events for parsed content",
-  "status": "in-progress",
+  "status": "done",
   "created_at": 1769698800000,
-  "updated_at": 1769709600000,
+  "updated_at": 1769971660724,
   "created_by": "7f66bafb",
   "tags": [
     "frontend",

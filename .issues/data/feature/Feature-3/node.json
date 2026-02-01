@@ -5,9 +5,9 @@
   "label": "Feature-3",
   "title": "Implement Kanban board view",
   "description": "Create a Kanban board mini app that displays issues organized by status columns:\n- Backlog\n- Todo\n- In Progress\n- Review\n- Done\n\nEach card should show issue title, labels, and target version. Clicking a card should navigate to the Issue Detail view.",
-  "status": "in-progress",
+  "status": "done",
   "created_at": 1769698800000,
-  "updated_at": 1769709600000,
+  "updated_at": 1769971662720,
   "created_by": "64088752",
   "tags": [
     "frontend",

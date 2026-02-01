@@ -1,0 +1,15 @@
+{
+  "node_id": "f030a201",
+  "node_type": "user-story",
+  "node_index": 1,
+  "label": "UserStory-1",
+  "title": "As a developer, I want to edit issues in the UI",
+  "description": "## User Story\n\n**As a** developer working on a project,\n**I want to** edit issue details directly in the UI,\n**So that** I can update issues without manually editing JSON files.\n\n## Acceptance Criteria\n\n- [ ] Can edit title, description, status\n- [ ] Can add/remove tags\n- [ ] Can add comments\n- [ ] Changes persist to .issues folder\n- [ ] Can see markdown preview of description",
+  "status": "draft",
+  "created_at": 1769965000000,
+  "updated_at": 1769965000000,
+  "created_by": "dc000001",
+  "tags": ["user-story", "editor"],
+  "links": [{ "link_type": "story-of", "target_label": "Feature-11" }],
+  "properties": { "persona": "developer", "priority": "high" }
+}

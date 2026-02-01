@@ -1,0 +1,29 @@
+{
+  "node_id": "f030a112",
+  "node_type": "task",
+  "node_index": 12,
+  "label": "Task-12",
+  "title": "Update UI to show new node types with appropriate colors_icons",
+  "description": "Update UI components to handle new node types.\n\n## Requirements\n- Add colors for version, user-story types\n- Add appropriate icons (or use first letter)\n- Update type filter buttons in Issues list\n- Update Kanban board grouping options",
+  "status": "todo",
+  "created_at": 1769965000000,
+  "updated_at": 1769972282968,
+  "created_by": "dc000001",
+  "tags": [
+    "ui",
+    "styling"
+  ],
+  "links": [
+    {
+      "link_type_id": "c3a8cacd",
+      "verb": "",
+      "target_id": "4a323180",
+      "target_label": "Feature-13",
+      "created_at": 1769972282968
+    }
+  ],
+  "properties": {
+    "estimate": "S",
+    "component": "workbench-ui"
+  }
+}

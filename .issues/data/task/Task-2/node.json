@@ -1,0 +1,15 @@
+{
+  "node_id": "a9d54cb6",
+  "node_type": "task",
+  "node_index": 2,
+  "label": "Task-2",
+  "title": "it should be possible to create an issue directly on the Kanban board",
+  "description": "at the moment i need to go into the Issues panel",
+  "status": "todo",
+  "created_at": 1769972064990,
+  "updated_at": 1769972064990,
+  "created_by": "d4ff6d9f",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

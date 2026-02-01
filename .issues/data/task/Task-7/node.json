@@ -1,0 +1,15 @@
+{
+  "node_id": "f030a107",
+  "node_type": "task",
+  "node_index": 7,
+  "label": "Task-7",
+  "title": "Add View Graph button to node detail",
+  "description": "Add navigation to graph view from issue detail.\n\n## Requirements\n- Button in issue detail header\n- Opens graph view centered on current node\n- Pass node label as parameter",
+  "status": "backlog",
+  "created_at": 1769965000000,
+  "updated_at": 1769965000000,
+  "created_by": "dc000001",
+  "tags": ["ui", "navigation"],
+  "links": [{ "link_type": "task-of", "target_label": "Feature-12" }],
+  "properties": { "estimate": "S", "component": "issue-detail" }
+}

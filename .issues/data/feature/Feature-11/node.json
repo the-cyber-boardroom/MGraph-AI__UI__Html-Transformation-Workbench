@@ -1,0 +1,15 @@
+{
+  "node_id": "a0ccba48",
+  "node_type": "feature",
+  "node_index": 11,
+  "label": "Feature-11",
+  "title": "Add support for capturing the current issue in the navbar (and current location)",
+  "description": "so that when we refresh the page we don't lost where we were (at the moment we go into the v0.1.2_index.html page)",
+  "status": "approved",
+  "created_at": 1769971913832,
+  "updated_at": 1769971913832,
+  "created_by": "0aff7569",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

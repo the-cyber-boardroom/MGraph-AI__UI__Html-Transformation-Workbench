@@ -1,0 +1,29 @@
+{
+  "node_id": "f030a105",
+  "node_type": "task",
+  "node_index": 5,
+  "label": "Task-5",
+  "title": "Wire up PATCH endpoint to save changes",
+  "description": "Connect edit form to backend API.\n\n## Requirements\n- Call PATCH /nodes/api/nodes/{label} on save\n- Handle success/error responses\n- Show loading state during save\n- Refresh node data after successful save",
+  "status": "done",
+  "created_at": 1769965000000,
+  "updated_at": 1769972297296,
+  "created_by": "dc000001",
+  "tags": [
+    "ui",
+    "api"
+  ],
+  "links": [
+    {
+      "link_type_id": "deaa585b",
+      "verb": "",
+      "target_id": "a29f4cde",
+      "target_label": "Feature-11",
+      "created_at": 1769972297296
+    }
+  ],
+  "properties": {
+    "estimate": "S",
+    "component": "issue-detail"
+  }
+}
