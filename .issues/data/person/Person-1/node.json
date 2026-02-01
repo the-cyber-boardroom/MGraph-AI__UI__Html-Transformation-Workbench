@@ -1,0 +1,15 @@
+{
+  "node_id": "4e7dfd79",
+  "node_type": "person",
+  "node_index": 1,
+  "label": "Person-1",
+  "title": "Dinis Cruz",
+  "description": "me :)",
+  "status": "active",
+  "created_at": 1769985110786,
+  "updated_at": 1769985110786,
+  "created_by": "6fd2f470",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

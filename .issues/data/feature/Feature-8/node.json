@@ -5,9 +5,9 @@
   "label": "Feature-8",
   "title": "Add resizable left nav panel",
   "description": "Make the left navigation panel resizable by dragging its right edge. Save the width preference to localStorage.",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769706000000,
-  "updated_at": 1769971670469,
+  "updated_at": 1769985886772,
   "created_by": "6aea80e4",
   "tags": [
     "frontend"

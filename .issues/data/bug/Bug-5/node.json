@@ -1,0 +1,15 @@
+{
+  "node_id": "a3c6ffc0",
+  "node_type": "bug",
+  "node_index": 5,
+  "label": "Bug-5",
+  "title": "only possible to add one issue, after that the 'Create bug' button is not available",
+  "description": "all we see is the 'Creating message' button (which is disabled)",
+  "status": "backlog",
+  "created_at": 1769986067345,
+  "updated_at": 1769986067345,
+  "created_by": "6da7b657",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}
