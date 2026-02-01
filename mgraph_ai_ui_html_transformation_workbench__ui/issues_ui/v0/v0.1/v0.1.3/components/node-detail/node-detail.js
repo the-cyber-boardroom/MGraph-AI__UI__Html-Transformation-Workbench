@@ -22,6 +22,19 @@
 
     console.log('[v0.1.3] Initializing NodeDetail override...');
 
+    // UUID fallback for browsers without crypto.randomUUID
+    function generateUUID() {
+        if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+            return crypto.randomUUID();
+        }
+        // Fallback implementation
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0;
+            var v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
     // Store original methods
     var _originalRender = NodeDetail.prototype.render;
     var _originalGetStyles = NodeDetail.prototype.getStyles;
@@ -417,7 +430,7 @@
             var comments = properties.comments || [];
 
             var newComment = {
-                id: crypto.randomUUID(),
+                id: generateUUID(),
                 author: 'human',
                 text: text,
                 created_at: Date.now()
@@ -663,6 +676,30 @@
             .nd-section h3 { \
                 display: flex; \
                 align-items: center; \
+            } \
+            /* Scroll fix for main content */ \
+            .node-detail { \
+                height: 100%; \
+                display: flex; \
+                flex-direction: column; \
+                overflow: hidden; \
+            } \
+            .nd-content { \
+                flex: 1 1 0; \
+                min-height: 0; \
+                display: flex; \
+                overflow: hidden; \
+            } \
+            .nd-main { \
+                flex: 1; \
+                overflow-y: auto; \
+                overflow-x: hidden; \
+                padding: 24px; \
+            } \
+            .nd-sidebar { \
+                width: 280px; \
+                overflow-y: auto; \
+                flex-shrink: 0; \
             } \
         ';
 
