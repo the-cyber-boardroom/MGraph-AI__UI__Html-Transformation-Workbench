@@ -1,38 +1,69 @@
 {
-  "bug": {
-    "name": "bug",
-    "display_name": "Bug",
-    "color": "#ef4444",
-    "icon": "bug",
-    "description": "A defect or issue that needs to be fixed",
-    "statuses": ["backlog", "confirmed", "in-progress", "testing", "resolved", "closed"],
-    "default_status": "backlog"
-  },
-  "task": {
-    "name": "task",
-    "display_name": "Task",
-    "color": "#3b82f6",
-    "icon": "task",
-    "description": "A unit of work to be completed",
-    "statuses": ["backlog", "todo", "in-progress", "review", "done"],
-    "default_status": "backlog"
-  },
-  "feature": {
-    "name": "feature",
-    "display_name": "Feature",
-    "color": "#22c55e",
-    "icon": "feature",
-    "description": "A new capability or enhancement",
-    "statuses": ["proposed", "approved", "in-progress", "released"],
-    "default_status": "proposed"
-  },
-  "person": {
-    "name": "person",
-    "display_name": "Person",
-    "color": "#8b5cf6",
-    "icon": "person",
-    "description": "A team member or stakeholder",
-    "statuses": ["active", "inactive"],
-    "default_status": "active"
-  }
+  "types": [
+    {
+      "type_id": "b384c6bd",
+      "name": "bug",
+      "display_name": "Bug",
+      "description": "Defect or error in the system",
+      "icon": "",
+      "color": "#ef4444",
+      "statuses": [
+        "backlog",
+        "confirmed",
+        "in-progress",
+        "testing",
+        "resolved",
+        "closed"
+      ],
+      "default_status": "backlog",
+      "properties": []
+    },
+    {
+      "type_id": "c345584d",
+      "name": "task",
+      "display_name": "Task",
+      "description": "Unit of work to be completed",
+      "icon": "",
+      "color": "#3b82f6",
+      "statuses": [
+        "backlog",
+        "todo",
+        "in-progress",
+        "review",
+        "done"
+      ],
+      "default_status": "backlog",
+      "properties": []
+    },
+    {
+      "type_id": "51fbcb9d",
+      "name": "feature",
+      "display_name": "Feature",
+      "description": "High-level capability",
+      "icon": "",
+      "color": "#22c55e",
+      "statuses": [
+        "proposed",
+        "approved",
+        "in-progress",
+        "released"
+      ],
+      "default_status": "proposed",
+      "properties": []
+    },
+    {
+      "type_id": "dd90d677",
+      "name": "person",
+      "display_name": "Person",
+      "description": "Human or agent identity",
+      "icon": "",
+      "color": "#8b5cf6",
+      "statuses": [
+        "active",
+        "inactive"
+      ],
+      "default_status": "active",
+      "properties": []
+    }
+  ]
 }

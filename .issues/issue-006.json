@@ -1,5 +1,5 @@
 {
-  "id": "issue-006",
+  "issue_id": "issue-006",
   "title": "Create Version Viewer mini app",
   "description": "Create a mini app that displays version information including:\n- README.md rendered with markdown parser\n- changelog.json showing files changed\n- Issues addressed in this version\n- Version selector dropdown",
   "status": "todo",

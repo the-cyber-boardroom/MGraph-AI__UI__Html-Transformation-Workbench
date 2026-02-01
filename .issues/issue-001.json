@@ -1,5 +1,5 @@
 {
-  "id": "issue-001",
+  "issue_id": "issue-001",
   "title": "Implement issue tracking system",
   "description": "Create a file-system based issue tracking system for the HTML Transformation Workbench. This enables structured communication between developer and Claude Code through JSON files and markdown documentation.\n\nThe system should support:\n- Issue creation and viewing\n- Kanban board visualization\n- Status workflow (backlog → todo → in-progress → review → done)\n- Labels and categorization\n- Version targeting",
   "status": "in-progress",

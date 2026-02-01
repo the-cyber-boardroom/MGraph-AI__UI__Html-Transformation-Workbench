@@ -4,13 +4,13 @@
   "count": 2,
   "nodes": [
     {
-      "node_id": "b1g001docs",
+      "node_id": "a384c6bf",
       "label": "Bug-1",
       "title": "Add link to open API docs in UI",
       "status": "backlog"
     },
     {
-      "node_id": "b2g002urls",
+      "node_id": "c384c6be",
       "label": "Bug-2",
       "title": "Fix incorrect API URL path in graph-service.js",
       "status": "backlog"

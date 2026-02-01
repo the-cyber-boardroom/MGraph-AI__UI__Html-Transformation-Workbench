@@ -1,5 +1,5 @@
 {
-  "id": "issue-003",
+  "issue_id": "issue-003",
   "title": "Implement Kanban board view",
   "description": "Create a Kanban board mini app that displays issues organized by status columns:\n- Backlog\n- Todo\n- In Progress\n- Review\n- Done\n\nEach card should show issue title, labels, and target version. Clicking a card should navigate to the Issue Detail view.",
   "status": "in-progress",

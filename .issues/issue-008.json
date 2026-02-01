@@ -1,5 +1,5 @@
 {
-  "id": "issue-008",
+  "issue_id": "issue-008",
   "title": "Add resizable left nav panel",
   "description": "Make the left navigation panel resizable by dragging its right edge. Save the width preference to localStorage.",
   "status": "in-progress",
