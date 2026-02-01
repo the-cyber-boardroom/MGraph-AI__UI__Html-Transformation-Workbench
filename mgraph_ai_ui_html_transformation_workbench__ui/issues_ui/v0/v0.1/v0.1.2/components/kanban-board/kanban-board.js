@@ -156,13 +156,13 @@ KanbanBoard.prototype.attachEventHandlers = function() {
     });
 };
 
-// New method to change node status
+// New method to change node status - optimistic UI update
 KanbanBoard.prototype.changeNodeStatus = async function(nodeLabel, newStatus, oldStatus) {
-    try {
-        // Show updating indicator
-        this.showToast(`Moving to ${this.formatStatus(newStatus)}...`, 'info');
+    // First, do an optimistic local update (no flicker!)
+    this.moveNodeLocally(nodeLabel, oldStatus, newStatus);
 
-        // Update via graph service
+    try {
+        // Update via graph service (in background)
         await this.graphService.updateNodeStatus(nodeLabel, newStatus);
 
         // Emit event for other components
@@ -175,15 +175,40 @@ KanbanBoard.prototype.changeNodeStatus = async function(nodeLabel, newStatus, ol
         // Show success with undo option
         this.showUndoToast(nodeLabel, oldStatus, newStatus);
 
-        // Reload data to reflect changes
-        await this.loadData();
-
     } catch (error) {
         console.error('Failed to update status:', error);
         this.showToast(`Failed to update: ${error.message}`, 'error');
-        // Reload to restore original state
-        await this.loadData();
+
+        // Revert the local change on error
+        this.moveNodeLocally(nodeLabel, newStatus, oldStatus);
     }
+};
+
+// Move a node between status columns locally (no API call)
+KanbanBoard.prototype.moveNodeLocally = function(nodeLabel, fromStatus, toStatus) {
+    // Find the node in the source column
+    const sourceNodes = this.state.nodes[fromStatus] || [];
+    const nodeIndex = sourceNodes.findIndex(n => n.label === nodeLabel);
+
+    if (nodeIndex === -1) {
+        console.warn(`Node ${nodeLabel} not found in ${fromStatus}`);
+        return;
+    }
+
+    // Remove from source
+    const [node] = sourceNodes.splice(nodeIndex, 1);
+
+    // Update the node's status
+    node.status = toStatus;
+
+    // Add to destination
+    if (!this.state.nodes[toStatus]) {
+        this.state.nodes[toStatus] = [];
+    }
+    this.state.nodes[toStatus].push(node);
+
+    // Re-render without API call
+    this.render();
 };
 
 // Show toast with undo option
