@@ -1,0 +1,57 @@
+{
+  "node_id": "de3308c9",
+  "node_type": "feature",
+  "node_index": 2,
+  "label": "Feature-2",
+  "title": "Create markdown parser service",
+  "description": "Extract markdown parsing functionality into a shared service that can be used by multiple components (DocsViewer, Issue Detail, Version Viewer).\n\nThe service should:\n- Parse headers (h1-h6)\n- Parse bullet and numbered lists\n- Parse bold and italic text\n- Parse links\n- Parse code blocks and inline code\n- Emit events for parsed content",
+  "status": "in-progress",
+  "created_at": 1769698800000,
+  "updated_at": 1769709600000,
+  "created_by": "7f66bafb",
+  "tags": [
+    "frontend",
+    "phase-1"
+  ],
+  "links": [],
+  "properties": {
+    "version_target": "v0.1.6",
+    "comments": [
+      {
+        "author": "human",
+        "timestamp": "2026-01-29T17:00:00Z",
+        "text": "Extract markdown parser from DocsViewer into a shared service. Use events for communication."
+      }
+    ],
+    "checklist": [
+      {
+        "item": "Create markdown-parser.js service",
+        "done": false
+      },
+      {
+        "item": "Implement header parsing",
+        "done": false
+      },
+      {
+        "item": "Implement list parsing",
+        "done": false
+      },
+      {
+        "item": "Implement text formatting (bold, italic)",
+        "done": false
+      },
+      {
+        "item": "Implement link parsing",
+        "done": false
+      },
+      {
+        "item": "Implement code block parsing",
+        "done": false
+      },
+      {
+        "item": "Add event emission for parsed content",
+        "done": false
+      }
+    ]
+  }
+}

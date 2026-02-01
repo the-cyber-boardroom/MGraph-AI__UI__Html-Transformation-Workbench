@@ -1,0 +1,38 @@
+{
+  "node_id": "a3295e71",
+  "node_type": "feature",
+  "node_index": 10,
+  "label": "Feature-10",
+  "title": "QA checklist feature for reviews",
+  "description": "Add QA review functionality to the version viewer. When a version is in review status, display a checklist for human reviewers to verify:\n- All targeted issues marked complete\n- README accurately describes changes\n- No console errors\n- Per-issue verification checklist",
+  "status": "backlog",
+  "created_at": 1769698800000,
+  "updated_at": 1769698800000,
+  "created_by": "a4f5b67c",
+  "tags": [
+    "frontend",
+    "phase-1"
+  ],
+  "links": [],
+  "properties": {
+    "version_target": "v0.2.0",
+    "checklist": [
+      {
+        "item": "Design QA checklist template",
+        "done": false
+      },
+      {
+        "item": "Add QA mode to version viewer",
+        "done": false
+      },
+      {
+        "item": "Implement checklist UI",
+        "done": false
+      },
+      {
+        "item": "Save review state",
+        "done": false
+      }
+    ]
+  }
+}

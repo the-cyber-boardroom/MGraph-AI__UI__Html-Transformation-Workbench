@@ -9,14 +9,13 @@ from memory_fs.storage_fs.Storage_FS                                            
 from osbot_utils.type_safe.Type_Safe                                                                    import Type_Safe
 from osbot_utils.type_safe.type_safe_core.decorators.type_safe                                          import type_safe
 from osbot_utils.utils.Json                                                                             import json_loads, json_dumps
-
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Type, Safe_Str__Node_Label
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Global__Index import Schema__Global__Index
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Global__Index                     import Schema__Global__Index
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node                              import Schema__Node
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Type                        import Schema__Node__Type
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Type                        import Schema__Link__Type
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Type__Index import Schema__Type__Index
-from mgraph_ai_ui_html_transformation_workbench.service.issues.storage.Path__Handler__Graph_Node import Path__Handler__Graph_Node
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Type__Index                       import Schema__Type__Index
+from mgraph_ai_ui_html_transformation_workbench.service.issues.storage.Path__Handler__Graph_Node        import Path__Handler__Graph_Node
 
 
 class Graph__Repository(Type_Safe):                                              # Memory-FS based graph repository
@@ -82,6 +81,32 @@ class Graph__Repository(Type_Safe):                                             
         path = self.path_handler.path_for_node(node_type = node_type ,
                                                label     = label     )
         return self.storage_fs.file__exists(path)
+
+    # ═══════════════════════════════════════════════════════════════════════════════
+    # Node Listing Operations
+    # ═══════════════════════════════════════════════════════════════════════════════
+
+    @type_safe
+    def nodes_list_labels(self                              ,                    # List all node labels for a type
+                          node_type : Safe_Str__Node_Type
+                     ) -> List[Safe_Str__Node_Label]:
+        type_folder = self.path_handler.path_for_type_folder(node_type)          # e.g., ".issues/data/bug"
+        all_paths   = self.storage_fs.files__paths()
+
+        labels = []
+        prefix = f"{type_folder}/"                                               # e.g., ".issues/data/bug/"
+        suffix = "/node.json"
+
+        for path in all_paths:
+            if path.startswith(prefix) and path.endswith(suffix):
+                relative = path[len(prefix):-len(suffix)]                        # Extract: "Bug-1" from ".issues/data/bug/Bug-1/node.json"
+                if '/' not in relative:                                          # Ensure no subdirectories
+                    try:
+                        labels.append(Safe_Str__Node_Label(relative))
+                    except Exception:
+                        pass                                                     # Skip invalid label formats
+
+        return labels
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Type Index Operations

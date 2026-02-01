@@ -1,0 +1,42 @@
+{
+  "node_id": "81a19430",
+  "node_type": "feature",
+  "node_index": 3,
+  "label": "Feature-3",
+  "title": "Implement Kanban board view",
+  "description": "Create a Kanban board mini app that displays issues organized by status columns:\n- Backlog\n- Todo\n- In Progress\n- Review\n- Done\n\nEach card should show issue title, labels, and target version. Clicking a card should navigate to the Issue Detail view.",
+  "status": "in-progress",
+  "created_at": 1769698800000,
+  "updated_at": 1769709600000,
+  "created_by": "64088752",
+  "tags": [
+    "frontend",
+    "phase-1"
+  ],
+  "links": [],
+  "properties": {
+    "version_target": "v0.1.6",
+    "checklist": [
+      {
+        "item": "Create kanban-board component",
+        "done": false
+      },
+      {
+        "item": "Implement status columns layout",
+        "done": false
+      },
+      {
+        "item": "Create issue card component",
+        "done": false
+      },
+      {
+        "item": "Add label color rendering",
+        "done": false
+      },
+      {
+        "item": "Add click navigation to Issue Detail",
+        "done": false
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@
   "status": "resolved",
   "created_at": "2026-01-31T14:00:00Z",
   "updated_at": "2026-02-01T12:00:00Z",
-  "created_by": "claude-agent",
+  "created_by": "c384c6ff",
   "labels": ["bug", "api", "critical", "v0.1.8"],
   "links": [],
   "properties": {

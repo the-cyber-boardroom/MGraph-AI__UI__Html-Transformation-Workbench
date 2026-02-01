@@ -1,0 +1,42 @@
+{
+  "node_id": "81ea353d",
+  "node_type": "feature",
+  "node_index": 6,
+  "label": "Feature-6",
+  "title": "Create Version Viewer mini app",
+  "description": "Create a mini app that displays version information including:\n- README.md rendered with markdown parser\n- changelog.json showing files changed\n- Issues addressed in this version\n- Version selector dropdown",
+  "status": "todo",
+  "created_at": 1769698800000,
+  "updated_at": 1769698800000,
+  "created_by": "ed0d6d4e",
+  "tags": [
+    "frontend",
+    "phase-1"
+  ],
+  "links": [],
+  "properties": {
+    "version_target": "v0.1.6",
+    "checklist": [
+      {
+        "item": "Create version-viewer component",
+        "done": false
+      },
+      {
+        "item": "Add version selector",
+        "done": false
+      },
+      {
+        "item": "Render README with markdown parser",
+        "done": false
+      },
+      {
+        "item": "Display changelog files",
+        "done": false
+      },
+      {
+        "item": "Show issues for version",
+        "done": false
+      }
+    ]
+  }
+}

@@ -3,7 +3,7 @@
 # Handles create, update, delete, and query operations for graph nodes
 # ═══════════════════════════════════════════════════════════════════════════════
 
-from typing                                                                                             import Optional
+from typing                                                                                             import List, Optional
 from osbot_utils.type_safe.Type_Safe                                                                    import Type_Safe
 from osbot_utils.type_safe.primitives.core.Safe_UInt                                                    import Safe_UInt
 from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                                        import Obj_Id
@@ -15,6 +15,7 @@ from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Crea
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Response            import Schema__Node__Create__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Delete__Response            import Schema__Node__Delete__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__List__Response              import Schema__Node__List__Response
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Summary                     import Schema__Node__Summary
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Request             import Schema__Node__Update__Request
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Response            import Schema__Node__Update__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Type__Summary                     import Schema__Type__Summary
@@ -42,26 +43,40 @@ class Node__Service(Type_Safe):                                                 
         return self.repository.node_exists(node_type = node_type ,
                                            label     = label     )
 
-    def list_nodes(self                                       ,                  # List all nodes of a type
+    def list_nodes(self                                       ,                  # List nodes, optionally filtered by type
                    node_type : Safe_Str__Node_Type = None
               ) -> Schema__Node__List__Response:
-        # If type specified, get nodes of that type
-        # Otherwise, aggregate all types from global index
-        global_index = self.repository.global_index_load()
-
         summaries = []
-        if node_type:
-            type_index = self.repository.type_index_load(node_type)
-            # Would need to scan folder or maintain list in index
-            # For now, return based on index count
-            pass
-        else:
-            # Return summary based on global index
-            pass
 
-        return Schema__Node__List__Response(success = True       ,
-                                            nodes   = summaries  ,
-                                            total   = len(summaries))
+        if node_type:                                                            # List nodes of specific type
+            summaries = self.list_nodes_for_type(node_type)
+        else:                                                                    # List all nodes across all types
+            node_types = self.repository.node_types_load()
+            for nt in node_types:
+                type_summaries = self.list_nodes_for_type(nt.name)
+                summaries.extend(type_summaries)
+
+        return Schema__Node__List__Response(success = True           ,
+                                            nodes   = summaries      ,
+                                            total   = len(summaries) )
+
+    def list_nodes_for_type(self                              ,                  # List nodes for a specific type
+                            node_type : Safe_Str__Node_Type
+                       ) -> List[Schema__Node__Summary]:
+        summaries = []
+        labels    = self.repository.nodes_list_labels(node_type)
+
+        for label in labels:
+            node = self.repository.node_load(node_type = node_type ,
+                                             label     = label     )
+            if node:
+                summary = Schema__Node__Summary(label     = node.label     ,
+                                                node_type = node.node_type ,
+                                                title     = node.title     ,
+                                                status    = node.status    )
+                summaries.append(summary)
+
+        return summaries
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Create Operations

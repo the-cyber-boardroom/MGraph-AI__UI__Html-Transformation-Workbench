@@ -9,7 +9,7 @@
   "status": "backlog",
   "created_at": "2026-01-31T14:00:00Z",
   "updated_at": "2026-01-31T14:00:00Z",
-  "created_by": "claude-agent",
+  "created_by": "c384c6ff",
   "labels": ["ui", "enhancement", "v0.1.8"],
   "links": [],
   "properties": {

@@ -1,0 +1,42 @@
+{
+  "node_id": "8ed8ee12",
+  "node_type": "feature",
+  "node_index": 7,
+  "label": "Feature-7",
+  "title": "Create Issue Detail mini app",
+  "description": "Create a mini app that displays full issue details:\n- Title, status, labels\n- Description (rendered markdown)\n- Checklist with progress\n- Comments thread\n- Target version",
+  "status": "todo",
+  "created_at": 1769698800000,
+  "updated_at": 1769698800000,
+  "created_by": "3cce4b64",
+  "tags": [
+    "frontend",
+    "phase-1"
+  ],
+  "links": [],
+  "properties": {
+    "version_target": "v0.1.6",
+    "checklist": [
+      {
+        "item": "Create issue-detail component",
+        "done": false
+      },
+      {
+        "item": "Display issue metadata",
+        "done": false
+      },
+      {
+        "item": "Render description with markdown",
+        "done": false
+      },
+      {
+        "item": "Show checklist with checkboxes",
+        "done": false
+      },
+      {
+        "item": "Display comments thread",
+        "done": false
+      }
+    ]
+  }
+}

@@ -3,16 +3,22 @@ PORT=10041
 
 export PYTHONPATH="$(pwd)/modules/MGraph-DB:$(pwd)/modules/OSBot-Utils:${PYTHONPATH}"
 
-
 # Load environment variables from .env file if it exists
 if [ -f .local-server.env ]; then
     echo "Loading environment variables from .local-server.env file..."
     export $(cat .local-server.env | grep -v '^#' | grep -v '^[[:space:]]*$' | xargs)
     echo "✓ Environment variables loaded"
 else
-    echo "⚠️  Warning: .env file not found"
-    echo "   Create a .env file with your configuration"
+    echo "⚠️  Warning: .local-server.env file not found"
+    echo "   Create a .local-server.env file with your configuration"
+    echo "   See local-server.env.example for available options"
 fi
+
+echo ""
+echo "Issue Tracking Configuration:"
+echo "  ISSUES__IN_MEMORY = ${ISSUES__IN_MEMORY:-true (default)}"
+echo "  ISSUES__PATH      = ${ISSUES__PATH:-.issues (default)}"
+echo ""
 
 poetry run uvicorn mgraph_ai_ui_html_transformation_workbench.fast_api.lambda_handler:app --reload --host 0.0.0.0 --port $PORT \
     --log-level info \
