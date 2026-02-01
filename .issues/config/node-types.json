@@ -64,6 +64,39 @@
       ],
       "default_status": "active",
       "properties": []
+    },
+    {
+      "type_id": "a1b2c3d4",
+      "name": "version",
+      "display_name": "Version",
+      "description": "Release milestone grouping features and tasks",
+      "icon": "",
+      "color": "#f59e0b",
+      "statuses": [
+        "planned",
+        "in-progress",
+        "released",
+        "deprecated"
+      ],
+      "default_status": "planned",
+      "properties": []
+    },
+    {
+      "type_id": "e5f6a7b8",
+      "name": "user-story",
+      "display_name": "User Story",
+      "description": "User need or scenario driving a feature",
+      "icon": "",
+      "color": "#06b6d4",
+      "statuses": [
+        "draft",
+        "ready",
+        "in-progress",
+        "implemented",
+        "validated"
+      ],
+      "default_status": "draft",
+      "properties": []
     }
   ]
 }

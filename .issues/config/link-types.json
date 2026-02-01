@@ -20,7 +20,8 @@
       "inverse_verb": "task-of",
       "description": "Contains as sub-work",
       "source_types": [
-        "feature"
+        "feature",
+        "version"
       ],
       "target_types": [
         "task"
@@ -30,7 +31,7 @@
       "link_type_id": "fca7f86b",
       "verb": "assigned-to",
       "inverse_verb": "assignee-of",
-      "description": "Work assigned to person_agent",
+      "description": "Work assigned to person/agent",
       "source_types": [
         "bug",
         "task",
@@ -62,12 +63,53 @@
       "source_types": [
         "bug",
         "task",
-        "feature"
+        "feature",
+        "version",
+        "user-story"
       ],
       "target_types": [
         "bug",
         "task",
+        "feature",
+        "version",
+        "user-story"
+      ]
+    },
+    {
+      "link_type_id": "7a8b9c0d",
+      "verb": "has-feature",
+      "inverse_verb": "feature-of",
+      "description": "Version contains feature",
+      "source_types": [
+        "version"
+      ],
+      "target_types": [
         "feature"
+      ]
+    },
+    {
+      "link_type_id": "1e2f3a4b",
+      "verb": "has-bug",
+      "inverse_verb": "bug-of",
+      "description": "Version or feature contains bug",
+      "source_types": [
+        "version",
+        "feature"
+      ],
+      "target_types": [
+        "bug"
+      ]
+    },
+    {
+      "link_type_id": "5c6d7e8f",
+      "verb": "has-story",
+      "inverse_verb": "story-of",
+      "description": "Feature driven by user story",
+      "source_types": [
+        "feature"
+      ],
+      "target_types": [
+        "user-story"
       ]
     }
   ]
