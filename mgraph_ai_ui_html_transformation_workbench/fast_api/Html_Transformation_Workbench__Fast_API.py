@@ -1,15 +1,16 @@
 import mgraph_ai_ui_html_transformation_workbench__ui
-from osbot_utils.type_safe.primitives.domains.files.safe_str.Safe_Str__File__Path               import Safe_Str__File__Path
 from fastapi                                                                                    import Response
 from osbot_utils.utils.Files                                                                    import path_combine, file_contents
 from memory_fs.Memory_FS                                                                        import Memory_FS
+from osbot_fast_api_serverless.fast_api.routes.Routes__Info                                     import Routes__Info
+from osbot_utils.type_safe.primitives.domains.files.safe_str.Safe_Str__File__Path               import Safe_Str__File__Path
 from memory_fs.storage_fs.providers.Storage_FS__Local_Disk                                      import Storage_FS__Local_Disk
 from memory_fs.storage_fs.providers.Storage_FS__Memory                                          import Storage_FS__Memory
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Issues                  import Routes__Issues
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Labels                  import Routes__Labels
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Links                   import Routes__Links
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Nodes                   import Routes__Nodes
-from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Server import Routes__Server
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Server                  import Routes__Server
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Types                   import Routes__Types
 from mgraph_ai_ui_html_transformation_workbench.service.issues.Issue__Repository                import Issue__Repository
 from mgraph_ai_ui_html_transformation_workbench.service.issues.Issue__Service                   import Issue__Service
@@ -68,12 +69,13 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         return super().setup()
 
     def setup_routes(self):
-        self.add_routes(Routes__Issues, service = self.issue_service)
-        self.add_routes(Routes__Labels, service = self.label_service)
-        self.add_routes(Routes__Links , service = self.link_service )
-        self.add_routes(Routes__Nodes , service = self.node_service )
-        self.add_routes(Routes__Types , service = self.type_service )
+        self.add_routes(Routes__Issues, service = self.issue_service         )
+        self.add_routes(Routes__Labels, service = self.label_service         )
+        self.add_routes(Routes__Links , service = self.link_service          )
+        self.add_routes(Routes__Nodes , service = self.node_service          )
+        self.add_routes(Routes__Types , service = self.type_service          )
         self.add_routes(Routes__Server, service = self.server_status_service )
+        self.add_routes(Routes__Info)
         self.add_routes(Routes__Set_Cookie)
 
     # ═══════════════════════════════════════════════════════════════════════════════

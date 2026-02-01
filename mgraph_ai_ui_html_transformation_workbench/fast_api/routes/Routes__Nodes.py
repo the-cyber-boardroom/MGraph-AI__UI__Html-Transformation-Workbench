@@ -21,9 +21,9 @@ from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node      
 
 TAG__ROUTES_NODES = 'nodes'
 
-ROUTES_PATHS__NODES = [f'/api/{TAG__ROUTES_NODES}'                               ,
-                       f'/api/{TAG__ROUTES_NODES}/{{label}}'                     ,
-                       f'/api/{TAG__ROUTES_NODES}/type/{{node_type}}'            ]
+ROUTES_PATHS__NODES = [f'/nodes/{TAG__ROUTES_NODES}'                               ,
+                       f'/nodes/{TAG__ROUTES_NODES}/{{label}}'                     ,
+                       f'/nodes/{TAG__ROUTES_NODES}/type/{{node_type}}'            ]
 
 
 class Routes__Nodes(Fast_API__Routes):                                           # Node routes
