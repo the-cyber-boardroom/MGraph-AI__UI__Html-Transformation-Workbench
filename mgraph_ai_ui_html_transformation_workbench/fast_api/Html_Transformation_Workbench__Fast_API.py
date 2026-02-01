@@ -89,8 +89,9 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
 
         self.storage_status__service = Storage__Status__Service(storage_fs= storage_fs)
         self.git_status__service     = Git__Status__Service    ()
-        self.types_status__service   = Types__Status__Service(type_service = self.type_service)
-        self.index_status__service   = Index__Status__Service(type_service = self.type_service)
+        self.types_status__service   = Types__Status__Service  (type_service = self.type_service  )
+        self.index_status__service   = Index__Status__Service  (type_service = self.type_service  ,
+                                                                repository   = self.graph_repository)
         self.server_status_service   = Server__Status__Service(storage_service = self.storage_status__service,
                                                                git_service     = self.git_status__service    ,
                                                                types_service   = self.types_status__service  ,
