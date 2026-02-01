@@ -1,0 +1,15 @@
+{
+  "node_id": "2cc319a4",
+  "node_type": "bug",
+  "node_index": 3,
+  "label": "Bug-3",
+  "title": "Left hand side menu doesn't collapse completely",
+  "description": "at the moment the minimise button just closes the menu but leaves the width the same. __what should happen is that it should colapse to just a small (width) column with just the icons",
+  "status": "backlog",
+  "created_at": 1769967153041,
+  "updated_at": 1769967153041,
+  "created_by": "185acc53",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

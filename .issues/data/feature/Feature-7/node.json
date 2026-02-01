@@ -5,9 +5,9 @@
   "label": "Feature-7",
   "title": "Create Issue Detail mini app",
   "description": "Create a mini app that displays full issue details:\n- Title, status, labels\n- Description (rendered markdown)\n- Checklist with progress\n- Comments thread\n- Target version",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769698800000,
-  "updated_at": 1769698800000,
+  "updated_at": 1769968711012,
   "created_by": "3cce4b64",
   "tags": [
     "frontend",
