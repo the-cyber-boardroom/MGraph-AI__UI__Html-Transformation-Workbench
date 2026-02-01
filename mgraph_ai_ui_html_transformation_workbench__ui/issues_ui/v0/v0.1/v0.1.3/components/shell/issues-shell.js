@@ -69,45 +69,72 @@ class IssuesShell extends HTMLElement {
     render() {
         this.innerHTML = `
             <style>
-                /* Bug-3: Collapsible nav styles */
+                /* Bug-3: Collapsible nav styles - simplified without sections */
                 .shell-left-nav.collapsed {
                     width: 50px !important;
                     min-width: 50px !important;
                 }
-                .shell-left-nav.collapsed .nav-section-label,
-                .shell-left-nav.collapsed .nav-item-label,
-                .shell-left-nav.collapsed .nav-section-chevron {
+                .shell-left-nav.collapsed .nav-item-label {
                     display: none;
                 }
-                .shell-left-nav.collapsed .nav-section-header,
                 .shell-left-nav.collapsed .nav-item {
                     justify-content: center;
-                    padding: 8px;
+                    padding: 12px 8px;
                 }
-                .shell-left-nav.collapsed .nav-section-icon,
                 .shell-left-nav.collapsed .nav-item-icon {
                     margin-right: 0;
-                    font-size: 18px;
+                    font-size: 20px;
                 }
                 .shell-left-nav.collapsed .left-nav-resize {
                     display: none;
                 }
+                /* Nav items styling */
+                #nav-sections {
+                    padding: 8px 0;
+                }
+                #nav-sections .nav-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 10px 16px;
+                    cursor: pointer;
+                    transition: background 0.15s;
+                    border-radius: 6px;
+                    margin: 2px 8px;
+                }
+                #nav-sections .nav-item:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                }
+                #nav-sections .nav-item.active {
+                    background: rgba(233, 69, 96, 0.2);
+                }
+                #nav-sections .nav-item-icon {
+                    font-size: 16px;
+                }
+                #nav-sections .nav-item-label {
+                    font-size: 13px;
+                    color: #c0c0c0;
+                }
+                #nav-sections .nav-item.active .nav-item-label {
+                    color: #fff;
+                }
                 .nav-collapse-btn {
                     background: none;
-                    border: none;
-                    color: var(--text-muted, #6b7280);
+                    border: 1px solid #3a4f6f;
+                    color: var(--text-muted, #8a9cc4);
                     cursor: pointer;
-                    padding: 4px 8px;
-                    font-size: 16px;
+                    padding: 8px 12px;
+                    font-size: 14px;
                     border-radius: 4px;
-                    transition: background 0.2s;
+                    transition: all 0.2s;
                 }
                 .nav-collapse-btn:hover {
-                    background: var(--bg-hover, rgba(255,255,255,0.1));
+                    background: rgba(255,255,255,0.05);
+                    border-color: #667eea;
                 }
                 .nav-footer {
-                    padding: 8px;
-                    border-top: 1px solid var(--border-color, #374151);
+                    padding: 12px;
+                    border-top: 1px solid var(--border-color, #2a3f5f);
                     display: flex;
                     justify-content: center;
                 }
@@ -411,48 +438,18 @@ class IssuesShell extends HTMLElement {
     buildLeftNav() {
         if (!this.$navSections) return;
 
-        this.$navSections.innerHTML = NAV_SECTIONS.map(section => {
-            const isCollapsed = this._collapsedSections.has(section.id);
-            const sectionApps = this._apps.filter(app => section.apps.includes(app.appId));
+        // Get all non-sidebar apps (no section grouping - just show apps directly)
+        const mainApps = this._apps.filter(app => !app.isSidebarApp);
 
-            if (sectionApps.length === 0) return '';
+        this.$navSections.innerHTML = mainApps.map(app => `
+            <div class="nav-item ${app.appId === this._currentAppId ? 'active' : ''}"
+                 data-app="${app.appId}">
+                <span class="nav-item-icon">${app.navIcon}</span>
+                <span class="nav-item-label">${app.navLabel}</span>
+            </div>
+        `).join('');
 
-            return `
-                <div class="nav-section ${isCollapsed ? 'collapsed' : ''}" data-section="${section.id}">
-                    <div class="nav-section-header" data-section="${section.id}">
-                        <span class="nav-section-icon">${section.icon}</span>
-                        <span class="nav-section-label">${section.label}</span>
-                        <span class="nav-section-chevron">\u{25BC}</span>
-                    </div>
-                    <div class="nav-section-items">
-                        ${sectionApps.map(app => `
-                            <div class="nav-item ${app.appId === this._currentAppId ? 'active' : ''}"
-                                 data-app="${app.appId}">
-                                <span class="nav-item-icon">${app.navIcon}</span>
-                                <span class="nav-item-label">${app.navLabel}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        // Attach event listeners
-        this.$navSections.querySelectorAll('.nav-section-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const sectionId = header.dataset.section;
-                const section = header.closest('.nav-section');
-                section.classList.toggle('collapsed');
-
-                if (section.classList.contains('collapsed')) {
-                    this._collapsedSections.add(sectionId);
-                } else {
-                    this._collapsedSections.delete(sectionId);
-                }
-                this._savePreferences();
-            });
-        });
-
+        // Attach event listeners to nav items
         this.$navSections.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 const appId = item.dataset.app;
