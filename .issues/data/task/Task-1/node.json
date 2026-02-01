@@ -1,0 +1,15 @@
+{
+  "node_id": "ae9cbc60",
+  "node_type": "task",
+  "node_index": 1,
+  "label": "Task-1",
+  "title": "new issue created from the UI",
+  "description": ":)",
+  "status": "backlog",
+  "created_at": 1769963080599,
+  "updated_at": 1769963080599,
+  "created_by": "19517aab",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

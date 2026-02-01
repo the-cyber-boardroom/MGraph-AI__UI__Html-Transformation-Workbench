@@ -1,0 +1,42 @@
+{
+  "node_id": "f42b5c23",
+  "node_type": "feature",
+  "node_index": 4,
+  "label": "Feature-4",
+  "title": "Create issue service",
+  "description": "Create a service for loading and managing issue JSON files from the filesystem.\n\nMethods needed:\n- getIssues() - Load issues.json index\n- getIssue(id) - Load individual issue file\n- getIssuesByStatus(status) - Filter issues by status\n- getIssuesByVersion(version) - Filter by target version\n- getLabels() - Load labels.json",
+  "status": "in-progress",
+  "created_at": 1769698800000,
+  "updated_at": 1769709600000,
+  "created_by": "658c43e6",
+  "tags": [
+    "frontend",
+    "phase-1"
+  ],
+  "links": [],
+  "properties": {
+    "version_target": "v0.1.6",
+    "checklist": [
+      {
+        "item": "Create issue-service.js",
+        "done": false
+      },
+      {
+        "item": "Implement getIssues()",
+        "done": false
+      },
+      {
+        "item": "Implement getIssue(id)",
+        "done": false
+      },
+      {
+        "item": "Implement getLabels()",
+        "done": false
+      },
+      {
+        "item": "Add caching for loaded data",
+        "done": false
+      }
+    ]
+  }
+}
