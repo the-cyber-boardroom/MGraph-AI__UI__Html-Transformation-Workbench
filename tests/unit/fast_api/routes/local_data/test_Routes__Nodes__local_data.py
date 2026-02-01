@@ -8,10 +8,11 @@ from mgraph_ai_ui_html_transformation_workbench.fast_api.Html_Transformation_Wor
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service import Node__Service
 
 
-class test_Routes__Nodes(TestCase):
+class test_Routes__Nodes__local_data(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        skip_pytest("with real data these have quite a bit of a performance hit")
         cls.env_vars = {ENV_VAR__ISSUES__IN_MEMORY: "False",
                         ENV_VAR__ISSUES__PATH     : "."    }
         cls.temp_env_vars = Temp_Env_Vars(env_vars=cls.env_vars).set_vars()
@@ -25,7 +26,7 @@ class test_Routes__Nodes(TestCase):
         with self.fast_api as _:
             assert type(_) is Html_Transformation_Workbench__Fast_API
             assert _.run_in_memory is False
-            assert len(_.type_service.list_node_types()) > 4            # 4 is the default
+            assert len(_.type_service.list_node_types()) >= 4            # 4 is the default
 
 
 

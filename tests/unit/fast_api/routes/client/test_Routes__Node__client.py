@@ -7,7 +7,7 @@ from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Crea
 from tests.unit.Html_Transformation_Workbench__Test_Objs                                      import setup__html_transformation_workbench__test_objs
 
 
-class test_Routes__Nodes(TestCase):
+class test_Routes__Nodes__client(TestCase):
 
     @classmethod
     def setUpClass(cls):                                                         # Shared setup - create once

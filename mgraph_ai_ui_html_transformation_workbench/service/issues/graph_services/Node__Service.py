@@ -10,10 +10,14 @@ from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                
 from osbot_utils.type_safe.primitives.domains.identifiers.safe_int.Timestamp_Now                        import Timestamp_Now
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Global__Index                     import Schema__Global__Index
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Link import Schema__Graph__Link
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Node import Schema__Graph__Node
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Response import Schema__Graph__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node                              import Schema__Node
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request             import Schema__Node__Create__Request
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Response            import Schema__Node__Create__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Delete__Response            import Schema__Node__Delete__Response
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Link import Schema__Node__Link
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__List__Response              import Schema__Node__List__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Summary                     import Schema__Node__Summary
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Request             import Schema__Node__Update__Request
@@ -106,7 +110,13 @@ class Node__Service(Type_Safe):                                                 
         type_index = self.repository.type_index_load(request.node_type)
         next_num   = int(type_index.next_index)
         label      = self.label_from_type_and_index(request.node_type, next_num)
-        now        = Timestamp_Now()
+
+        # SAFETY CHECK: If label already exists, find actual next available index
+        while self.repository.node_exists(node_type=request.node_type, label=label):
+            next_num += 1
+            label = self.label_from_type_and_index(request.node_type, next_num)
+
+        now = Timestamp_Now()
 
         # Determine status
         status = request.status if request.status else node_type_def.default_status
@@ -168,8 +178,8 @@ class Node__Service(Type_Safe):                                                 
             node.status = request.status
         if request.tags is not None:                                             # Tags can be empty list
             node.tags = list(request.tags)
-        if request.properties is not None:                                       # Properties can be empty dict
-            node.properties.update(request.properties)
+        if request.properties is not None:                                       # Deep merge properties
+            node.properties = self.deep_merge_properties(node.properties, request.properties)
 
         node.updated_at = Timestamp_Now()
 
@@ -180,6 +190,20 @@ class Node__Service(Type_Safe):                                                 
 
         return Schema__Node__Update__Response(success = True ,
                                               node    = node )
+
+    def deep_merge_properties(self                  ,                            # Deep merge properties dicts
+                              existing : dict       ,
+                              updates  : dict
+                         ) -> dict:
+        result = dict(existing) if existing else {}                              # Copy existing properties
+
+        for key, value in updates.items():
+            if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+                result[key] = self.deep_merge_properties(result[key], value)     # Recursively merge nested dicts
+            else:
+                result[key] = value                                              # Replace or add key
+
+        return result
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Delete Operations
@@ -245,3 +269,124 @@ class Node__Service(Type_Safe):                                                 
                                              type_counts  = type_counts            )
 
         self.repository.global_index_save(global_index)
+
+    # ═══════════════════════════════════════════════════════════════════════════════
+    # Graph Traversal Operations
+    # ═══════════════════════════════════════════════════════════════════════════════
+
+    def get_node_graph(self                              ,                       # Get node with connected nodes
+                       node_type : Safe_Str__Node_Type   ,
+                       label     : Safe_Str__Node_Label  ,
+                       depth     : int = 1
+                  ) -> 'Schema__Graph__Response':
+
+        if depth > 3:                                                            # Cap depth to prevent expensive traversals
+            depth = 3
+
+        root_node = self.repository.node_load(node_type = node_type ,
+                                              label     = label     )
+        if root_node is None:
+            return Schema__Graph__Response(success = False              ,
+                                           root    = label              ,
+                                           nodes   = []                 ,
+                                           links   = []                 ,
+                                           depth   = depth              ,
+                                           message = f'Node not found: {label}')
+
+        visited_labels = set()
+        nodes          = []
+        links          = []
+
+        self._traverse_graph(root_node, depth, visited_labels, nodes, links)
+
+        return Schema__Graph__Response(success = True   ,
+                                       root    = label  ,
+                                       nodes   = nodes  ,
+                                       links   = links  ,
+                                       depth   = depth  )
+
+    def _traverse_graph(self                       ,                             # Recursively traverse graph
+                        node    : Schema__Node     ,
+                        depth   : int              ,
+                        visited : set              ,
+                        nodes   : list             ,
+                        links   : list
+                   ) -> None:
+
+        label_str = str(node.label)
+        if label_str in visited or depth < 0:
+            return
+
+        visited.add(label_str)
+        nodes.append(Schema__Graph__Node(label     = node.label     ,
+                                         title     = node.title     ,
+                                         node_type = node.node_type ,
+                                         status    = node.status    ))
+
+        if depth == 0:
+            return
+
+        # Traverse outgoing links
+        if node.links:
+            for link in node.links:
+                target_label = link.target_label
+                if target_label and str(target_label) not in visited:
+                    target_node = self._resolve_link_target(link)
+                    if target_node:
+                        links.append(Schema__Graph__Link(source    = node.label      ,
+                                                         target    = target_node.label,
+                                                         link_type = link.link_type))
+                        self._traverse_graph(target_node, depth - 1, visited, nodes, links)
+
+        # Find and traverse incoming links
+        incoming = self._find_incoming_links(node.label)
+        for source_node, link_type in incoming:
+            if str(source_node.label) not in visited:
+                links.append(Schema__Graph__Link(source    = source_node.label ,
+                                                 target    = node.label        ,
+                                                 link_type = link_type         ))
+                self._traverse_graph(source_node, depth - 1, visited, nodes, links)
+
+    def _resolve_link_target(self                           ,                    # Load target node from link
+                             link : Schema__Node__Link
+                        ) -> Schema__Node:
+        if not link.target_label:
+            return None
+
+        target_label = str(link.target_label)
+        parts        = target_label.split('-')                                   # Parse "Bug-1" -> type="bug", label="Bug-1"
+
+        if len(parts) != 2:
+            return None
+
+        target_type = parts[0].lower()                                           # "Bug" -> "bug"
+
+        try:
+            return self.repository.node_load(node_type = Safe_Str__Node_Type(target_type)  ,
+                                             label     = Safe_Str__Node_Label(target_label))
+        except Exception:
+            return None
+
+    # todo: this should not be a tuple, this should be a Type_Safe class
+    def _find_incoming_links(self                              ,                 # Find nodes that link TO this node
+                             label : Safe_Str__Node_Label
+                        ) -> List[tuple]:
+        incoming    = []
+        label_str   = str(label)
+        node_types  = self.repository.node_types_load()
+
+        for nt in node_types:
+            labels = self.repository.nodes_list_labels(nt.name)
+            for node_label in labels:
+                if str(node_label) == label_str:                                 # Skip self
+                    continue
+
+                node = self.repository.node_load(node_type = nt.name   ,
+                                                 label     = node_label)
+                if node and node.links:
+                    for link in node.links:
+                        if link.target_label and str(link.target_label) == label_str:
+                            incoming.append((node, str(link.verb)))
+                            break                                                # Only add node once
+
+        return incoming

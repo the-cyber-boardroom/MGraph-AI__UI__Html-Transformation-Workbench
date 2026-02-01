@@ -6,7 +6,11 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from fastapi                                                                                            import HTTPException
+from osbot_utils.type_safe.primitives.core.Safe_UInt import Safe_UInt
+from osbot_utils.type_safe.primitives.domains.numerical.safe_int.Safe_Int__Positive import Safe_Int__Positive
+
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Response import Schema__Graph__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request             import Schema__Node__Create__Request
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Response            import Schema__Node__Create__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Delete__Response            import Schema__Node__Delete__Response
@@ -137,6 +141,23 @@ class Routes__Nodes(Fast_API__Routes):                                          
         except Exception:
             return None
 
+    @route_path('/api/nodes/{node_type}/{label}/graph')
+    def get_node_graph(self                              ,                          # Get node with connected nodes for graph visualization.
+                       node_type : Safe_Str__Node_Type   ,                          # Type of the root node (bug, task, feature, etc.)
+                       label     : Safe_Str__Node_Label  ,                          # Label of the root node (Bug-1, Feature-11, etc.)
+                       depth     : Safe_Int__Positive    = 1                        # Number of link hops to traverse (default: 1, max: 3)
+                  ) -> dict:                                                        # Graph response with root, nodes, and links
+        try:
+            response = self.service.get_node_graph(node_type = Safe_Str__Node_Type(node_type) ,
+                                                   label     = Safe_Str__Node_Label(label)    ,
+                                                   depth     = depth                          )
+            return response.json()
+        except Exception as e:                                              # todo, see if we shouldn't return None here and what scenarios exist that will trigger this exception
+            return Schema__Graph__Response(success = False              ,
+                                           message = f'Error: {str(e)}' ,
+                                           nodes   = []                 ,
+                                           links   = []                 ).json()
+
     # ═══════════════════════════════════════════════════════════════════════════════
     # Route Setup
     # ═══════════════════════════════════════════════════════════════════════════════
@@ -145,6 +166,7 @@ class Routes__Nodes(Fast_API__Routes):                                          
         self.add_route_get   (self.nodes         )
         self.add_route_get   (self.nodes__by_type)
         self.add_route_get   (self.node__get     )
+        self.add_route_get   (self.get_node_graph)
         self.add_route_post  (self.node__create  )
         self.add_route_patch (self.node__update  )
         self.add_route_delete(self.node__delete  )
