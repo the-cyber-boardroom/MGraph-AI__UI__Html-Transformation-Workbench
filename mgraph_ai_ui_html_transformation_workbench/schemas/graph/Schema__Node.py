@@ -3,15 +3,17 @@
 # All entities (bugs, tasks, features, people) are nodes with typed relationships
 # ═══════════════════════════════════════════════════════════════════════════════
 
-from typing                                                                                  import List, Dict, Any
-from osbot_utils.type_safe.Type_Safe                                                         import Type_Safe
-from osbot_utils.type_safe.primitives.core.Safe_UInt                                         import Safe_UInt
-from osbot_utils.type_safe.primitives.domains.common.safe_str.Safe_Str__Text                 import Safe_Str__Text
-from osbot_utils.type_safe.primitives.domains.identifiers.Node_Id                            import Node_Id
-from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                             import Obj_Id
-from osbot_utils.type_safe.primitives.domains.identifiers.safe_int.Timestamp_Now             import Timestamp_Now
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types          import Safe_Str__Node_Type, Safe_Str__Node_Label, Safe_Str__Status
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Link             import Schema__Node__Link
+from typing                                                                                         import List, Dict, Any
+from osbot_utils.type_safe.Type_Safe                                                                import Type_Safe
+from osbot_utils.type_safe.primitives.core.Safe_UInt                                                import Safe_UInt
+from osbot_utils.type_safe.primitives.domains.common.safe_str.Safe_Str__Text                        import Safe_Str__Text
+from osbot_utils.type_safe.primitives.domains.identifiers.Node_Id                                   import Node_Id
+from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                                    import Obj_Id
+from osbot_utils.type_safe.primitives.domains.identifiers.safe_int.Timestamp_Now                    import Timestamp_Now
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                 import Safe_Str__Node_Type, Safe_Str__Node_Label, Safe_Str__Status
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Link                    import Schema__Node__Link
+from mgraph_ai_ui_html_transformation_workbench.schemas.safe_str.Safe_Str__Issue__Node__Description import Safe_Str__Issue__Node__Description
+
 
 # todo: refactor all these classes to use 'Issue' since that is the generic name for this
 #       for example this class should be called 'Schema__Issue__Node'
@@ -21,9 +23,9 @@ class Schema__Node(Type_Safe):                                                  
     node_index    : Safe_UInt                                                    # Per-type sequential number
     label         : Safe_Str__Node_Label                                         # Human-readable: "Bug-27", "Task-15"
 
-    # todo: create Safe_Str__Issue__Node__Title and Safe_Str__Issue__Node__Description to use here
+    # todo: create Safe_Str__Issue__Node__Title  to use here
     title         : Safe_Str__Text                                               # Display title
-    description   : Safe_Str__Text                                               # Detailed description
+    description   : Safe_Str__Issue__Node__Description                                 # Detailed description
     status        : Safe_Str__Status                                             # Current status (type-specific)
 
     created_at    : Timestamp_Now                                                # ISO timestamp created

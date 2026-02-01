@@ -4,7 +4,7 @@ SERVICE_NAME                                 = package_name
 FAST_API__TITLE                              = "Html Transformation Workbench"
 FAST_API__DESCRIPTION                        = "MGraph AI UI - Html Transformation Workbench"
 LAMBDA_DEPENDENCIES__HTML_TRANSFORMATION__UI = ['memory-fs==v0.41.0'                     ,
-                                                'osbot-fast-api-serverless==v1.33.0'     ]
+                                                'osbot-fast-api-serverless==v1.34.0'     ]
 
 
 UI__CONSOLE__ROUTE__CONSOLE    = 'workbench'

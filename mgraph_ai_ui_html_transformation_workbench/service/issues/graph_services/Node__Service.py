@@ -158,16 +158,17 @@ class Node__Service(Type_Safe):                                                 
             return Schema__Node__Update__Response(success = False                    ,
                                                   message = f'Node not found: {label}')
 
-        # Apply updates
-        if request.title is not None:
+        # Apply updates - use truthiness check because Type_Safe auto-initializes
+        # empty strings for Safe_Str types (so `is not None` doesn't work)
+        if request.title:                                                        # Only update if non-empty
             node.title = request.title
-        if request.description is not None:
+        if request.description:                                                  # Only update if non-empty
             node.description = request.description
-        if request.status is not None:
+        if request.status:                                                       # Only update if non-empty
             node.status = request.status
-        if request.tags is not None:
+        if request.tags is not None:                                             # Tags can be empty list
             node.tags = list(request.tags)
-        if request.properties is not None:
+        if request.properties is not None:                                       # Properties can be empty dict
             node.properties.update(request.properties)
 
         node.updated_at = Timestamp_Now()
