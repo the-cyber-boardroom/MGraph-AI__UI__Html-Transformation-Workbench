@@ -5,9 +5,9 @@
   "label": "Task-10",
   "title": "Add user-story node type",
   "description": "Add user-story node type for capturing user needs.\n\n## Config Changes\nAdd to node-types.json:\n```json\n{\n  \"name\": \"user-story\",\n  \"display_name\": \"User Story\",\n  \"color\": \"#06b6d4\",\n  \"statuses\": [\"draft\", \"ready\", \"implemented\", \"validated\"]\n}\n```\n\nAdd link type:\n```json\n{ \"verb\": \"has-story\", \"inverse_verb\": \"story-of\", \"is_symmetric\": false }\n```",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769972272346,
+  "updated_at": 1769988316044,
   "created_by": "dc000001",
   "tags": [
     "schema",

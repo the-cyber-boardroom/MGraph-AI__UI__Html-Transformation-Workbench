@@ -5,9 +5,9 @@
   "label": "Task-11",
   "title": "Add person node type with assigned-to link support",
   "description": "Add person node type for team members.\n\n## Config Changes\nAdd to node-types.json:\n```json\n{\n  \"name\": \"person\",\n  \"display_name\": \"Person\",\n  \"color\": \"#8b5cf6\",\n  \"statuses\": [\"active\", \"inactive\"]\n}\n```\n\nAdd link type:\n```json\n{ \"verb\": \"assigned-to\", \"inverse_verb\": \"assignee-of\", \"is_symmetric\": false }\n```\n\n## Note\nPerson type already exists - verify and update if needed.",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769972276289,
+  "updated_at": 1769988328127,
   "created_by": "dc000001",
   "tags": [
     "schema",

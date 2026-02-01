@@ -3,17 +3,45 @@
   "node_type": "version",
   "node_index": 1,
   "label": "Version-1",
-  "title": "v0.1.3 - Issue Editor & Graph Visualization",
+  "title": "v0.1.3 - Issue Editor _ Graph Visualization",
   "description": "Release milestone for issue editing capabilities and graph visualization.\n\nThis version enables:\n- Direct issue editing in UI\n- Comments and markdown preview\n- Visual graph of issue relationships\n- New node types (version, user-story, person)\n\nMeta-goal: Use this system to plan its own development.",
   "status": "in-progress",
   "created_at": 1769965000000,
-  "updated_at": 1769965000000,
+  "updated_at": 1769988280933,
   "created_by": "dc000001",
-  "tags": ["release", "v0.1.3"],
+  "tags": [
+    "release",
+    "v0.1.3"
+  ],
   "links": [
-    { "link_type": "has-feature", "target_label": "Feature-11" },
-    { "link_type": "has-feature", "target_label": "Feature-12" },
-    { "link_type": "has-feature", "target_label": "Feature-13" }
+    {
+      "link_type_id": "26c9482f",
+      "verb": "",
+      "target_id": "ff5bf13c",
+      "target_label": "Feature-11",
+      "created_at": 1769988280931
+    },
+    {
+      "link_type_id": "d3be3074",
+      "verb": "",
+      "target_id": "34512f6b",
+      "target_label": "Feature-12",
+      "created_at": 1769988280931
+    },
+    {
+      "link_type_id": "42950fa7",
+      "verb": "",
+      "target_id": "89163d86",
+      "target_label": "Feature-13",
+      "created_at": 1769988280931
+    },
+    {
+      "link_type_id": "41b71edb",
+      "verb": "relates-to",
+      "target_id": "2cc319a4",
+      "target_label": "Bug-3",
+      "created_at": 1769988280933
+    }
   ],
   "properties": {
     "version_number": "v0.1.3",
