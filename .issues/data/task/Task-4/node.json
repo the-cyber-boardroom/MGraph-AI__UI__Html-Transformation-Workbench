@@ -7,9 +7,37 @@
   "description": "Enable markdown rendering for issue descriptions.\n\n## Requirements\n- Toggle between edit and preview modes\n- Render markdown to HTML\n- Support common markdown (headers, lists, code blocks, links)",
   "status": "backlog",
   "created_at": 1769965000000,
-  "updated_at": 1769965000000,
+  "updated_at": 1769988934633,
   "created_by": "dc000001",
-  "tags": ["ui", "markdown"],
-  "links": [{ "link_type": "task-of", "target_label": "Feature-11" }],
-  "properties": { "estimate": "S", "component": "issue-detail" }
+  "tags": [
+    "ui",
+    "markdown"
+  ],
+  "links": [
+    {
+      "link_type_id": "f5aa384b",
+      "verb": "",
+      "target_id": "52b70bb5",
+      "target_label": "Feature-11",
+      "created_at": 1769988903933
+    }
+  ],
+  "properties": {
+    "estimate": "S",
+    "component": "issue-detail",
+    "comments": [
+      {
+        "id": "b1b0745c-f232-4c96-b28b-c2ba5e990c68",
+        "author": "human",
+        "text": "done",
+        "created_at": 1769988927477
+      },
+      {
+        "id": "4b9f6a7c-9f9e-4e01-b681-70254ff3be99",
+        "author": "human",
+        "text": "yes confirmed",
+        "created_at": 1769988934626
+      }
+    ]
+  }
 }
