@@ -5,17 +5,51 @@
   "label": "Feature-13",
   "title": "Schema Extensions",
   "description": "Add new node types to support richer project planning.\n\n## New Node Types\n- `version` - Release milestone\n- `user-story` - User need / scenario  \n- `person` - Team member / assignee\n\n## New Link Types\n- `has-feature` / `feature-of`\n- `has-task` / `task-of`\n- `has-story` / `story-of`\n- `assigned-to` / `assignee-of`",
-  "status": "backlog",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769965000000,
+  "updated_at": 1769989236151,
   "created_by": "dc000001",
-  "tags": ["schema", "backend", "v0.3.0"],
+  "tags": [
+    "schema",
+    "backend",
+    "v0.3.0"
+  ],
   "links": [
-    { "link_type": "feature-of", "target_label": "Version-1" },
-    { "link_type": "has-task", "target_label": "Task-9" },
-    { "link_type": "has-task", "target_label": "Task-10" },
-    { "link_type": "has-task", "target_label": "Task-11" },
-    { "link_type": "has-task", "target_label": "Task-12" }
+    {
+      "link_type_id": "6fc20c6c",
+      "verb": "",
+      "target_id": "7eced98f",
+      "target_label": "Version-1",
+      "created_at": 1769989236151
+    },
+    {
+      "link_type_id": "576c9aaf",
+      "verb": "",
+      "target_id": "874c46f0",
+      "target_label": "Task-9",
+      "created_at": 1769989236151
+    },
+    {
+      "link_type_id": "9c2f1594",
+      "verb": "",
+      "target_id": "c1532d3f",
+      "target_label": "Task-10",
+      "created_at": 1769989236151
+    },
+    {
+      "link_type_id": "dbaccf06",
+      "verb": "",
+      "target_id": "91b810ca",
+      "target_label": "Task-11",
+      "created_at": 1769989236151
+    },
+    {
+      "link_type_id": "7714100b",
+      "verb": "",
+      "target_id": "df2dd07e",
+      "target_label": "Task-12",
+      "created_at": 1769989236151
+    }
   ],
   "properties": {
     "priority": "high",

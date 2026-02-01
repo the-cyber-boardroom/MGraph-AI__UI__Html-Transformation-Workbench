@@ -1,0 +1,32 @@
+{
+  "node_id": "b2180e14",
+  "node_type": "task",
+  "node_index": 14,
+  "label": "Task-14",
+  "title": "Integrate graph-service with new graph traversal API",
+  "description": "Connect the UI to the new backend graph traversal endpoint.\n\n## Background\nBackend v0.2.18 added `GET /nodes/api/nodes/{type}/{label}/graph?depth=N` which returns a node with all connected nodes and links.\n\n## Requirements\n- Add `getNodeGraph(nodeType, label, depth)` method to graph-service.js\n- Handle success/error responses\n- Cache results to avoid redundant fetches\n\n## API Response Format\n```json\n{\n  \"success\": true,\n  \"root\": \"Feature-11\",\n  \"depth\": 1,\n  \"nodes\": [{\"label\", \"title\", \"node_type\", \"status\"}],\n  \"links\": [{\"source\", \"target\", \"link_type\"}]\n}\n```\n\n## Implementation\n```javascript\nasync getNodeGraph(nodeType, label, depth = 1) {\n    const response = await fetch(\n        `${this.baseUrl}/nodes/api/nodes/${nodeType}/${label}/graph?depth=${depth}`\n    );\n    return response.json();\n}\n```",
+  "status": "todo",
+  "created_at": 1769987000000,
+  "updated_at": 1769989443302,
+  "created_by": "dc000001",
+  "tags": [
+    "api",
+    "graph",
+    "service"
+  ],
+  "links": [
+    {
+      "link_type_id": "344d6fd2",
+      "verb": "task-of",
+      "target_id": "aa91e8c7",
+      "target_label": "Feature-12",
+      "created_at": 1769987000000
+    }
+  ],
+  "properties": {
+    "estimate": "S",
+    "component": "graph-service",
+    "blocked_by": [],
+    "backend_version": "v0.2.18"
+  }
+}

@@ -5,11 +5,26 @@
   "label": "Task-6",
   "title": "Create graph visualization component",
   "description": "Build interactive graph visualization.\n\n## Requirements\n- Render nodes as circles/boxes with labels\n- Render links as lines with arrows\n- Different colors per node type\n- Pan and zoom support\n- Click node to select\n\n## Technical Options\n- D3.js force-directed graph\n- Cytoscape.js\n- vis.js",
-  "status": "backlog",
+  "status": "todo",
   "created_at": 1769965000000,
-  "updated_at": 1769965000000,
+  "updated_at": 1769989213278,
   "created_by": "dc000001",
-  "tags": ["ui", "visualization", "d3"],
-  "links": [{ "link_type": "task-of", "target_label": "Feature-12" }],
-  "properties": { "estimate": "L", "component": "graph-view" }
+  "tags": [
+    "ui",
+    "visualization",
+    "d3"
+  ],
+  "links": [
+    {
+      "link_type_id": "075fdc46",
+      "verb": "",
+      "target_id": "332c6af1",
+      "target_label": "Feature-12",
+      "created_at": 1769989213278
+    }
+  ],
+  "properties": {
+    "estimate": "L",
+    "component": "graph-view"
+  }
 }

@@ -1,0 +1,22 @@
+{
+  "node_id": "b2180e17",
+  "node_type": "task",
+  "node_index": 17,
+  "label": "Task-17",
+  "title": "Simplify comments implementation using properties deep merge",
+  "description": "Refactor Task-3 (comments UI) to use the new backend deep merge capability.\n\n## Background\nBackend v0.2.18 now does deep merge on properties, so we no longer need to fetch the full node before updating.\n\n## Old Approach (Workaround)\n```javascript\n// Had to fetch full node to avoid losing other properties\nconst node = await getNode(label);\nconst properties = { ...node.properties };\nproperties.comments = [...(properties.comments || []), newComment];\nawait updateNode(label, { properties });\n```\n\n## New Approach (Simplified)\n```javascript\n// Can now send just the comments array\nconst comments = [...existingComments, newComment];\nawait updateNode(label, { \n    properties: { comments } \n});\n// Other properties (severity, component, etc.) are preserved!\n```\n\n## Benefits\n- Simpler code\n- Fewer API calls (no need to GET before PATCH)\n- Less risk of race conditions\n- Works with nested property updates too\n\n## Implementation Notes\n- Still need to track existing comments for the UI list\n- Deep merge replaces arrays, doesn't append to them\n- So we still need to include full comments array, just not other properties",
+  "status": "backlog",
+  "created_at": 1769987000000,
+  "updated_at": 1769987000000,
+  "created_by": "dc000001",
+  "tags": ["api", "comments", "refactor"],
+  "links": [
+    { "link_type_id": "344d6fd2", "verb": "task-of", "target_id": "", "target_label": "Feature-11", "created_at": 1769987000000 },
+    { "link_type_id": "41b71edb", "verb": "relates-to", "target_id": "", "target_label": "Task-3", "created_at": 1769987000000 }
+  ],
+  "properties": {
+    "estimate": "S",
+    "component": "graph-service",
+    "backend_version": "v0.2.18"
+  }
+}

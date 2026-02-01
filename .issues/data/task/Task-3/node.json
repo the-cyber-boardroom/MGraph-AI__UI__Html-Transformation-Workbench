@@ -5,9 +5,9 @@
   "label": "Task-3",
   "title": "Add comments section with add_edit_delete",
   "description": "Implement comments functionality for issues.\n\n## Requirements\n- Display existing comments (from properties.comments)\n- Add new comment form\n- Edit/delete own comments\n- Show author and timestamp\n\n## Technical Notes\n- Store in node.properties.comments array\n- Author can be 'human' or 'claude-code' for now",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769972288859,
+  "updated_at": 1769989070917,
   "created_by": "dc000001",
   "tags": [
     "ui",

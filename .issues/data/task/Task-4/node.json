@@ -5,9 +5,9 @@
   "label": "Task-4",
   "title": "Add markdown preview toggle for description",
   "description": "Enable markdown rendering for issue descriptions.\n\n## Requirements\n- Toggle between edit and preview modes\n- Render markdown to HTML\n- Support common markdown (headers, lists, code blocks, links)",
-  "status": "backlog",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769988934633,
+  "updated_at": 1769989007471,
   "created_by": "dc000001",
   "tags": [
     "ui",

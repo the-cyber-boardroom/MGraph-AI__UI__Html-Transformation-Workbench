@@ -5,17 +5,52 @@
   "label": "Feature-12",
   "title": "Graph Visualization",
   "description": "Visualize the graph of relationships between issues.\n\n## Goals\n- See visual graph starting from any node\n- Navigate by clicking nodes\n- Understand dependencies and relationships\n\n## Technical Approach\n- D3.js or similar for rendering\n- Fetch node + N levels of connected nodes\n- Interactive pan/zoom",
-  "status": "backlog",
+  "status": "todo",
   "created_at": 1769965000000,
-  "updated_at": 1769965000000,
+  "updated_at": 1769989203188,
   "created_by": "dc000001",
-  "tags": ["ui", "visualization", "graph", "v0.3.0"],
+  "tags": [
+    "ui",
+    "visualization",
+    "graph",
+    "v0.3.0"
+  ],
   "links": [
-    { "link_type": "feature-of", "target_label": "Version-1" },
-    { "link_type": "has-task", "target_label": "Task-6" },
-    { "link_type": "has-task", "target_label": "Task-7" },
-    { "link_type": "has-task", "target_label": "Task-8" },
-    { "link_type": "depends-on", "target_label": "Feature-13" }
+    {
+      "link_type_id": "d181d74e",
+      "verb": "",
+      "target_id": "3dfc6c3d",
+      "target_label": "Version-1",
+      "created_at": 1769989196449
+    },
+    {
+      "link_type_id": "15bb9670",
+      "verb": "",
+      "target_id": "62e54121",
+      "target_label": "Task-6",
+      "created_at": 1769989196449
+    },
+    {
+      "link_type_id": "87271a2c",
+      "verb": "",
+      "target_id": "4060f4c0",
+      "target_label": "Task-7",
+      "created_at": 1769989196449
+    },
+    {
+      "link_type_id": "0b2adbfe",
+      "verb": "",
+      "target_id": "a0171e23",
+      "target_label": "Task-8",
+      "created_at": 1769989196449
+    },
+    {
+      "link_type_id": "44b1ba8b",
+      "verb": "",
+      "target_id": "ac9a6220",
+      "target_label": "Feature-13",
+      "created_at": 1769989196449
+    }
   ],
   "properties": {
     "priority": "medium",
