@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues Tracker - v0.1.0</title>
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <issues-shell></issues-shell>
+
+    <!-- Core Services (load order matters) -->
+    <script src="js/event-bus.js"></script>
+    <script src="js/config-manager.js"></script>
+    <script src="js/markdown-parser.js"></script>
+    <script src="js/graph-service.js"></script>
+
+    <!-- Shell Component -->
+    <script src="components/shell/issues-shell.js"></script>
+
+    <!-- Main Components -->
+    <script src="components/node-list/node-list.js"></script>
+    <script src="components/node-detail/node-detail.js"></script>
+    <script src="components/kanban-board/kanban-board.js"></script>
+    <script src="components/create-node-modal/create-node-modal.js"></script>
+
+    <!-- Debug Components -->
+    <script src="components/events-viewer/events-viewer.js"></script>
+
+    <!-- App Initialization -->
+    <script>
+        // Wait for DOM and all components to be ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Give custom elements time to register
+            requestAnimationFrame(() => {
+                // Register main components with the router
+                window.issuesApp.router.register(NodeList);
+                window.issuesApp.router.register(NodeDetail);
+                window.issuesApp.router.register(KanbanBoard);
+
+                // Register sidebar components
+                window.issuesApp.router.register(EventsViewer);
+
+                // Add the create modal to the body (it's a global component)
+                const createModal = document.createElement('create-node-modal');
+                document.body.appendChild(createModal);
+
+                console.log('[Issues UI v0.1.0] Application initialized');
+            });
+        });
+    </script>
+</body>
+</html>
