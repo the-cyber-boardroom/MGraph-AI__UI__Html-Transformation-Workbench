@@ -6,24 +6,19 @@ from osbot_fast_api_serverless.fast_api.routes.Routes__Info                     
 from osbot_utils.type_safe.primitives.domains.files.safe_str.Safe_Str__File__Path               import Safe_Str__File__Path
 from memory_fs.storage_fs.providers.Storage_FS__Local_Disk                                      import Storage_FS__Local_Disk
 from memory_fs.storage_fs.providers.Storage_FS__Memory                                          import Storage_FS__Memory
-from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Issues                  import Routes__Issues
-from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Labels                  import Routes__Labels
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Links                   import Routes__Links
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Nodes                   import Routes__Nodes
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Server                  import Routes__Server
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Types                   import Routes__Types
-from mgraph_ai_ui_html_transformation_workbench.service.issues.Issue__Repository                import Issue__Repository
-from mgraph_ai_ui_html_transformation_workbench.service.issues.Issue__Service                   import Issue__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.Label__Service                   import Label__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Graph__Repository import Graph__Repository
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Link__Service     import Link__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service     import Node__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Type__Service     import Type__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Git__Status__Service import Git__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Index__Status__Service import Index__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Server__Status__Service import Server__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Storage__Status__Service import Storage__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Types__Status__Service import Types__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Git__Status__Service      import Git__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Index__Status__Service    import Index__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Server__Status__Service   import Server__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Storage__Status__Service  import Storage__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Types__Status__Service    import Types__Status__Service
 from osbot_fast_api.api.routes.Routes__Set_Cookie                                               import Routes__Set_Cookie
 from starlette.responses                                                                        import RedirectResponse
 from starlette.staticfiles                                                                      import StaticFiles
@@ -43,9 +38,6 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     memory_fs       : Memory_FS            = None                                 # todo: refactor into separate project
 
     graph_repository      : Graph__Repository    = None
-    issue_repository      : Issue__Repository    = None
-    issue_service         : Issue__Service       = None
-    label_service         : Label__Service       = None
     link_service          : Link__Service        = None
     node_service          : Node__Service        = None
     type_service          : Type__Service        = None
@@ -69,8 +61,6 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         return super().setup()
 
     def setup_routes(self):
-        self.add_routes(Routes__Issues, service = self.issue_service         )
-        self.add_routes(Routes__Labels, service = self.label_service         )
         self.add_routes(Routes__Links , service = self.link_service          )
         self.add_routes(Routes__Nodes , service = self.node_service          )
         self.add_routes(Routes__Types , service = self.type_service          )
@@ -92,14 +82,10 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         self.memory_fs = Memory_FS(storage_fs=storage_fs)                                   # 2. Create Memory-FS wrapper
 
         self.graph_repository = Graph__Repository(memory_fs  = self.memory_fs       )       # 3. Create repository
-        self.issue_repository = Issue__Repository(base_path  = self.issues_path     )       # todo: double check this path issue
-        self.issue_service    = Issue__Service   (repository = self.issue_repository)
-        self.issue_repository = Issue__Repository()
 
         self.type_service  = Type__Service (repository=self.graph_repository)               # 4. Create services
         self.node_service  = Node__Service (repository=self.graph_repository)
         self.link_service  = Link__Service (repository=self.graph_repository)
-        self.label_service = Label__Service(repository=self.issue_repository)
 
         self.storage_status__service = Storage__Status__Service(storage_fs= storage_fs)
         self.git_status__service     = Git__Status__Service    ()
