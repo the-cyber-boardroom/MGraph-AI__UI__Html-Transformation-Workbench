@@ -1,0 +1,275 @@
+/**
+ * v0.1.8 Dark Theme Fixes
+ *
+ * Purpose: Fix CSS dark theme issues in components
+ * These overrides ensure all components work well with the dark shell theme
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Site Browser Dark Theme Fixes                                                */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.site-browser {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+.site-browser .sb-toolbar {
+    background: #1e2746 !important;
+    border-bottom-color: #2a3f5f !important;
+}
+
+.site-browser .sb-input {
+    background: #252836 !important;
+    border-color: #3a4f6f !important;
+    color: #e0e0e0 !important;
+}
+
+.site-browser .sb-input:focus {
+    border-color: #667eea !important;
+}
+
+.site-browser .sb-input::placeholder {
+    color: #6a7a8a !important;
+}
+
+.site-browser .sb-btn-secondary {
+    background: #3a4f6f !important;
+    color: #e0e0e0 !important;
+}
+
+.site-browser .sb-btn-secondary:hover {
+    background: #4a5f7f !important;
+}
+
+.site-browser .sb-header {
+    background: #1e2746 !important;
+    border-bottom-color: #2a3f5f !important;
+}
+
+.site-browser .sb-domain-name {
+    color: #ffffff !important;
+}
+
+.site-browser .sb-page-count,
+.site-browser .sb-recent {
+    color: #8a9cc4 !important;
+}
+
+.site-browser .sb-recent a {
+    color: #667eea !important;
+}
+
+.site-browser .sb-table th {
+    background: #1e2746 !important;
+    color: #8a9cc4 !important;
+    border-bottom-color: #2a3f5f !important;
+}
+
+.site-browser .sb-table th:hover {
+    background: #252836 !important;
+}
+
+.site-browser .sb-table td {
+    border-bottom-color: #2a3f5f !important;
+}
+
+.site-browser .sb-table tr:hover {
+    background: #252836 !important;
+}
+
+.site-browser .sb-table tr.selected {
+    background: rgba(102, 126, 234, 0.15) !important;
+}
+
+.site-browser .sb-path {
+    color: #a0b0c0 !important;
+}
+
+.site-browser .sb-date,
+.site-browser .sb-size {
+    color: #8a9cc4 !important;
+}
+
+.site-browser .sb-batch-panel {
+    background: #1e2746 !important;
+    border-top-color: #2a3f5f !important;
+}
+
+.site-browser .sb-batch-header {
+    color: #e0e0e0 !important;
+}
+
+.site-browser .sb-empty {
+    color: #8a9cc4 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* HTML Workbench Dark Theme Fixes                                              */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.html-workbench {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-toolbar {
+    background: #1e2746 !important;
+    border-bottom-color: #2a3f5f !important;
+}
+
+.html-workbench .hw-input {
+    background: #252836 !important;
+    border-color: #3a4f6f !important;
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-input:focus {
+    border-color: #667eea !important;
+}
+
+.html-workbench .hw-input::placeholder {
+    color: #6a7a8a !important;
+}
+
+.html-workbench .hw-btn-secondary {
+    background: #3a4f6f !important;
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-btn-secondary:hover {
+    background: #4a5f7f !important;
+}
+
+.html-workbench .hw-recent {
+    color: #8a9cc4 !important;
+}
+
+.html-workbench .hw-recent a {
+    color: #667eea !important;
+}
+
+.html-workbench .hw-pane {
+    border-right-color: #2a3f5f !important;
+}
+
+.html-workbench .hw-pane-header {
+    background: #1e2746 !important;
+    border-bottom-color: #2a3f5f !important;
+}
+
+.html-workbench .hw-pane-title {
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-pane-tab {
+    color: #8a9cc4 !important;
+}
+
+.html-workbench .hw-pane-tab:hover {
+    background: #252836 !important;
+}
+
+.html-workbench .hw-pane-tab.active {
+    background: #667eea !important;
+    color: white !important;
+}
+
+.html-workbench .hw-pane-content {
+    background: #1a1a2e !important;
+    color: #a0b0c0 !important;
+}
+
+.html-workbench .hw-pane-stats {
+    background: #1e2746 !important;
+    border-top-color: #2a3f5f !important;
+    color: #8a9cc4 !important;
+}
+
+.html-workbench .hw-transforms {
+    background: #1e2746 !important;
+    border-top-color: #2a3f5f !important;
+}
+
+.html-workbench .hw-transforms-title {
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-transform-row {
+    border-bottom-color: #2a3f5f !important;
+}
+
+.html-workbench .hw-transform-label {
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-transform-param {
+    background: #252836 !important;
+    border-color: #3a4f6f !important;
+    color: #e0e0e0 !important;
+}
+
+.html-workbench .hw-footer {
+    background: #1e2746 !important;
+    border-top-color: #2a3f5f !important;
+}
+
+.html-workbench .hw-empty {
+    color: #8a9cc4 !important;
+}
+
+.html-workbench .hw-error {
+    background: rgba(239, 68, 68, 0.2) !important;
+    color: #ef4444 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Profile Manager Dark Theme Fixes                                             */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+profile-manager {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Page/Site Analysis Dark Theme Fixes                                          */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+page-analysis, site-analysis {
+    background: #1a1a2e !important;
+    color: #e0e0e0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* General Form Elements Dark Theme                                             */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.shell-container input[type="text"],
+.shell-container input[type="search"],
+.shell-container textarea,
+.shell-container select {
+    background: #252836 !important;
+    border-color: #3a4f6f !important;
+    color: #e0e0e0 !important;
+}
+
+.shell-container input::placeholder,
+.shell-container textarea::placeholder {
+    color: #6a7a8a !important;
+}
+
+.shell-container input:focus,
+.shell-container textarea:focus,
+.shell-container select:focus {
+    border-color: #667eea !important;
+    outline: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+/* Checkbox Styling for Dark Theme                                              */
+/* ═══════════════════════════════════════════════════════════════════════════ */
+
+.shell-container input[type="checkbox"] {
+    accent-color: #667eea !important;
+}

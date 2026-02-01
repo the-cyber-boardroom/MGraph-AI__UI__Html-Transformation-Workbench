@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Transformation Workbench v0.1.9</title>
+
+    <!-- Load base CSS from v0.1.0 -->
+    <link rel="stylesheet" href="../v0.1.0/css/shell.css">
+    <!-- v0.1.6 CSS (left nav layout) -->
+    <link rel="stylesheet" href="../v0.1.6/css/shell.css">
+    <!-- Dark theme fixes (from v0.1.8) -->
+    <link rel="stylesheet" href="css/dark-theme-fixes.css">
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.0 BASE - Services and Core Mini Apps
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Services load first (order matters!) -->
+    <script src="../v0.1.0/js/event-bus.js"></script>
+    <script src="../v0.1.0/js/config-manager.js"></script>
+    <script src="../v0.1.0/js/api-client.js"></script>
+
+    <!-- v0.1.2 config override (new URLs) -->
+    <script src="../v0.1.2/js/config-manager.js"></script>
+
+    <!-- v0.1.6 services (markdown parser) -->
+    <script src="../v0.1.6/js/markdown-parser.js"></script>
+
+    <!-- v0.1.9 API client override (endpoint fixes + request deduplication + loadHtmlById) -->
+    <script src="js/api-client-override.js"></script>
+
+    <!-- Shell from v0.1.0 (base class) -->
+    <script src="../v0.1.0/components/shell/nav-bar.js"></script>
+    <script src="../v0.1.0/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.6 shell override (left nav with sections) -->
+    <script src="../v0.1.6/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.7 shell override (updated nav sections) -->
+    <script src="../v0.1.7/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.8 shell override (removes issues section) -->
+    <script src="../v0.1.8/components/shell/workbench-shell.js"></script>
+
+    <!-- v0.1.9 shell override (updated version list) -->
+    <script src="components/shell/workbench-shell.js"></script>
+
+    <!-- Mini apps (Phase 1 - Hello World validation) -->
+    <script src="../v0.1.0/components/hello-world-1/hello-world-1.js"></script>
+    <script src="../v0.1.0/components/hello-world-2/hello-world-2.js"></script>
+
+    <!-- Mini apps (Phase 2 - Debug Tools & Settings) -->
+    <script src="../v0.1.0/components/settings-panel/settings-panel.js"></script>
+    <script src="../v0.1.0/components/events-viewer/events-viewer.js"></script>
+    <script src="../v0.1.0/components/api-logger/api-logger.js"></script>
+
+    <!-- Mini apps (Phase 3 - Core Functionality) -->
+    <script src="../v0.1.0/components/html-workbench/html-workbench.js"></script>
+    <script src="../v0.1.0/components/api-explorer/api-explorer.js"></script>
+    <script src="../v0.1.0/components/profile-manager/profile-manager.js"></script>
+    <script src="../v0.1.0/components/site-browser/site-browser.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.1 - Analysis & Shared Components
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.1/components/shared/html-editor/html-editor.js"></script>
+    <script src="../v0.1.1/components/shared/graph-visualizer/graph-visualizer.js"></script>
+    <script src="../v0.1.1/components/shared/transform-config/transform-config.js"></script>
+    <script src="../v0.1.1/components/page-analysis/page-analysis.js"></script>
+    <script src="../v0.1.1/components/site-analysis/site-analysis.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.2 - Docs Viewer
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.2/components/docs-viewer/docs-viewer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.4 - Bug Fixes
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.4/components/docs-viewer/docs-viewer.js"></script>
+    <script src="../v0.1.4/components/site-browser/site-browser.js"></script>
+    <script src="../v0.1.4/components/api-explorer/api-explorer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.5 - Automation Runner
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.5/components/automation-runner/automation-runner.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         v0.1.9 - API Fixes (HTML loading + API Explorer)
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Override API Explorer to show path and body -->
+    <script src="components/api-explorer/api-explorer.js"></script>
+
+    <!-- Override Site Browser to pass cache_id -->
+    <script src="components/site-browser/site-browser.js"></script>
+
+    <!-- Override HTML Workbench to use cache_id -->
+    <script src="components/html-workbench/html-workbench.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NOTE: Issues section available in separate issues_ui at
+         /issues_ui/v0/v0.1/v0.1.2/index.html
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Initialize the shell -->
+    <workbench-shell></workbench-shell>
+
+    <!-- Register mini apps -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main section
+            window.workbench.router.register(HtmlWorkbench);
+            window.workbench.router.register(SiteBrowser);
+            window.workbench.router.register(ProfileManager);
+
+            // Analysis section
+            window.workbench.router.register(PageAnalysis);
+            window.workbench.router.register(SiteAnalysis);
+
+            // Dev section
+            window.workbench.router.register(ApiExplorer);
+            window.workbench.router.register(DocsViewer);
+            window.workbench.router.register(SettingsPanel);
+
+            // Debug section
+            window.workbench.router.register(HelloWorld1);
+            window.workbench.router.register(HelloWorld2);
+
+            // Sidebar apps (right panel)
+            window.workbench.router.register(EventsViewer);
+            window.workbench.router.register(ApiLogger);
+            window.workbench.router.register(AutomationRunner);
+
+            console.log('[v0.1.9] Workbench initialized - API fixes applied');
+            console.log('[v0.1.9] - API Explorer: shows request path and body');
+            console.log('[v0.1.9] - Site Browser: passes cache_id to workbench');
+            console.log('[v0.1.9] - HTML Workbench: uses loadHtmlById for cache_id');
+            console.log('[v0.1.9] - Issues UI available at /issues_ui/v0/v0.1/v0.1.2/');
+        });
+    </script>
+</body>
+</html>
