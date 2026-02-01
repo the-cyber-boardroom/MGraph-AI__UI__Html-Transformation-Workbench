@@ -1,47 +1,44 @@
 {
-  "blocks": {
-    "verb": "blocks",
-    "inverse": "blocked-by",
-    "description": "Source prevents progress on target"
-  },
-  "blocked-by": {
-    "verb": "blocked-by",
-    "inverse": "blocks",
-    "description": "Source is blocked by target"
-  },
-  "has-task": {
-    "verb": "has-task",
-    "inverse": "task-of",
-    "description": "Feature contains sub-task"
-  },
-  "task-of": {
-    "verb": "task-of",
-    "inverse": "has-task",
-    "description": "Task belongs to feature"
-  },
-  "assigned-to": {
-    "verb": "assigned-to",
-    "inverse": "assignee-of",
-    "description": "Work assigned to person"
-  },
-  "assignee-of": {
-    "verb": "assignee-of",
-    "inverse": "assigned-to",
-    "description": "Person assigned to work"
-  },
-  "depends-on": {
-    "verb": "depends-on",
-    "inverse": "dependency-of",
-    "description": "Source requires target complete first"
-  },
-  "dependency-of": {
-    "verb": "dependency-of",
-    "inverse": "depends-on",
-    "description": "Target is dependency of source"
-  },
-  "relates-to": {
-    "verb": "relates-to",
-    "inverse": "relates-to",
-    "description": "General association (symmetric)"
-  }
+  "link_types": [
+    {
+      "link_type_id": "lt_blocks001",
+      "verb": "blocks",
+      "inverse_verb": "blocked-by",
+      "description": "Source prevents progress on target",
+      "source_types": ["bug", "task", "feature"],
+      "target_types": ["task", "feature", "bug"]
+    },
+    {
+      "link_type_id": "lt_hastask01",
+      "verb": "has-task",
+      "inverse_verb": "task-of",
+      "description": "Source contains target as sub-work",
+      "source_types": ["feature"],
+      "target_types": ["task"]
+    },
+    {
+      "link_type_id": "lt_assign001",
+      "verb": "assigned-to",
+      "inverse_verb": "assignee-of",
+      "description": "Work assigned to person/agent",
+      "source_types": ["bug", "task", "feature"],
+      "target_types": ["person"]
+    },
+    {
+      "link_type_id": "lt_depends01",
+      "verb": "depends-on",
+      "inverse_verb": "dependency-of",
+      "description": "Source requires target to complete first",
+      "source_types": ["bug", "task", "feature"],
+      "target_types": ["bug", "task", "feature"]
+    },
+    {
+      "link_type_id": "lt_relates01",
+      "verb": "relates-to",
+      "inverse_verb": "relates-to",
+      "description": "General association (symmetric)",
+      "source_types": ["bug", "task", "feature", "person"],
+      "target_types": ["bug", "task", "feature", "person"]
+    }
+  ]
 }

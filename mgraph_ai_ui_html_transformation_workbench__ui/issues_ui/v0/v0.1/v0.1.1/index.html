@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues Tracker - v0.1.1</title>
+    <!-- Load base CSS from v0.1.0 -->
+    <link rel="stylesheet" href="../v0.1.0/css/app.css">
+</head>
+<body>
+    <issues-shell></issues-shell>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- BASE v0.1.0 - Core Services and Components                               -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Core Services (load order matters) -->
+    <script src="../v0.1.0/js/event-bus.js"></script>
+    <script src="../v0.1.0/js/config-manager.js"></script>
+    <script src="../v0.1.0/js/markdown-parser.js"></script>
+    <script src="../v0.1.0/js/graph-service.js"></script>
+
+    <!-- Base Shell Component -->
+    <script src="../v0.1.0/components/shell/issues-shell.js"></script>
+
+    <!-- Main Components from v0.1.0 -->
+    <script src="../v0.1.0/components/node-list/node-list.js"></script>
+    <script src="../v0.1.0/components/node-detail/node-detail.js"></script>
+    <script src="../v0.1.0/components/kanban-board/kanban-board.js"></script>
+    <script src="../v0.1.0/components/create-node-modal/create-node-modal.js"></script>
+
+    <!-- Debug Components from v0.1.0 -->
+    <script src="../v0.1.0/components/events-viewer/events-viewer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- v0.1.1 SURGICAL OVERRIDES                                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- API Logger Component (NEW in v0.1.1) -->
+    <script src="components/api-logger/api-logger.js"></script>
+
+    <!-- Shell Override (adds API Logger tab) -->
+    <script src="components/shell/issues-shell-override.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- App Initialization                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <script>
+        // Wait for DOM and all components to be ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Give custom elements time to register
+            requestAnimationFrame(() => {
+                // Register main components with the router
+                window.issuesApp.router.register(NodeList);
+                window.issuesApp.router.register(NodeDetail);
+                window.issuesApp.router.register(KanbanBoard);
+
+                // Register sidebar components
+                window.issuesApp.router.register(EventsViewer);
+                window.issuesApp.router.register(ApiLogger);
+
+                // Add the create modal to the body (it's a global component)
+                const createModal = document.createElement('create-node-modal');
+                document.body.appendChild(createModal);
+
+                console.log('[Issues UI v0.1.1] Application initialized with API Logger');
+            });
+        });
+    </script>
+</body>
+</html>

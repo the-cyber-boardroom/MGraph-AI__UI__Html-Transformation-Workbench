@@ -1,38 +1,60 @@
 {
-  "bug": {
-    "name": "bug",
-    "display_name": "Bug",
-    "color": "#ef4444",
-    "icon": "bug",
-    "description": "A defect or issue that needs to be fixed",
-    "statuses": ["backlog", "confirmed", "in-progress", "testing", "resolved", "closed"],
-    "default_status": "backlog"
-  },
-  "task": {
-    "name": "task",
-    "display_name": "Task",
-    "color": "#3b82f6",
-    "icon": "task",
-    "description": "A unit of work to be completed",
-    "statuses": ["backlog", "todo", "in-progress", "review", "done"],
-    "default_status": "backlog"
-  },
-  "feature": {
-    "name": "feature",
-    "display_name": "Feature",
-    "color": "#22c55e",
-    "icon": "feature",
-    "description": "A new capability or enhancement",
-    "statuses": ["proposed", "approved", "in-progress", "released"],
-    "default_status": "proposed"
-  },
-  "person": {
-    "name": "person",
-    "display_name": "Person",
-    "color": "#8b5cf6",
-    "icon": "person",
-    "description": "A team member or stakeholder",
-    "statuses": ["active", "inactive"],
-    "default_status": "active"
-  }
+  "types": [
+    {
+      "type_id": "nt_bug_0001",
+      "name": "bug",
+      "display_name": "Bug",
+      "description": "A defect or issue that needs to be fixed",
+      "icon": "bug",
+      "color": "#ef4444",
+      "statuses": ["backlog", "confirmed", "in-progress", "testing", "resolved", "closed"],
+      "default_status": "backlog",
+      "properties": [
+        { "name": "severity", "type": "enum", "options": ["low", "medium", "high", "critical"] },
+        { "name": "component", "type": "string" },
+        { "name": "version_target", "type": "string" }
+      ]
+    },
+    {
+      "type_id": "nt_task_0001",
+      "name": "task",
+      "display_name": "Task",
+      "description": "A unit of work to be completed",
+      "icon": "check-square",
+      "color": "#3b82f6",
+      "statuses": ["backlog", "todo", "in-progress", "review", "done"],
+      "default_status": "backlog",
+      "properties": [
+        { "name": "estimate_hours", "type": "number" },
+        { "name": "actual_hours", "type": "number" }
+      ]
+    },
+    {
+      "type_id": "nt_feature001",
+      "name": "feature",
+      "display_name": "Feature",
+      "description": "A new capability or enhancement",
+      "icon": "star",
+      "color": "#22c55e",
+      "statuses": ["proposed", "approved", "in-progress", "released"],
+      "default_status": "proposed",
+      "properties": [
+        { "name": "target_release", "type": "string" }
+      ]
+    },
+    {
+      "type_id": "nt_person001",
+      "name": "person",
+      "display_name": "Person",
+      "description": "A team member or stakeholder",
+      "icon": "user",
+      "color": "#8b5cf6",
+      "statuses": ["active", "inactive"],
+      "default_status": "active",
+      "properties": [
+        { "name": "agent_type", "type": "string" },
+        { "name": "capabilities", "type": "array" }
+      ]
+    }
+  ]
 }
