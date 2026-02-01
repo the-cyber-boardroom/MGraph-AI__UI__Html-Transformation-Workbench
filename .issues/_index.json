@@ -1,13 +1,13 @@
 {
-  "total_nodes": 19,
-  "last_updated": 1769972233118,
+  "total_nodes": 16,
+  "last_updated": 1769974265278,
   "type_counts": [
     {
       "count": 4,
       "node_type": "bug"
     },
     {
-      "count": 2,
+      "count": 1,
       "node_type": "task"
     },
     {
@@ -17,14 +17,6 @@
     {
       "count": 0,
       "node_type": "person"
-    },
-    {
-      "count": 1,
-      "node_type": "version"
-    },
-    {
-      "count": 1,
-      "node_type": "user-story"
     }
   ]
 }
