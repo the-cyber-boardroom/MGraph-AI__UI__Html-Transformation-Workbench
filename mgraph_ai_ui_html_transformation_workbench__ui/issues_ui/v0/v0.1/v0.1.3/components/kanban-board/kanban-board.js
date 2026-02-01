@@ -76,19 +76,21 @@ KanbanBoard.prototype.getStyles = function() {
     const baseStyles = _v012GetStyles.call(this);
 
     const createBtnStyles = `
-        /* Task-2: Create button in column header */
+        /* Task-2: Create button in column header - always visible, after count */
         .kb-column-header {
-            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kb-column-count {
+            margin-left: auto;
         }
 
         .kb-add-btn {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
             background: transparent;
             border: 1px solid #4a5f7f;
-            color: #6a7a8a;
+            color: #8a9cc4;
             width: 24px;
             height: 24px;
             border-radius: 4px;
@@ -98,12 +100,8 @@ KanbanBoard.prototype.getStyles = function() {
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
             transition: all 0.2s ease;
-        }
-
-        .kb-column:hover .kb-add-btn {
-            opacity: 1;
+            flex-shrink: 0;
         }
 
         .kb-add-btn:hover {
@@ -113,7 +111,7 @@ KanbanBoard.prototype.getStyles = function() {
         }
 
         .kb-add-btn:active {
-            transform: translateY(-50%) scale(0.95);
+            transform: scale(0.95);
         }
     `;
 
