@@ -1,5 +1,6 @@
 {
   "node_id": "a384c6bf",
+  "node_type_id": "b384c6bd",
   "node_type": "bug",
   "node_index": 1,
   "label": "Bug-1",
@@ -9,7 +10,7 @@
   "created_at": "2026-01-31T14:00:00Z",
   "updated_at": "2026-01-31T14:00:00Z",
   "created_by": "claude-agent",
-  "tags": ["ui", "enhancement", "v0.1.8"],
+  "labels": ["ui", "enhancement", "v0.1.8"],
   "links": [],
   "properties": {
     "severity": "low",
