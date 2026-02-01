@@ -42,7 +42,10 @@
     <script src="../v0.1.0/components/kanban-board/kanban-board.js"></script>
     <script src="../v0.1.0/components/create-node-modal/create-node-modal.js"></script>
 
-    <!-- v0.1.2 Kanban Board Override (adds drag-and-drop) -->
+    <!-- v0.1.2 Node List Override (fixes scroll issue) -->
+    <script src="components/node-list/node-list.js"></script>
+
+    <!-- v0.1.2 Kanban Board Override (drag-and-drop with optimistic UI) -->
     <script src="components/kanban-board/kanban-board.js"></script>
 
     <!-- Debug Components from v0.1.0 -->
@@ -83,7 +86,7 @@
                 const createModal = document.createElement('create-node-modal');
                 document.body.appendChild(createModal);
 
-                console.log('[Issues UI v0.1.2] Application initialized with API Logger + Automation + Kanban DnD');
+                console.log('[Issues UI v0.1.2] Initialized: API Logger, Automation, Kanban DnD (optimistic), List Scroll');
             });
         });
     </script>
