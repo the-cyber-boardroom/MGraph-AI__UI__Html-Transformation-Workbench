@@ -29,6 +29,7 @@ class Schema__Node(Type_Safe):                                                  
     created_at    : Timestamp_Now                                                # ISO timestamp created
     updated_at    : Timestamp_Now                                                # ISO timestamp updated
     # todo: see what is the best class to use here (Persona_Id , Creator_Id)
+    #             : this should be an id created_by__id and the created_by should be name
     created_by    : Obj_Id                                                       # Person/agent node_id who created
 
     # todo: refactor these to use Type_Safe collections, and this should be Safe_Str__Issue__Tag

@@ -9,6 +9,7 @@ from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Issues  
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Labels                  import Routes__Labels
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Links                   import Routes__Links
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Nodes                   import Routes__Nodes
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Server import Routes__Server
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Types                   import Routes__Types
 from mgraph_ai_ui_html_transformation_workbench.service.issues.Issue__Repository                import Issue__Repository
 from mgraph_ai_ui_html_transformation_workbench.service.issues.Issue__Service                   import Issue__Service
@@ -17,6 +18,11 @@ from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Gr
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Link__Service     import Link__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service     import Node__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Type__Service     import Type__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Git__Status__Service import Git__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Index__Status__Service import Index__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Server__Status__Service import Server__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Storage__Status__Service import Storage__Status__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Types__Status__Service import Types__Status__Service
 from osbot_fast_api.api.routes.Routes__Set_Cookie                                               import Routes__Set_Cookie
 from starlette.responses                                                                        import RedirectResponse
 from starlette.staticfiles                                                                      import StaticFiles
@@ -35,13 +41,19 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     issues_path     : Safe_Str__File__Path = DEFAULT__ISSUES_PATH
     memory_fs       : Memory_FS            = None                                 # todo: refactor into separate project
 
-    graph_repository: Graph__Repository    = None
-    issue_repository: Issue__Repository    = None
-    issue_service   : Issue__Service       = None
-    label_service   : Label__Service       = None
-    link_service    : Link__Service        = None
-    node_service    : Node__Service        = None
-    type_service    : Type__Service        = None
+    graph_repository      : Graph__Repository    = None
+    issue_repository      : Issue__Repository    = None
+    issue_service         : Issue__Service       = None
+    label_service         : Label__Service       = None
+    link_service          : Link__Service        = None
+    node_service          : Node__Service        = None
+    type_service          : Type__Service        = None
+
+    storage_status__service : Storage__Status__Service = None
+    git_status__service     : Git__Status__Service     = None
+    types_status__service   : Types__Status__Service   = None
+    index_status__service   : Index__Status__Service   = None
+    server_status_service   : Server__Status__Service  = None
 
     def setup(self):
         with self.config as _:
@@ -61,6 +73,7 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         self.add_routes(Routes__Links , service = self.link_service )
         self.add_routes(Routes__Nodes , service = self.node_service )
         self.add_routes(Routes__Types , service = self.type_service )
+        self.add_routes(Routes__Server, service = self.server_status_service )
         self.add_routes(Routes__Set_Cookie)
 
     # ═══════════════════════════════════════════════════════════════════════════════
@@ -85,6 +98,15 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         self.node_service  = Node__Service (repository=self.graph_repository)
         self.link_service  = Link__Service (repository=self.graph_repository)
         self.label_service = Label__Service(repository=self.issue_repository)
+
+        self.storage_status__service = Storage__Status__Service(storage_fs= storage_fs)
+        self.git_status__service     = Git__Status__Service    ()
+        self.types_status__service   = Types__Status__Service(type_service = self.type_service)
+        self.index_status__service   = Index__Status__Service(type_service = self.type_service)
+        self.server_status_service   = Server__Status__Service(storage_service = self.storage_status__service,
+                                                               git_service     = self.git_status__service    ,
+                                                               types_service   = self.types_status__service  ,
+                                                               index_service   = self.index_status__service  )
 
         # todo: see how this works, since this should be loaded from the repo
         self.type_service.initialize_default_types()                                        # 5. Initialize default types

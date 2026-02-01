@@ -7,13 +7,15 @@ from typing                                                                     
 from osbot_utils.type_safe.Type_Safe                                                                    import Type_Safe
 from osbot_utils.type_safe.primitives.domains.common.safe_str.Safe_Str__Text                            import Safe_Str__Text
 from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                                        import Obj_Id
+from osbot_utils.type_safe.type_safe_core.decorators.type_safe import type_safe
+
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Status, Safe_Str__Node_Type_Display, Safe_Str__Link_Verb
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Type                        import Schema__Node__Type
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Type                        import Schema__Link__Type
 from mgraph_ai_ui_html_transformation_workbench.schemas.safe_str.Safe_Str__Hex_Color                    import Safe_Str__Hex_Color
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Graph__Repository         import Graph__Repository
 
-
+# todo: refactor .repository to .graph_repository
 class Type__Service(Type_Safe):                                                  # Type definition service
     repository : Graph__Repository                                               # Data access layer
 
@@ -33,32 +35,31 @@ class Type__Service(Type_Safe):                                                 
                 return t
         return None
 
-    def create_node_type(self                                 ,                  # Create new node type
-                         name           : Safe_Str__Node_Type ,
-                         display_name   : str                 ,
-                         description    : str                 = '',
-                         color          : str                 = '#888888',
-                         statuses       : List[str]           = None,
-                         default_status : str                 = 'backlog'
+    @type_safe
+    def create_node_type(self                                                       ,                  # Create new node type
+                         name           : Safe_Str__Node_Type                       ,
+                         display_name   : Safe_Str__Node_Type_Display               ,
+                         description    : Safe_Str__Text                 = ''       ,
+                         color          : Safe_Str__Hex_Color            = '#888888',       # todo: move to default static value
+                         statuses       : List[str]                      = None,
+                         default_status : Safe_Str__Status               = 'backlog'        # todo: move to default static value
                     ) -> Schema__Node__Type:
-        types = self.repository.node_types_load()
+        types = self.repository.node_types_load()                                           # todo: review this step since this is currently reloading it all from disk
 
         # Check for duplicate
-        for t in types:
-            if str(t.name) == str(name):
+        for t in types:                                                                     # todo: this should done via on an .exists(...) method
+            if t.name == name:
                 return None  # Already exists
 
-        status_list = [Safe_Str__Status(s) for s in (statuses or ['backlog', 'in-progress', 'done'])]
+        status_list = statuses or ['backlog', 'in-progress', 'done']
 
-        node_type = Schema__Node__Type(type_id        = Obj_Id()                              ,
-                                       name           = name                                  ,
-                                       display_name   = Safe_Str__Node_Type_Display(display_name),
-                                       description    = Safe_Str__Text(description)          ,
-                                       icon           = Safe_Str__Text('')                   ,
-                                       color          = Safe_Str__Hex_Color(color)           ,
-                                       statuses       = status_list                          ,
-                                       default_status = Safe_Str__Status(default_status)     ,
-                                       properties     = []                                   )
+        node_type = Schema__Node__Type(type_id        = Obj_Id()       ,
+                                       name           = name           ,
+                                       display_name   = display_name   ,
+                                       description    = description    ,
+                                       color          = color          ,
+                                       statuses       = status_list    ,
+                                       default_status = default_status )
 
         types.append(node_type)
         self.repository.node_types_save(types)
@@ -95,29 +96,27 @@ class Type__Service(Type_Safe):                                                 
                 return t
         return None
 
+    @type_safe
     def create_link_type(self                                 ,                  # Create new link type
                          verb          : Safe_Str__Link_Verb  ,
-                         inverse_verb  : str                  ,
-                         description   : str                  = '',
-                         source_types  : List[str]            = None,
-                         target_types  : List[str]            = None
+                         inverse_verb  : Safe_Str__Link_Verb                  ,
+                         description   : Safe_Str__Text             = '',
+                         source_types  : List[Safe_Str__Node_Type]  = None,
+                         target_types  : List[Safe_Str__Node_Type]  = None
                     ) -> Schema__Link__Type:
-        types = self.repository.link_types_load()
+        types = self.repository.link_types_load()                               # todo: review this for multiple file system load
 
         # Check for duplicate
-        for t in types:
+        for t in types:                                                         # todo: this should be done via an .exists()
             if str(t.verb) == str(verb):
                 return None  # Already exists
 
-        source_list = [Safe_Str__Node_Type(s) for s in (source_types or [])]
-        target_list = [Safe_Str__Node_Type(t) for t in (target_types or [])]
-
-        link_type = Schema__Link__Type(link_type_id = Obj_Id()                          ,
-                                       verb         = verb                              ,
-                                       inverse_verb = Safe_Str__Link_Verb(inverse_verb) ,
-                                       description  = Safe_Str__Text(description)       ,
-                                       source_types = source_list                       ,
-                                       target_types = target_list                       )
+        link_type = Schema__Link__Type(link_type_id = Obj_Id()      ,
+                                       verb         = verb          ,
+                                       inverse_verb = inverse_verb  ,
+                                       description  = description   ,
+                                       source_types = source_types  ,
+                                       target_types = target_types  )
 
         types.append(link_type)
         self.repository.link_types_save(types)

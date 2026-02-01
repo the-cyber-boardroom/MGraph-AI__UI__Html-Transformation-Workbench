@@ -6,6 +6,8 @@
 from typing                                                                                             import Optional
 from osbot_utils.type_safe.Type_Safe                                                                    import Type_Safe
 from osbot_utils.type_safe.primitives.domains.identifiers.safe_int.Timestamp_Now                        import Timestamp_Now
+from osbot_utils.type_safe.type_safe_core.decorators.type_safe import type_safe
+
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label, Safe_Str__Link_Verb
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Create__Request             import Schema__Link__Create__Request
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Create__Response            import Schema__Link__Create__Response
@@ -40,10 +42,11 @@ class Link__Service(Type_Safe):                                                 
     # Create Link Operations
     # ═══════════════════════════════════════════════════════════════════════════════
 
+    @type_safe
     def create_link(self                              ,                          # Create bidirectional link
                     source_type  : Safe_Str__Node_Type   ,
                     source_label : Safe_Str__Node_Label  ,
-                    request      : Schema__Link__Create__Request
+                    request      : Schema__Link__Create__Request                # todo: see if the source_type and source_label should not be defined inside the Schema__Link__Create__Request class
                ) -> Schema__Link__Create__Response:
         # Load source node
         source_node = self.repository.node_load(node_type = source_type  ,

@@ -161,6 +161,7 @@ class Graph__Repository(Type_Safe):                                             
             types.append(Schema__Node__Type.from_json(item))
         return types
 
+    #todo: types should be a Type_Safe collection class
     def node_types_save(self, types: List[Schema__Node__Type]) -> bool:          # Save all node types
         path = self.path_handler.path_for_node_types()
         data = {'types': [t.json() for t in types]}
