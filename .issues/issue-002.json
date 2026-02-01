@@ -1,5 +1,5 @@
 {
-  "id": "issue-002",
+  "issue_id": "issue-002",
   "title": "Create markdown parser service",
   "description": "Extract markdown parsing functionality into a shared service that can be used by multiple components (DocsViewer, Issue Detail, Version Viewer).\n\nThe service should:\n- Parse headers (h1-h6)\n- Parse bullet and numbered lists\n- Parse bold and italic text\n- Parse links\n- Parse code blocks and inline code\n- Emit events for parsed content",
   "status": "in-progress",

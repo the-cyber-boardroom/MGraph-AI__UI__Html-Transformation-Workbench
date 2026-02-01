@@ -1,5 +1,5 @@
 {
-  "id": "issue-010",
+  "issue_id": "issue-010",
   "title": "QA checklist feature for reviews",
   "description": "Add QA review functionality to the version viewer. When a version is in review status, display a checklist for human reviewers to verify:\n- All targeted issues marked complete\n- README accurately describes changes\n- No console errors\n- Per-issue verification checklist",
   "status": "backlog",

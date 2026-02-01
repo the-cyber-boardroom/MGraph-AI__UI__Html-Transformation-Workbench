@@ -3,15 +3,21 @@
 # Tests node CRUD endpoints using actual services with in-memory backend
 # ═══════════════════════════════════════════════════════════════════════════════
 
-from unittest                                                                                           import TestCase
+from unittest                                                                                            import TestCase
 
-from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Nodes import Routes__Nodes
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Type, Safe_Str__Node_Label, Safe_Str__Status
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request import Schema__Node__Create__Request
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Request import Schema__Node__Update__Request
+import pytest
+
+from osbot_fast_api.api.Fast_API import Fast_API
+from osbot_utils.testing.__ import __
+
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Nodes                            import Routes__Nodes
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                      import Safe_Str__Node_Type, Safe_Str__Node_Label, Safe_Str__Status
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request              import Schema__Node__Create__Request
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__List__Response import Schema__Node__List__Response
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Request              import Schema__Node__Update__Request
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Graph__Repository__Factory import Graph__Repository__Factory
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service import Node__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Type__Service import Type__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service              import Node__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Type__Service              import Type__Service
 
 
 class test_Routes__Nodes(TestCase):
@@ -21,7 +27,7 @@ class test_Routes__Nodes(TestCase):
         cls.repository    = Graph__Repository__Factory.create_memory()
         cls.type_service  = Type__Service(repository=cls.repository)
         cls.node_service  = Node__Service(repository=cls.repository)
-        cls.routes        = Routes__Nodes(service=cls.node_service)
+        cls.nodes__routes = Routes__Nodes(service=cls.node_service)
 
     def setUp(self):                                                             # Reset before each test
         self.repository.clear_storage()
@@ -32,7 +38,7 @@ class test_Routes__Nodes(TestCase):
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def test__init__(self):                                                      # Test routes initialization
-        with self.routes as _:
+        with self.nodes__routes as _:
             assert type(_)         is Routes__Nodes
             assert _.service       is not None
             assert _.tag           == 'nodes'
@@ -46,12 +52,12 @@ class test_Routes__Nodes(TestCase):
         self._create_bug('Bug 2')
         self._create_task('Task 1')
 
-        response = self.routes.nodes()
+        response = self.nodes__routes.nodes()
 
         assert response.success is True
 
     def test__nodes__empty(self):                                                # Test list when no nodes
-        response = self.routes.nodes()
+        response = self.nodes__routes.nodes()
 
         assert response.success is True
 
@@ -60,7 +66,7 @@ class test_Routes__Nodes(TestCase):
         self._create_bug('Bug 2')
         self._create_task('Task 1')
 
-        response = self.routes.nodes__by_type(node_type=Safe_Str__Node_Type('bug'))
+        response = self.nodes__routes.nodes__by_type(node_type=Safe_Str__Node_Type('bug'))
 
         assert response.success is True
 
@@ -73,7 +79,7 @@ class test_Routes__Nodes(TestCase):
                                                 title       = 'New bug via route'              ,
                                                 description = 'Created through API'            )
 
-        response = self.routes.node__create(request)
+        response = self.nodes__routes.node__create(request)
 
         assert response.success          is True
         assert response.node             is not None
@@ -85,7 +91,7 @@ class test_Routes__Nodes(TestCase):
                                                 title     = 'Tagged task'                      ,
                                                 tags      = ['important', 'frontend']          )
 
-        response = self.routes.node__create(request)
+        response = self.nodes__routes.node__create(request)
 
         assert response.success is True
         assert len(response.node.tags) == 2
@@ -97,7 +103,7 @@ class test_Routes__Nodes(TestCase):
         # Should raise HTTPException
         from fastapi import HTTPException
         with self.assertRaises(HTTPException) as context:
-            self.routes.node__create(request)
+            self.nodes__routes.node__create(request)
 
         assert context.exception.status_code == 400
 
@@ -108,7 +114,7 @@ class test_Routes__Nodes(TestCase):
     def test__node__get(self):                                                   # Test GET /api/nodes/{label}
         self._create_bug('Test bug')
 
-        node = self.routes.node__get(label=Safe_Str__Node_Label('Bug-1'))
+        node = self.nodes__routes.node__get(label=Safe_Str__Node_Label('Bug-1'))
 
         assert node             is not None
         assert str(node.label)  == 'Bug-1'
@@ -117,7 +123,7 @@ class test_Routes__Nodes(TestCase):
     def test__node__get__not_found(self):                                        # Test get non-existent
         from fastapi import HTTPException
         with self.assertRaises(HTTPException) as context:
-            self.routes.node__get(label=Safe_Str__Node_Label('Bug-999'))
+            self.nodes__routes.node__get(label=Safe_Str__Node_Label('Bug-999'))
 
         assert context.exception.status_code == 404
 
@@ -136,8 +142,8 @@ class test_Routes__Nodes(TestCase):
         request = Schema__Node__Update__Request(title  = 'Updated via route'                   ,
                                                 status = Safe_Str__Status('confirmed')         )
 
-        response = self.routes.node__update(label   = Safe_Str__Node_Label('Bug-1')            ,
-                                            request = request                                  )
+        response = self.nodes__routes.node__update(label   = Safe_Str__Node_Label('Bug-1'),
+                                                   request = request)
 
         assert response.success          is True
         assert str(response.node.title)  == 'Updated via route'
@@ -148,8 +154,8 @@ class test_Routes__Nodes(TestCase):
 
         request = Schema__Node__Update__Request(status = Safe_Str__Status('testing'))
 
-        response = self.routes.node__update(label   = Safe_Str__Node_Label('Bug-1')            ,
-                                            request = request                                  )
+        response = self.nodes__routes.node__update(label   = Safe_Str__Node_Label('Bug-1'),
+                                                   request = request)
 
         assert response.success          is True
         assert str(response.node.title)  == 'Original'                           # Unchanged
@@ -161,8 +167,8 @@ class test_Routes__Nodes(TestCase):
         request = Schema__Node__Update__Request(title = 'New title')
 
         with self.assertRaises(HTTPException) as context:
-            self.routes.node__update(label   = Safe_Str__Node_Label('Bug-999')                 ,
-                                     request = request                                         )
+            self.nodes__routes.node__update(label   = Safe_Str__Node_Label('Bug-999'),
+                                            request = request)
 
         assert context.exception.status_code == 404
 
@@ -173,7 +179,7 @@ class test_Routes__Nodes(TestCase):
     def test__node__delete(self):                                                # Test DELETE /api/nodes/{label}
         self._create_bug('To be deleted')
 
-        response = self.routes.node__delete(label=Safe_Str__Node_Label('Bug-1'))
+        response = self.nodes__routes.node__delete(label=Safe_Str__Node_Label('Bug-1'))
 
         assert response.success is True
         assert response.deleted is True
@@ -183,7 +189,7 @@ class test_Routes__Nodes(TestCase):
         from fastapi import HTTPException
 
         with self.assertRaises(HTTPException) as context:
-            self.routes.node__delete(label=Safe_Str__Node_Label('Bug-999'))
+            self.nodes__routes.node__delete(label=Safe_Str__Node_Label('Bug-999'))
 
         assert context.exception.status_code == 404
 
@@ -192,17 +198,17 @@ class test_Routes__Nodes(TestCase):
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def test__parse_label_type__bug(self):                                       # Test parsing bug label
-        result = self.routes.parse_label_type(Safe_Str__Node_Label('Bug-27'))
+        result = self.nodes__routes.parse_label_type(Safe_Str__Node_Label('Bug-27'))
 
         assert str(result) == 'bug'
 
     def test__parse_label_type__task(self):                                      # Test parsing task label
-        result = self.routes.parse_label_type(Safe_Str__Node_Label('Task-100'))
+        result = self.nodes__routes.parse_label_type(Safe_Str__Node_Label('Task-100'))
 
         assert str(result) == 'task'
 
     def test__parse_label_type__feature(self):                                   # Test parsing feature label
-        result = self.routes.parse_label_type(Safe_Str__Node_Label('Feature-5'))
+        result = self.nodes__routes.parse_label_type(Safe_Str__Node_Label('Feature-5'))
 
         assert str(result) == 'feature'
 
@@ -219,3 +225,17 @@ class test_Routes__Nodes(TestCase):
         request = Schema__Node__Create__Request(node_type = Safe_Str__Node_Type('task')        ,
                                                 title     = title                              )
         return self.node_service.create_node(request)
+
+    def test__bug__file_exists_error_in__nodes_api_nodes(self):
+        result = self.nodes__routes.nodes()
+        assert type(result) is Schema__Node__List__Response
+        assert result.obj() == __(success=True, total=0, message='', nodes=[])
+
+        with Routes__Nodes() as _:
+            assert self.nodes__routes.nodes().obj() == __(success=True, total=0, message='', nodes=[])
+
+        fast_api = Fast_API().add_routes(Routes__Nodes)
+        with fast_api.client() as _:
+            error_message = "'NoneType' object has no attribute 'file__exists'"
+            with pytest.raises(AttributeError, match=error_message):
+                _.get('nodes/api/nodes')

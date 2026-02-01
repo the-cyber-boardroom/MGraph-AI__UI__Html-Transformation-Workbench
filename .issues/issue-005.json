@@ -1,5 +1,5 @@
 {
-  "id": "issue-005",
+  "issue_id": "issue-005",
   "title": "Implement left nav with sections",
   "description": "Redesign the navigation to use a left-hand sidebar with collapsible sections instead of the top nav bar.\n\nSections:\n- Main: HTML Workbench, Site Browser, Profile Manager\n- Analysis: Page Analysis, Site Analysis\n- Admin: Kanban Board, Version Viewer\n- Dev: API Explorer, Docs Viewer, Settings\n\nThe right sidebar should remain for transient panels (Events, API Log, Automation).",
   "status": "in-progress",

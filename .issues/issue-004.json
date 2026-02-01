@@ -1,5 +1,5 @@
 {
-  "id": "issue-004",
+  "issue_id": "issue-004",
   "title": "Create issue service",
   "description": "Create a service for loading and managing issue JSON files from the filesystem.\n\nMethods needed:\n- getIssues() - Load issues.json index\n- getIssue(id) - Load individual issue file\n- getIssuesByStatus(status) - Filter issues by status\n- getIssuesByVersion(version) - Filter by target version\n- getLabels() - Load labels.json",
   "status": "in-progress",
