@@ -23,6 +23,9 @@
     <script src="../v0.1.0/js/markdown-parser.js"></script>
     <script src="../v0.1.0/js/graph-service.js"></script>
 
+    <!-- v0.1.2 Graph Service Override (adds updateNodeStatus) -->
+    <script src="js/graph-service-override.js"></script>
+
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
     <!-- v0.1.2 Shell - Complete replacement with API Logger + Automation        -->
     <!-- ═══════════════════════════════════════════════════════════════════════ -->
@@ -38,6 +41,9 @@
     <script src="../v0.1.0/components/node-detail/node-detail.js"></script>
     <script src="../v0.1.0/components/kanban-board/kanban-board.js"></script>
     <script src="../v0.1.0/components/create-node-modal/create-node-modal.js"></script>
+
+    <!-- v0.1.2 Kanban Board Override (adds drag-and-drop) -->
+    <script src="components/kanban-board/kanban-board.js"></script>
 
     <!-- Debug Components from v0.1.0 -->
     <script src="../v0.1.0/components/events-viewer/events-viewer.js"></script>
@@ -77,7 +83,7 @@
                 const createModal = document.createElement('create-node-modal');
                 document.body.appendChild(createModal);
 
-                console.log('[Issues UI v0.1.2] Application initialized with API Logger + Automation');
+                console.log('[Issues UI v0.1.2] Application initialized with API Logger + Automation + Kanban DnD');
             });
         });
     </script>
