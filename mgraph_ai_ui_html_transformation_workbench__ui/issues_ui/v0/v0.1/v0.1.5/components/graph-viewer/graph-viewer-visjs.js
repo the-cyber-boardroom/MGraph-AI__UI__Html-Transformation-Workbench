@@ -38,17 +38,17 @@
         person: 'circle'
     };
 
-    // Layout options
+    // Layout options - use barnesHut (safe default) instead of forceAtlas2Based
     const LAYOUT_OPTIONS = {
         physics: {
             physics: {
                 enabled: true,
-                solver: 'forceAtlas2Based',
-                forceAtlas2Based: {
-                    gravitationalConstant: -50,
-                    centralGravity: 0.01,
-                    springLength: 120,
-                    springConstant: 0.08
+                solver: 'barnesHut',
+                barnesHut: {
+                    gravitationalConstant: -2000,
+                    centralGravity: 0.3,
+                    springLength: 95,
+                    springConstant: 0.04
                 },
                 stabilization: {
                     iterations: 100
@@ -126,7 +126,7 @@
                     <button class="gv-layout-btn" data-layout="circular">Circular</button>
                     <button class="gv-layout-btn" data-layout="fit" style="margin-left: auto;">Fit View</button>
                 </div>
-                <div id="gv-visjs-container" style="flex: 1; min-height: ${containerHeight}px; background: #0d1117; position: relative;"></div>
+                <div id="gv-visjs-container" style="height: ${containerHeight}px; width: 100%; background: #0d1117; position: relative;"></div>
             </div>
             <style>
                 .gv-layout-btn {
@@ -161,22 +161,34 @@
         const data = toVisJsFormat(this._graphData, this._rootLabel);
         console.log('[Vis.js] Data:', data.nodes.length, 'nodes,', data.edges.length, 'edges');
 
-        // Simple default options - minimal configuration
+        // Debug: Check for ID mismatch (most common cause of invisible graphs)
+        const nodeIds = new Set(data.nodes.map(n => n.id));
+        console.log('[Vis.js] Node IDs:', Array.from(nodeIds).slice(0, 5));
+        console.log('[Vis.js] Edge endpoints:', data.edges.slice(0, 3).map(e => `${e.from} -> ${e.to}`));
+
+        // Check for mismatches
+        const badEdges = data.edges.filter(e => !nodeIds.has(e.from) || !nodeIds.has(e.to));
+        if (badEdges.length > 0) {
+            console.error('[Vis.js] MISMATCH! Edges reference non-existent nodes:', badEdges.slice(0, 3));
+        }
+
+        // Simple default options - start with physics DISABLED to verify rendering
         const options = {
             autoResize: true,
-            physics: {
-                enabled: true,
-                stabilization: {
-                    enabled: true,
-                    iterations: 100,
-                    fit: true
+            physics: false,  // Disabled initially to verify nodes render
+            nodes: {
+                borderWidth: 2,
+                color: {
+                    background: '#238636',
+                    border: '#2ea043'
+                },
+                font: {
+                    color: '#ffffff'
                 }
             },
-            nodes: {
-                borderWidth: 2
-            },
             edges: {
-                arrows: 'to'
+                arrows: 'to',
+                color: '#888888'
             }
         };
 
