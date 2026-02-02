@@ -5,11 +5,16 @@
   "label": "Task-21",
   "title": "Add Cytoscape.js graph visualization option",
   "description": "Add Cytoscape.js as an alternative graph visualization library.\n\n## Why Cytoscape.js?\n- Industry standard for biological/network analysis\n- Powerful graph algorithms built-in (shortest path, clustering, centrality)\n- Extensive extension ecosystem\n- Excellent for analysis use cases\n- Supports compound nodes (nested groups)\n\n## Implementation\n1. Add cytoscape CDN to index.html\n2. Create `graph-viewer-cytoscape.js` component\n3. Map API response to Cytoscape format:\n   ```javascript\n   const elements = [\n     { data: { id: 'Feature-12', label: 'Feature-12', type: 'feature' } },\n     { data: { id: 'Task-14', label: 'Task-14', type: 'task' } },\n     { data: { source: 'Feature-12', target: 'Task-14', label: 'has-task' } }\n   ];\n   ```\n4. Add layout options: cola, dagre, breadthfirst, circle\n5. Expose graph algorithms for analysis\n\n## Pros\n- Powerful analysis capabilities\n- Compound nodes for grouping\n- Many layout algorithms\n- Export to various formats\n\n## Cons\n- Steeper learning curve\n- More complex API",
-  "status": "review",
+  "status": "done",
   "created_at": 1769994000000,
-  "updated_at": 1769994000000,
+  "updated_at": 1770040040207,
   "created_by": "eeeeffff",
-  "tags": ["ui", "visualization", "cytoscape", "graph"],
+  "tags": [
+    "ui",
+    "visualization",
+    "cytoscape",
+    "graph"
+  ],
   "links": [
     {
       "link_type_id": "344d6fd2",
