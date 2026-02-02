@@ -572,15 +572,16 @@ class GraphViewer extends HTMLElement {
             .attr('class', 'gv-link')
             .attr('marker-end', 'url(#arrowhead)');
 
-        // Create link labels
+        // Create link labels (only for links with non-empty link_type)
+        const linksWithLabels = links.filter(l => l.link_type && l.link_type.trim());
         const linkLabel = this._g.append('g')
             .attr('class', 'gv-link-labels')
             .selectAll('text')
-            .data(links)
+            .data(linksWithLabels)
             .enter()
             .append('text')
             .attr('class', 'gv-link-label')
-            .text(d => d.link_type || '');
+            .text(d => d.link_type);
 
         // Create nodes
         const node = this._g.append('g')
