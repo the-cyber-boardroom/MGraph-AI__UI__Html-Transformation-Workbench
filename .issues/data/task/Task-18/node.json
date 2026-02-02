@@ -5,7 +5,7 @@
   "label": "Task-18",
   "title": "as a user I want to easily create a new issue after the creation of another one",
   "description": "at the  moment we go into the 'node detail' view which doesn't have a button to create new issues",
-  "status": "todo",
+  "status": "review",
   "created_at": 1769992806312,
   "updated_at": 1769992806312,
   "created_by": "e9b14fce",

@@ -5,7 +5,7 @@
   "label": "Task-19",
   "title": "Add Mermaid.js graph visualization option",
   "description": "Add Mermaid.js as an alternative graph visualization library alongside D3.js.\n\n## Why Mermaid.js?\n- Declarative syntax (text-based graph definition)\n- Built-in support for flowcharts, sequence diagrams\n- Easy to export/share graph definitions\n- Good for documentation and static views\n- Widely used in markdown (GitHub, GitLab, etc.)\n\n## Implementation\n1. Add mermaid.js CDN to index.html\n2. Create `graph-viewer-mermaid.js` component\n3. Convert API response to Mermaid syntax:\n   ```mermaid\n   graph TD\n     Feature-12 --> Task-14\n     Feature-12 --> Task-15\n     Task-15 --> Task-14\n   ```\n4. Add visualization mode toggle in graph-viewer toolbar\n5. Support export of Mermaid code for documentation\n\n## Pros\n- Clean, readable output\n- Easy to embed in docs\n- Auto-layout (no manual positioning)\n\n## Cons\n- Less interactive than D3.js\n- Limited customization of node positions",
-  "status": "todo",
+  "status": "review",
   "created_at": 1769994000000,
   "updated_at": 1769994000000,
   "created_by": "eeeeffff",

@@ -1,0 +1,255 @@
+/**
+ * Graph Viewer - Vis.js Renderer - v0.1.5
+ *
+ * Purpose: Render graph using Vis.js Network library
+ * Version: v0.1.5
+ *
+ * Task-20: Add Vis.js graph visualization option
+ *
+ * Features:
+ * - Excellent performance with large graphs
+ * - Multiple layout options (physics, hierarchical, circular)
+ * - Built-in clustering support
+ * - Rich interaction model
+ */
+
+(function() {
+    'use strict';
+
+    // Make sure GraphViewer exists
+    if (typeof GraphViewer === 'undefined') {
+        console.error('[v0.1.5] GraphViewer class not found for Vis.js renderer!');
+        return;
+    }
+
+    // Check if vis is available
+    if (typeof vis === 'undefined') {
+        console.warn('[v0.1.5] Vis.js library not loaded');
+        return;
+    }
+
+    // Node shape mapping for Vis.js
+    const VISJS_SHAPES = {
+        feature: 'hexagon',
+        task: 'box',
+        bug: 'diamond',
+        version: 'ellipse',
+        'user-story': 'database',
+        person: 'circle'
+    };
+
+    // Layout options
+    const LAYOUT_OPTIONS = {
+        physics: {
+            physics: {
+                enabled: true,
+                solver: 'forceAtlas2Based',
+                forceAtlas2Based: {
+                    gravitationalConstant: -50,
+                    centralGravity: 0.01,
+                    springLength: 120,
+                    springConstant: 0.08
+                },
+                stabilization: {
+                    iterations: 100
+                }
+            }
+        },
+        hierarchical: {
+            layout: {
+                hierarchical: {
+                    enabled: true,
+                    direction: 'UD',
+                    sortMethod: 'directed',
+                    nodeSpacing: 100,
+                    levelSeparation: 100
+                }
+            },
+            physics: false
+        },
+        circular: {
+            physics: {
+                enabled: true,
+                solver: 'repulsion',
+                repulsion: {
+                    nodeDistance: 150
+                },
+                stabilization: {
+                    iterations: 50
+                }
+            }
+        }
+    };
+
+    // Convert API response to Vis.js format
+    function toVisJsFormat(graphData, rootLabel) {
+        const nodes = new vis.DataSet(
+            graphData.nodes.map(node => ({
+                id: node.label,
+                label: node.label,
+                title: `<b>${node.label}</b><br>${node.title || ''}<br>Status: ${node.status || 'unknown'}`,
+                color: {
+                    background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
+                    border: node.label === rootLabel ? '#a371f7' : '#30363d',
+                    highlight: {
+                        background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
+                        border: '#58a6ff'
+                    }
+                },
+                shape: VISJS_SHAPES[node.node_type] || 'dot',
+                size: node.label === rootLabel ? 30 : 20,
+                borderWidth: node.label === rootLabel ? 4 : 2,
+                font: {
+                    color: '#c9d1d9',
+                    size: 12
+                },
+                // Store original data
+                _data: node
+            }))
+        );
+
+        const edges = new vis.DataSet(
+            graphData.links.map((link, i) => ({
+                id: `edge-${i}`,
+                from: link.source,
+                to: link.target,
+                label: link.link_type || '',
+                arrows: 'to',
+                color: {
+                    color: '#30363d',
+                    highlight: '#58a6ff'
+                },
+                font: {
+                    color: '#6e7681',
+                    size: 10,
+                    strokeWidth: 0
+                },
+                smooth: {
+                    type: 'continuous'
+                }
+            }))
+        );
+
+        return { nodes, edges };
+    }
+
+    // Vis.js renderer
+    GraphViewer.prototype.renderVisJsGraph = function() {
+        const area = this.querySelector('#gv-graph-area');
+        if (!area) return;
+
+        // Create container with layout controls
+        area.innerHTML = `
+            <div style="display: flex; flex-direction: column; height: 100%;">
+                <div class="gv-visjs-toolbar" style="padding: 8px 12px; background: #161b22; border-bottom: 1px solid #30363d; display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 11px; color: #8b949e;">Layout:</span>
+                    <button class="gv-layout-btn active" data-layout="physics">Physics</button>
+                    <button class="gv-layout-btn" data-layout="hierarchical">Hierarchy</button>
+                    <button class="gv-layout-btn" data-layout="circular">Circular</button>
+                    <button class="gv-layout-btn" data-layout="fit" style="margin-left: auto;">Fit View</button>
+                </div>
+                <div id="gv-visjs-container" style="flex: 1; background: #0d1117;"></div>
+            </div>
+            <style>
+                .gv-layout-btn {
+                    padding: 4px 10px;
+                    border: 1px solid #30363d;
+                    background: transparent;
+                    color: #c9d1d9;
+                    font-size: 11px;
+                    cursor: pointer;
+                    border-radius: 4px;
+                }
+                .gv-layout-btn:hover {
+                    background: #21262d;
+                }
+                .gv-layout-btn.active {
+                    background: #238636;
+                    border-color: #238636;
+                }
+            </style>
+        `;
+
+        const container = this.querySelector('#gv-visjs-container');
+        if (!container) return;
+
+        // Convert data
+        const data = toVisJsFormat(this._graphData, this._rootLabel);
+
+        // Default options
+        const options = {
+            ...LAYOUT_OPTIONS.physics,
+            nodes: {
+                borderWidth: 2,
+                shadow: true
+            },
+            edges: {
+                smooth: {
+                    type: 'continuous'
+                }
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 100,
+                zoomView: true,
+                dragView: true
+            }
+        };
+
+        // Create network
+        this._visNetwork = new vis.Network(container, data, options);
+        this._visData = data;
+
+        // Handle node selection
+        this._visNetwork.on('selectNode', (params) => {
+            if (params.nodes.length > 0) {
+                const nodeId = params.nodes[0];
+                const node = data.nodes.get(nodeId);
+                if (node && node._data) {
+                    this.events.emit('graph-node-selected', { node: node._data });
+                }
+            }
+        });
+
+        // Handle double-click for navigation
+        this._visNetwork.on('doubleClick', (params) => {
+            if (params.nodes.length > 0) {
+                const nodeId = params.nodes[0];
+                this.events.emit('navigate-to-node', { label: nodeId });
+                window.issuesApp.router?.navigate('node-detail');
+            }
+        });
+
+        // Attach layout button handlers
+        this.querySelectorAll('.gv-layout-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const layout = btn.dataset.layout;
+
+                if (layout === 'fit') {
+                    this._visNetwork.fit({ animation: true });
+                    return;
+                }
+
+                // Update active state
+                this.querySelectorAll('.gv-layout-btn').forEach(b => {
+                    if (b.dataset.layout !== 'fit') {
+                        b.classList.toggle('active', b.dataset.layout === layout);
+                    }
+                });
+
+                // Apply layout
+                if (LAYOUT_OPTIONS[layout]) {
+                    this._visNetwork.setOptions(LAYOUT_OPTIONS[layout]);
+                }
+            });
+        });
+
+        // Fit view after stabilization
+        this._visNetwork.once('stabilizationIterationsDone', () => {
+            this._visNetwork.fit({ animation: true });
+        });
+    };
+
+    console.log('[Issues UI v0.1.5] Vis.js graph renderer loaded');
+
+})();
