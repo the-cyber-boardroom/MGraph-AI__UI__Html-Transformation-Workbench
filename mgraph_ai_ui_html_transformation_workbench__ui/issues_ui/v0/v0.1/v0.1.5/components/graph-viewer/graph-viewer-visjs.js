@@ -86,23 +86,11 @@
         const nodes = graphData.nodes.map(node => ({
             id: node.label,
             label: node.label,
-            title: `<b>${node.label}</b><br>${node.title || ''}<br>Status: ${node.status || 'unknown'}`,
-            color: {
-                background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
-                border: node.label === rootLabel ? '#a371f7' : '#30363d',
-                highlight: {
-                    background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
-                    border: '#58a6ff'
-                }
-            },
-            shape: VISJS_SHAPES[node.node_type] || 'dot',
-            size: node.label === rootLabel ? 30 : 20,
-            borderWidth: node.label === rootLabel ? 4 : 2,
-            font: {
-                color: '#c9d1d9',
-                size: 12
-            },
-            // Store original data
+            title: node.title || node.label,
+            color: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
+            shape: 'dot',
+            size: node.label === rootLabel ? 25 : 15,
+            font: { color: '#ffffff' },
             _data: node
         }));
 
@@ -112,18 +100,8 @@
             to: link.target,
             label: link.link_type || '',
             arrows: 'to',
-            color: {
-                color: '#30363d',
-                highlight: '#58a6ff'
-            },
-            font: {
-                color: '#6e7681',
-                size: 10,
-                strokeWidth: 0
-            },
-            smooth: {
-                type: 'continuous'
-            }
+            color: '#888888',
+            font: { color: '#aaaaaa', size: 10 }
         }));
 
         return { nodes, edges };
@@ -183,23 +161,22 @@
         const data = toVisJsFormat(this._graphData, this._rootLabel);
         console.log('[Vis.js] Data:', data.nodes.length, 'nodes,', data.edges.length, 'edges');
 
-        // Default options
+        // Simple default options - minimal configuration
         const options = {
-            ...LAYOUT_OPTIONS.physics,
-            nodes: {
-                borderWidth: 2,
-                shadow: true
-            },
-            edges: {
-                smooth: {
-                    type: 'continuous'
+            autoResize: true,
+            physics: {
+                enabled: true,
+                stabilization: {
+                    enabled: true,
+                    iterations: 100,
+                    fit: true
                 }
             },
-            interaction: {
-                hover: true,
-                tooltipDelay: 100,
-                zoomView: true,
-                dragView: true
+            nodes: {
+                borderWidth: 2
+            },
+            edges: {
+                arrows: 'to'
             }
         };
 
