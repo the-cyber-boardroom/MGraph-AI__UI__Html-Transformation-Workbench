@@ -5,9 +5,9 @@
   "label": "Bug-10",
   "title": "Cannot create user-story nodes - label validation fails",
   "description": "When trying to create a new user-story node, the backend returns a validation error:\n\n```\nValueError: in Safe_Str__Node_Label, value does not match required pattern: ^[A-Z][a-zA-Z]*-\\d{1,5}$\n```\n\n## Root Cause\nThe label validation pattern `^[A-Z][a-zA-Z]*-\\d{1,5}$` requires:\n- Start with capital letter\n- Followed by lowercase letters only\n- Then a hyphen and 1-5 digits\n\nThis pattern does NOT support hyphenated node type names like `user-story` which would produce labels like `User-story-1`.\n\n## Reproduction Steps\n1. Open Issues UI v0.1.4\n2. Click '+ New'\n3. Select 'User-story' type\n4. Enter a title\n5. Click 'Create User-story'\n6. Error appears: validation pattern mismatch\n\n## Note\nCreating tasks, bugs, features, versions all work fine - only user-story fails because of the hyphen in the type name.\n\n## Suggested Fix\nUpdate the backend validation pattern to support hyphenated type names:\n```python\n# Old pattern\n^[A-Z][a-zA-Z]*-\\d{1,5}$\n\n# New pattern (supports hyphens in type)\n^[A-Z][a-zA-Z]*(-[a-zA-Z]+)*-\\d{1,5}$\n```\n\nOr alternatively, use underscore for user_story internally.",
-  "status": "backlog",
+  "status": "todo",
   "created_at": 1769994000000,
-  "updated_at": 1770039934807,
+  "updated_at": 1770047019139,
   "created_by": "eeeeffff",
   "tags": [
     "backend",

@@ -5,11 +5,17 @@
   "label": "Bug-13",
   "title": "Kanban board filter loses focus on every keystroke",
   "description": "In the Kanban board, when filtering we can only type one letter at a time because the filter input loses focus on every keystroke.\n\n## Symptoms\n1. Click on the filter/search input in Kanban board\n2. Type a letter\n3. Input immediately loses focus\n4. Must click again to type the next letter\n5. Very frustrating UX - practically unusable\n\n## Root Cause Analysis\nThe filter input likely triggers a re-render of the component on every keystroke, which causes:\n1. The input element to be recreated\n2. Focus to be lost\n3. User cannot type continuously\n\n## Suggested Fix\n1. **Don't re-render on filter change** - Only update the filtered results, not the input itself\n2. **Add debounce** - Wait 200-300ms after last keystroke before processing filter\n3. **Preserve focus** - After any re-render, restore focus to the filter input\n4. **Use controlled input** - Manage input value in state without re-rendering the input element\n\n## Implementation Notes\n```javascript\n// Option 1: Debounce the filter\nlet filterTimeout;\ninput.addEventListener('input', (e) => {\n    clearTimeout(filterTimeout);\n    filterTimeout = setTimeout(() => {\n        this.filterCards(e.target.value);\n    }, 250);\n});\n\n// Option 2: Only update card visibility, not the whole render\nfilterCards(term) {\n    this.querySelectorAll('.kb-card').forEach(card => {\n        card.style.display = card.textContent.includes(term) ? '' : 'none';\n    });\n}\n```\n\n## Priority\nHigh - severely impacts usability of Kanban board",
-  "status": "backlog",
+  "status": "todo",
   "created_at": 1738483200000,
-  "updated_at": 1738483200000,
+  "updated_at": 1770047016910,
   "created_by": "b70c3dcf",
-  "tags": ["ui", "kanban", "ux", "filter", "focus"],
+  "tags": [
+    "ui",
+    "kanban",
+    "ux",
+    "filter",
+    "focus"
+  ],
   "links": [],
   "properties": {
     "severity": "high",
