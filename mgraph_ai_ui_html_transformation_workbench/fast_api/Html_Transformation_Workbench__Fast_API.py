@@ -3,6 +3,8 @@ from fastapi                                                                    
 from osbot_utils.utils.Env                                                                      import get_env
 from osbot_utils.utils.Files                                                                    import path_combine, file_contents
 from memory_fs.Memory_FS                                                                        import Memory_FS
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Comments import Routes__Comments
+from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Comments__Service import Comments__Service
 from osbot_fast_api_serverless.fast_api.routes.Routes__Info                                     import Routes__Info
 from osbot_utils.type_safe.primitives.domains.files.safe_str.Safe_Str__File__Path               import Safe_Str__File__Path
 from memory_fs.storage_fs.providers.Storage_FS__Local_Disk                                      import Storage_FS__Local_Disk
@@ -44,6 +46,7 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     link_service          : Link__Service        = None
     node_service          : Node__Service        = None
     type_service          : Type__Service        = None
+    comments_service      : Comments__Service    = None
 
     storage_status__service : Storage__Status__Service = None
     git_status__service     : Git__Status__Service     = None
@@ -62,10 +65,12 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         return super().setup()
 
     def setup_routes(self):
-        self.add_routes(Routes__Links , service = self.link_service          )
-        self.add_routes(Routes__Nodes , service = self.node_service          )
-        self.add_routes(Routes__Types , service = self.type_service          )
-        self.add_routes(Routes__Server, service = self.server_status_service )
+        self.add_routes(Routes__Links   , service = self.link_service          )
+        self.add_routes(Routes__Nodes   , service = self.node_service          )
+        self.add_routes(Routes__Types   , service = self.type_service          )
+        self.add_routes(Routes__Server  , service = self.server_status_service )
+        self.add_routes(Routes__Comments, service = self.comments_service      )
+
         self.add_routes(Routes__Info)
         self.add_routes(Routes__Set_Cookie)
 
@@ -87,9 +92,11 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
 
         self.graph_repository = Graph__Repository(memory_fs  = self.memory_fs       )       # 5. Create repository
 
-        self.type_service  = Type__Service (repository=self.graph_repository)               # 6. Create services
-        self.node_service  = Node__Service (repository=self.graph_repository)
-        self.link_service  = Link__Service (repository=self.graph_repository)
+        self.type_service     = Type__Service    (repository=self.graph_repository)               # 6. Create services
+        self.node_service     = Node__Service    (repository=self.graph_repository)
+        self.link_service     = Link__Service    (repository=self.graph_repository)
+        self.comments_service = Comments__Service(repository = self.graph_repository)
+
 
         self.storage_status__service = Storage__Status__Service(storage_fs= storage_fs)
         self.git_status__service     = Git__Status__Service    ()
