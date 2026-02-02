@@ -1,0 +1,15 @@
+{
+  "node_id": "edbbbd40",
+  "node_type": "task",
+  "node_index": 24,
+  "label": "Task-24",
+  "title": "on kanban view add preview panel to show content of issue (on click)",
+  "description": "at the moment clicking on a card opens the 'Node Detail' which is quite disruptive\n\nwe need a new component that can be shown in a new (resiazable) panel (can we have the option to see it on the right, or bottom/below) that shows a nice view of the issue details\n\nI think that this could be shown on click and then if the user double clicks on the card then we open the full 'node details' view",
+  "status": "backlog",
+  "created_at": 1769994254032,
+  "updated_at": 1769994254032,
+  "created_by": "a3a23317",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

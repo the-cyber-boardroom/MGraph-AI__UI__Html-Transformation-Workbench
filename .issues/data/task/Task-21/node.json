@@ -1,5 +1,5 @@
 {
-  "node_id": "t21a05d5",
+  "node_id": "f21a05d5",
   "node_type": "task",
   "node_index": 21,
   "label": "Task-21",
@@ -8,7 +8,7 @@
   "status": "backlog",
   "created_at": 1769994000000,
   "updated_at": 1769994000000,
-  "created_by": "ui-claude",
+  "created_by": "eeeeffff",
   "tags": ["ui", "visualization", "cytoscape", "graph"],
   "links": [
     {

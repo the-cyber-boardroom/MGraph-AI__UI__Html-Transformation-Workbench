@@ -1,5 +1,5 @@
 {
-  "node_id": "t19a03b3",
+  "node_id": "a19a03b3",
   "node_type": "task",
   "node_index": 19,
   "label": "Task-19",
@@ -8,7 +8,7 @@
   "status": "backlog",
   "created_at": 1769994000000,
   "updated_at": 1769994000000,
-  "created_by": "ui-claude",
+  "created_by": "eeeeffff",
   "tags": ["ui", "visualization", "mermaid", "graph"],
   "links": [
     {

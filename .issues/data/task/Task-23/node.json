@@ -1,5 +1,5 @@
 {
-  "node_id": "t23a07f7",
+  "node_id": "f23a07f7",
   "node_type": "task",
   "node_index": 23,
   "label": "Task-23",
@@ -8,17 +8,9 @@
   "status": "backlog",
   "created_at": 1769994000000,
   "updated_at": 1769994000000,
-  "created_by": "ui-claude",
+  "created_by": "eeeeffff",
   "tags": ["ui", "ux", "messages-panel", "confirmation"],
-  "links": [
-    {
-      "link_type_id": "344d6fd2",
-      "verb": "relates-to",
-      "target_id": "t13xxx",
-      "target_label": "Task-13",
-      "created_at": 1769994000000
-    }
-  ],
+  "links": [],
   "properties": {
     "estimate": "M",
     "component": "messages-panel",
