@@ -38,7 +38,7 @@ class test_Graph__Repository__Phase_1(TestCase):
                          title     : str = 'Test Bug'
                     ) -> Schema__Node:
         now = Timestamp_Now()
-        return Schema__Node(node_id     = Node_Id()                     ,
+        return Schema__Node(node_id     = Node_Id(Obj_Id())                     ,
                             node_type   = Safe_Str__Node_Type(node_type),
                             node_index  = Safe_UInt(1)                  ,
                             label       = Safe_Str__Node_Label(label)   ,

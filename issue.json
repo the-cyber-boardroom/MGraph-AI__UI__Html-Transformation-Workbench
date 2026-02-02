@@ -1,0 +1,15 @@
+{
+  "node_id": "",
+  "node_type": "git-repo",
+  "node_index": 1,
+  "label": "Gitrepo-1",
+  "title": "Project Issues",
+  "description": "Root issue for all project issues",
+  "status": "active",
+  "created_at": 1770064227196,
+  "updated_at": 1770064227196,
+  "created_by": "84519471",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}
