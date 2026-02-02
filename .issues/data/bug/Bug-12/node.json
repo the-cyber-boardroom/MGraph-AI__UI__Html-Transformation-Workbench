@@ -1,0 +1,27 @@
+{
+  "node_id": "b12e5d7f",
+  "node_type": "bug",
+  "node_index": 12,
+  "label": "Bug-12",
+  "title": "Vis.js graph visualization renders empty canvas",
+  "description": "In v0.1.5, the Vis.js visualization mode shows an empty canvas despite the network being created successfully.\n\n## Symptoms\n1. Switching to Vis.js mode shows blank canvas\n2. Console shows 'Network created successfully'\n3. Canvas element exists with proper dimensions (e.g., 2458x4728)\n4. No JavaScript errors\n\n## Debug Output\n```\n[Vis.js] Container: 1229 x 400\n[Vis.js] Data: 14 nodes, 13 edges\n[Vis.js] Network created successfully\n[Vis.js] Stabilization done, fitting view\n[Vis.js] Canvas element: 2458x4728\n```\n\n## Potential Causes (from analysis)\n1. **ID mismatch**: `edge.from`/`edge.to` may not exactly match `node.id`\n2. **Physics solver**: `forceAtlas2Based` may not be supported in loaded vis-network version\n3. **Container sizing**: Flex layout may not be properly conveying height to vis-network\n4. **Node positions**: Nodes may be positioned at infinity/NaN\n\n## Attempted Fixes\n- Changed solver from `forceAtlas2Based` to `barnesHut`\n- Used explicit pixel height instead of flex\n- Disabled physics to verify basic rendering\n- Added green node colors to ensure visibility\n- Added ID mismatch detection logging\n\n## Related\n- Task-20: Add Vis.js graph visualization option\n- Feature-12: Graph visualization feature\n\n## Next Steps\n1. Check if edge.from/to exactly matches node.id in console\n2. Test with completely minimal vis-network example\n3. Verify vis-network CDN version compatibility",
+  "status": "done",
+  "created_at": 1738483200000,
+  "updated_at": 1738483200000,
+  "created_by": "b70c3dcf",
+  "tags": ["ui", "visualization", "vis-js", "graph"],
+  "links": [
+    {
+      "link_type_id": "344d6fd2",
+      "verb": "blocks",
+      "target_id": "f20b1c3d",
+      "target_label": "Task-20",
+      "created_at": 1738483200000
+    }
+  ],
+  "properties": {
+    "severity": "medium",
+    "component": "graph-viewer-visjs",
+    "version": "v0.1.5"
+  }
+}
