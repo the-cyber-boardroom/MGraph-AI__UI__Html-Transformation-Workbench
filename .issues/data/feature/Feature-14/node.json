@@ -1,0 +1,15 @@
+{
+  "node_id": "ac7b174e",
+  "node_type": "feature",
+  "node_index": 14,
+  "label": "Feature-14",
+  "title": "Add UI tests for critical features, like adding a new issue",
+  "description": "these should be e2e User Acceptance Tests that can run from a browser (QUnit) and from the command line (KarmaJS)",
+  "status": "proposed",
+  "created_at": 1770037848260,
+  "updated_at": 1770037848260,
+  "created_by": "fe73876b",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}
