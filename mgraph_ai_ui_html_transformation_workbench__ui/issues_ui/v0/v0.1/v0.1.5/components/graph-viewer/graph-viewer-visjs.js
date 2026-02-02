@@ -260,8 +260,20 @@
 
         // Fit view after stabilization
         this._visNetwork.once('stabilizationIterationsDone', () => {
+            console.log('[Vis.js] Stabilization done, fitting view');
             this._visNetwork.fit({ animation: true });
         });
+
+        // Force fit after a delay in case stabilization doesn't trigger
+        const network = this._visNetwork;
+        setTimeout(() => {
+            console.log('[Vis.js] Forcing fit after timeout');
+            // Check if canvas exists
+            const canvas = container.querySelector('canvas');
+            console.log('[Vis.js] Canvas element:', canvas ? `${canvas.width}x${canvas.height}` : 'NOT FOUND');
+            network.redraw();
+            network.fit();
+        }, 500);
     };
 
     console.log('[Issues UI v0.1.5] Vis.js graph renderer loaded');
