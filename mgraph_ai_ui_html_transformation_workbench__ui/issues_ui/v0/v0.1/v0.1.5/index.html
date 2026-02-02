@@ -50,10 +50,13 @@
     <script src="js/messages-service-override.js"></script>
 
     <!-- ======================================================================= -->
-    <!-- v0.1.5 Shell - Enhanced with previous app tracking                      -->
+    <!-- Shell - v0.1.4 base + v0.1.5 override                                   -->
     <!-- ======================================================================= -->
 
-    <!-- Load shell BEFORE the element is in DOM -->
+    <!-- Load v0.1.4 shell (complete implementation with Graph Viewer + Messages) -->
+    <script src="../v0.1.4/components/shell/issues-shell.js"></script>
+
+    <!-- v0.1.5 Shell Override (adds previousAppId tracking for Bug-8) -->
     <script src="components/shell/issues-shell.js"></script>
 
     <!-- ======================================================================= -->
