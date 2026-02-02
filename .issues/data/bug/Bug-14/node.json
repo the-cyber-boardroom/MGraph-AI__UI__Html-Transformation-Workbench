@@ -1,0 +1,20 @@
+{
+  "node_id": "b14a7c2e",
+  "node_type": "bug",
+  "node_index": 14,
+  "label": "Bug-14",
+  "title": "CRITICAL: Kanban drag and drop not working in v0.1.5",
+  "description": "Drag and drop in the Kanban board is broken. When dragging a card to another column, it fails with 404 error.\n\n## Error in Console\n```\nPATCH http://0.0.0.0:10041/nodes/api/nodes/http://0.0.0.0:10041/workbench/... 404 (Not Found)\nNode http://...#/issue/Bug-11 not found in done\n```\n\n## Root Cause\nThe PATCH URL is malformed - the kanban board is sending the full URL (including the page URL) as the node label instead of just the label (e.g., 'Bug-11').\n\nThe v0.1.5 kanban override wraps cards in `<a>` tags for Task-25 (open in new tab). The drag handler may be extracting the href attribute (full URL) instead of the data-label attribute.\n\n## Impact\n- **CRITICAL** - Cannot change issue status via drag and drop\n- Core Kanban workflow broken\n\n## Related\n- Task-25: Open issue in new tab from Kanban (the change that likely caused this)\n\n## Fix\nEnsure drag handler uses `data-label` attribute, not the href.",
+  "status": "review",
+  "created_at": 1738569600000,
+  "updated_at": 1738569600000,
+  "created_by": "b70c3dcf",
+  "tags": ["critical", "ui", "kanban", "drag-drop", "regression"],
+  "links": [],
+  "properties": {
+    "severity": "critical",
+    "component": "kanban-board",
+    "version": "v0.1.5",
+    "regression": true
+  }
+}

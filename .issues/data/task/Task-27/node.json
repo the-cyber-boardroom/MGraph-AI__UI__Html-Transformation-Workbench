@@ -1,0 +1,18 @@
+{
+  "node_id": "t27c9e4a",
+  "node_type": "task",
+  "node_index": 27,
+  "label": "Task-27",
+  "title": "Add 'Create Issue from Error' button in Messages Panel",
+  "description": "Add a button to error messages that allows creating a new Bug issue directly from the error.\n\n## User Story\nAs a developer, when I encounter an error in the UI, I want to quickly create a bug report with the error details pre-filled, so I can track and fix the issue later.\n\n## Requirements\n1. Add 'Create Bug' button to error messages\n2. Button opens Create Issue modal with:\n   - Type pre-selected as 'Bug'\n   - Title pre-filled: error message summary\n   - Description pre-filled with:\n     - Error message\n     - Stack trace\n     - URL/endpoint\n     - Reproduction context\n3. User can edit before creating\n4. Success feedback when bug is created\n\n## UI Mockup\n```\n[ERROR] updateNode failed: Not Found      [x]\nERROR - just now\n[Show Details] [Create Bug]\n```\n\n## Pre-filled Description Template\n```markdown\n## Error\nupdateNode failed: Not Found\n\n## Stack Trace\nat GraphService._fetch (graph-service.js:386)\nat async GraphService.updateNode...\n\n## Context\n- URL: PATCH /nodes/api/nodes/Bug-11\n- Status: 404\n- Time: 2024-02-02 10:15:32\n- Version: v0.1.5\n```\n\n## Implementation\n- Add button to error message template\n- Create method to format error as bug description\n- Open modal with pre-filled data",
+  "status": "backlog",
+  "created_at": 1738569600000,
+  "updated_at": 1738569600000,
+  "created_by": "b70c3dcf",
+  "tags": ["ui", "messages-panel", "ux", "feature", "error-handling"],
+  "links": [],
+  "properties": {
+    "component": "messages-panel",
+    "estimate": "M"
+  }
+}

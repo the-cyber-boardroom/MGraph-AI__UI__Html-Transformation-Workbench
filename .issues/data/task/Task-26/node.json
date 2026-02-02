@@ -1,0 +1,18 @@
+{
+  "node_id": "t26b8d3f",
+  "node_type": "task",
+  "node_index": 26,
+  "label": "Task-26",
+  "title": "Add expandable error details in Messages Panel",
+  "description": "Add a 'Show Details' toggle for error messages in the Messages Panel, similar to the API Explorer's request details.\n\n## Requirements\n1. Error messages should have a 'Show Details' link/button\n2. Details should be hidden by default\n3. When expanded, show:\n   - Full error message\n   - Stack trace (if available)\n   - Request URL (if API error)\n   - Response status code\n   - Timestamp\n4. Collapsible - can hide details again\n5. Style consistent with Messages Panel theme\n\n## UI Mockup\n```\n[ERROR] updateNode failed: Not Found      [x]\nERROR - just now\n[Show Details v]\n\n--- Expanded ---\n[ERROR] updateNode failed: Not Found      [x]\nERROR - just now\n[Hide Details ^]\n  URL: PATCH /nodes/api/nodes/Bug-11\n  Status: 404 Not Found\n  Stack: at GraphService._fetch (graph-service.js:386)\n         at async GraphService.updateNode...\n  Time: 2024-02-02 10:15:32\n```\n\n## Implementation\n- Store error details in message object\n- Add toggle button to message rendering\n- CSS for details section (monospace, dimmed)",
+  "status": "backlog",
+  "created_at": 1738569600000,
+  "updated_at": 1738569600000,
+  "created_by": "b70c3dcf",
+  "tags": ["ui", "messages-panel", "ux", "error-handling"],
+  "links": [],
+  "properties": {
+    "component": "messages-panel",
+    "estimate": "M"
+  }
+}

@@ -31,9 +31,11 @@
         const typeConfig = window.issuesApp.nodeTypes[nodeType] || {};
 
         // Task-25: Wrap card in <a> tag with href for new tab support
+        // Bug-14 fix: Make <a> tag NOT draggable to prevent href being used as drag data
+        // The inner .kb-card must have draggable="true" and data-status for drag-drop to work
         return `
-            <a href="#/issue/${node.label}" class="kb-card-link" data-label="${node.label}">
-                <div class="kb-card" data-label="${node.label}">
+            <a href="#/issue/${node.label}" class="kb-card-link" data-label="${node.label}" draggable="false">
+                <div class="kb-card" data-label="${node.label}" data-status="${node.status}" draggable="true">
                     <div class="kb-card-header">
                         <span class="kb-card-type" style="background: ${typeConfig.color || '#6b7280'}">
                             ${typeConfig.icon || '\u{1F4C4}'}
