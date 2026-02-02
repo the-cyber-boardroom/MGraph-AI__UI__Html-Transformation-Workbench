@@ -81,54 +81,50 @@
         }
     };
 
-    // Convert API response to Vis.js format
+    // Convert API response to Vis.js format (using arrays, not DataSet)
     function toVisJsFormat(graphData, rootLabel) {
-        const nodes = new vis.DataSet(
-            graphData.nodes.map(node => ({
-                id: node.label,
-                label: node.label,
-                title: `<b>${node.label}</b><br>${node.title || ''}<br>Status: ${node.status || 'unknown'}`,
-                color: {
+        const nodes = graphData.nodes.map(node => ({
+            id: node.label,
+            label: node.label,
+            title: `<b>${node.label}</b><br>${node.title || ''}<br>Status: ${node.status || 'unknown'}`,
+            color: {
+                background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
+                border: node.label === rootLabel ? '#a371f7' : '#30363d',
+                highlight: {
                     background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
-                    border: node.label === rootLabel ? '#a371f7' : '#30363d',
-                    highlight: {
-                        background: GraphViewer.NODE_COLORS[node.node_type] || '#6e7681',
-                        border: '#58a6ff'
-                    }
-                },
-                shape: VISJS_SHAPES[node.node_type] || 'dot',
-                size: node.label === rootLabel ? 30 : 20,
-                borderWidth: node.label === rootLabel ? 4 : 2,
-                font: {
-                    color: '#c9d1d9',
-                    size: 12
-                },
-                // Store original data
-                _data: node
-            }))
-        );
-
-        const edges = new vis.DataSet(
-            graphData.links.map((link, i) => ({
-                id: `edge-${i}`,
-                from: link.source,
-                to: link.target,
-                label: link.link_type || '',
-                arrows: 'to',
-                color: {
-                    color: '#30363d',
-                    highlight: '#58a6ff'
-                },
-                font: {
-                    color: '#6e7681',
-                    size: 10,
-                    strokeWidth: 0
-                },
-                smooth: {
-                    type: 'continuous'
+                    border: '#58a6ff'
                 }
-            }))
-        );
+            },
+            shape: VISJS_SHAPES[node.node_type] || 'dot',
+            size: node.label === rootLabel ? 30 : 20,
+            borderWidth: node.label === rootLabel ? 4 : 2,
+            font: {
+                color: '#c9d1d9',
+                size: 12
+            },
+            // Store original data
+            _data: node
+        }));
+
+        const edges = graphData.links.map((link, i) => ({
+            id: `edge-${i}`,
+            from: link.source,
+            to: link.target,
+            label: link.link_type || '',
+            arrows: 'to',
+            color: {
+                color: '#30363d',
+                highlight: '#58a6ff'
+            },
+            font: {
+                color: '#6e7681',
+                size: 10,
+                strokeWidth: 0
+            },
+            smooth: {
+                type: 'continuous'
+            }
+        }));
 
         return { nodes, edges };
     }
@@ -204,7 +200,7 @@
         this._visNetwork.on('selectNode', (params) => {
             if (params.nodes.length > 0) {
                 const nodeId = params.nodes[0];
-                const node = data.nodes.get(nodeId);
+                const node = data.nodes.find(n => n.id === nodeId);
                 if (node && node._data) {
                     this.events.emit('graph-node-selected', { node: node._data });
                 }

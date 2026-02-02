@@ -102,7 +102,7 @@
             .replace(/\n/g, ' ');
     }
 
-    // Mermaid renderer
+    // Mermaid renderer with zoom/pan support
     GraphViewer.prototype.renderMermaidGraph = function() {
         const area = this.querySelector('#gv-graph-area');
         if (!area) return;
@@ -110,49 +110,182 @@
         // Generate Mermaid code
         const mermaidCode = toMermaidSyntax(this._graphData, this._rootLabel);
 
-        // Create container
+        // Create container with zoom/pan support
         area.innerHTML = `
             <div style="display: flex; flex-direction: column; height: 100%;">
-                <div class="gv-mermaid-container" style="flex: 1; overflow: auto; padding: 20px; display: flex; justify-content: center; align-items: flex-start;">
-                    <pre class="mermaid" id="gv-mermaid-diagram">${escapeHtml(mermaidCode)}</pre>
+                <div class="gv-mermaid-toolbar" style="padding: 8px 12px; background: #161b22; border-bottom: 1px solid #30363d; display: flex; gap: 8px; align-items: center;">
+                    <span style="font-size: 11px; color: #8b949e;">Zoom:</span>
+                    <button class="gv-mermaid-btn" id="gv-mermaid-zoom-in">+</button>
+                    <button class="gv-mermaid-btn" id="gv-mermaid-zoom-out">-</button>
+                    <button class="gv-mermaid-btn" id="gv-mermaid-reset">Reset</button>
+                    <button class="gv-mermaid-btn" id="gv-mermaid-fit">Fit</button>
+                    <span style="margin-left: 16px; font-size: 11px; color: #6e7681;" id="gv-mermaid-zoom-level">100%</span>
+                </div>
+                <div class="gv-mermaid-viewport" id="gv-mermaid-viewport" style="flex: 1; overflow: hidden; position: relative; cursor: grab; background: #0d1117;">
+                    <div class="gv-mermaid-canvas" id="gv-mermaid-canvas" style="position: absolute; transform-origin: 0 0;">
+                        <pre class="mermaid" id="gv-mermaid-diagram">${escapeHtml(mermaidCode)}</pre>
+                    </div>
                 </div>
                 <div class="gv-mermaid-footer" style="padding: 12px; border-top: 1px solid #30363d; background: #161b22; display: flex; gap: 8px; align-items: center;">
-                    <button class="gv-copy-btn" id="gv-copy-mermaid" title="Copy Mermaid code">
-                        \u{1F4CB} Copy Code
+                    <button class="gv-mermaid-btn" id="gv-copy-mermaid" title="Copy Mermaid code">
+                        Copy Code
                     </button>
-                    <button class="gv-copy-btn" id="gv-toggle-code" title="Show/hide Mermaid code">
-                        \u{1F4DD} Show Code
+                    <button class="gv-mermaid-btn" id="gv-toggle-code" title="Show/hide Mermaid code">
+                        Show Code
                     </button>
                     <span style="margin-left: auto; font-size: 11px; color: #6e7681;">
-                        Paste in GitHub/GitLab markdown with \`\`\`mermaid fence
+                        Scroll to zoom, drag to pan | Paste in GitHub/GitLab with \`\`\`mermaid
                     </span>
                 </div>
                 <div class="gv-mermaid-code" id="gv-mermaid-code" style="display: none; padding: 12px; background: #0d1117; border-top: 1px solid #30363d; max-height: 200px; overflow: auto;">
                     <pre style="margin: 0; font-size: 11px; color: #c9d1d9; white-space: pre-wrap;">${escapeHtml(mermaidCode)}</pre>
                 </div>
             </div>
+            <style>
+                .gv-mermaid-btn {
+                    padding: 4px 10px;
+                    border: 1px solid #30363d;
+                    background: transparent;
+                    color: #c9d1d9;
+                    font-size: 11px;
+                    cursor: pointer;
+                    border-radius: 4px;
+                }
+                .gv-mermaid-btn:hover {
+                    background: #21262d;
+                }
+                .gv-mermaid-viewport:active {
+                    cursor: grabbing;
+                }
+            </style>
         `;
 
         // Render Mermaid diagram
+        const diagramEl = document.getElementById('gv-mermaid-diagram');
         try {
-            mermaid.run({
-                nodes: [document.getElementById('gv-mermaid-diagram')]
-            });
+            mermaid.run({ nodes: [diagramEl] });
         } catch (error) {
             console.error('[Mermaid] Render error:', error);
         }
 
-        // Attach event handlers
+        // Setup zoom/pan after a brief delay for Mermaid to render
+        setTimeout(() => {
+            this._setupMermaidZoomPan(mermaidCode);
+        }, 100);
+    };
+
+    // Setup zoom and pan for Mermaid
+    GraphViewer.prototype._setupMermaidZoomPan = function(mermaidCode) {
+        const viewport = this.querySelector('#gv-mermaid-viewport');
+        const canvas = this.querySelector('#gv-mermaid-canvas');
+        const zoomLabel = this.querySelector('#gv-mermaid-zoom-level');
+
+        if (!viewport || !canvas) return;
+
+        let scale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isDragging = false;
+        let startX, startY;
+
+        const updateTransform = () => {
+            canvas.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            if (zoomLabel) zoomLabel.textContent = `${Math.round(scale * 100)}%`;
+        };
+
+        // Center the diagram initially
+        const centerDiagram = () => {
+            const svg = canvas.querySelector('svg');
+            if (svg) {
+                const svgRect = svg.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
+                translateX = (viewportRect.width - svgRect.width * scale) / 2;
+                translateY = (viewportRect.height - svgRect.height * scale) / 2;
+                updateTransform();
+            }
+        };
+
+        // Fit diagram to viewport
+        const fitDiagram = () => {
+            const svg = canvas.querySelector('svg');
+            if (svg) {
+                const svgRect = svg.getBoundingClientRect();
+                const viewportRect = viewport.getBoundingClientRect();
+                const scaleX = (viewportRect.width - 40) / (svgRect.width / scale);
+                const scaleY = (viewportRect.height - 40) / (svgRect.height / scale);
+                scale = Math.min(scaleX, scaleY, 2);
+                centerDiagram();
+            }
+        };
+
+        // Mouse wheel zoom
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.9 : 1.1;
+            const newScale = Math.max(0.1, Math.min(3, scale * delta));
+
+            // Zoom towards mouse position
+            const rect = viewport.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            translateX = mouseX - (mouseX - translateX) * (newScale / scale);
+            translateY = mouseY - (mouseY - translateY) * (newScale / scale);
+            scale = newScale;
+
+            updateTransform();
+        });
+
+        // Pan with mouse drag
+        viewport.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            viewport.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            viewport.style.cursor = 'grab';
+        });
+
+        // Zoom buttons
+        const zoomInBtn = this.querySelector('#gv-mermaid-zoom-in');
+        const zoomOutBtn = this.querySelector('#gv-mermaid-zoom-out');
+        const resetBtn = this.querySelector('#gv-mermaid-reset');
+        const fitBtn = this.querySelector('#gv-mermaid-fit');
+
+        if (zoomInBtn) zoomInBtn.addEventListener('click', () => {
+            scale = Math.min(3, scale * 1.2);
+            updateTransform();
+        });
+
+        if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => {
+            scale = Math.max(0.1, scale / 1.2);
+            updateTransform();
+        });
+
+        if (resetBtn) resetBtn.addEventListener('click', () => {
+            scale = 1;
+            centerDiagram();
+        });
+
+        if (fitBtn) fitBtn.addEventListener('click', fitDiagram);
+
+        // Copy and toggle code buttons
         const copyBtn = this.querySelector('#gv-copy-mermaid');
         if (copyBtn) {
             copyBtn.addEventListener('click', () => {
                 navigator.clipboard.writeText(mermaidCode).then(() => {
-                    copyBtn.innerHTML = '\u{2705} Copied!';
-                    copyBtn.classList.add('copied');
-                    setTimeout(() => {
-                        copyBtn.innerHTML = '\u{1F4CB} Copy Code';
-                        copyBtn.classList.remove('copied');
-                    }, 2000);
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => { copyBtn.textContent = 'Copy Code'; }, 2000);
                 });
             });
         }
@@ -163,9 +296,12 @@
             toggleBtn.addEventListener('click', () => {
                 const isVisible = codeBlock.style.display !== 'none';
                 codeBlock.style.display = isVisible ? 'none' : 'block';
-                toggleBtn.innerHTML = isVisible ? '\u{1F4DD} Show Code' : '\u{1F4DD} Hide Code';
+                toggleBtn.textContent = isVisible ? 'Show Code' : 'Hide Code';
             });
         }
+
+        // Initial fit
+        setTimeout(fitDiagram, 200);
     };
 
     // Helper to escape HTML
