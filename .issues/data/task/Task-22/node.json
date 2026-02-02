@@ -1,0 +1,27 @@
+{
+  "node_id": "t22a06e6",
+  "node_type": "task",
+  "node_index": 22,
+  "label": "Task-22",
+  "title": "Add backend API to get nodes with most edges (hub nodes)",
+  "description": "Create a new backend API endpoint that returns nodes sorted by their edge count (connectivity).\n\n## Use Case\nIn the graph viewer, users need a way to quickly find the most connected nodes (hubs) to use as starting points for exploration. Currently, the graph viewer shows an empty state with no suggestions.\n\n## Proposed API\n\n```\nGET /nodes/api/nodes/hubs?limit=10&min_edges=2\n```\n\n## Response Format\n```json\n{\n  \"success\": true,\n  \"hubs\": [\n    { \"label\": \"Feature-12\", \"title\": \"Graph Visualization\", \"node_type\": \"feature\", \"edge_count\": 15 },\n    { \"label\": \"Version-1\", \"title\": \"v0.1.4\", \"node_type\": \"version\", \"edge_count\": 12 },\n    { \"label\": \"Task-15\", \"title\": \"D3.js component\", \"node_type\": \"task\", \"edge_count\": 8 }\n  ]\n}\n```\n\n## UI Integration\n1. Call this API when graph viewer loads without a root node\n2. Display hub nodes as clickable suggestions:\n   ```\n   No graph loaded. Try these connected nodes:\n   - Feature-12 (15 connections)\n   - Version-1 (12 connections)\n   - Task-15 (8 connections)\n   ```\n3. Clicking a hub loads that node's graph\n\n## Backend Implementation Notes\n- Iterate all nodes and count links array length\n- Sort by count descending\n- Return top N with min_edges filter",
+  "status": "backlog",
+  "created_at": 1769994000000,
+  "updated_at": 1769994000000,
+  "created_by": "ui-claude",
+  "tags": ["backend", "api", "graph", "ux"],
+  "links": [
+    {
+      "link_type_id": "344d6fd2",
+      "verb": "task-of",
+      "target_id": "18dacd07",
+      "target_label": "Feature-12",
+      "created_at": 1769994000000
+    }
+  ],
+  "properties": {
+    "estimate": "S",
+    "component": "backend-api",
+    "endpoint": "/nodes/api/nodes/hubs"
+  }
+}

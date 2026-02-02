@@ -1,0 +1,27 @@
+{
+  "node_id": "t23a07f7",
+  "node_type": "task",
+  "node_index": 23,
+  "label": "Task-23",
+  "title": "Use messages panel for confirmation dialogs instead of browser alerts",
+  "description": "Replace native browser `confirm()` dialogs with inline confirmation UI in the messages panel.\n\n## Current Problem\nWhen deleting a node, we show:\n```\n0.0.0.0:10041 says\nDelete Task-18? This cannot be undone.\n[Cancel] [OK]\n```\n\nThis has several issues:\n1. Shows ugly IP address header\n2. Blocks the entire UI\n3. No styling consistency\n4. Can't be reviewed later\n5. Poor UX on mobile\n\n## Proposed Solution\nShow confirmations as special messages in the messages panel:\n\n```\n[Messages Panel]\n\n⚠️ CONFIRM DELETE\nDelete Task-18? This cannot be undone.\n[Cancel] [Delete]\n```\n\n## Implementation\n\n### 1. Add confirmation message type to messages-service.js\n```javascript\nmessages.confirm('Delete Task-18? This cannot be undone.', {\n  confirmLabel: 'Delete',\n  confirmStyle: 'danger',\n  onConfirm: () => deleteNode('Task-18'),\n  onCancel: () => {}\n});\n```\n\n### 2. Update messages-panel.js\n- Render confirmation messages with action buttons\n- Auto-expand panel for confirmations\n- Focus the confirm/cancel buttons\n- Remove message after action taken\n\n### 3. Update node-detail.js delete handler\n```javascript\n// Old\nif (confirm('Delete ' + label + '? This cannot be undone.')) {\n  await this.deleteNode();\n}\n\n// New\nwindow.issuesApp.messages.confirm(\n  `Delete ${label}? This cannot be undone.`,\n  { onConfirm: () => this.deleteNode() }\n);\n```\n\n## Benefits\n- Consistent styling with app theme\n- Non-blocking (can still see context)\n- Recorded in message history\n- Better mobile experience\n- Can add more context/details to confirmation",
+  "status": "backlog",
+  "created_at": 1769994000000,
+  "updated_at": 1769994000000,
+  "created_by": "ui-claude",
+  "tags": ["ui", "ux", "messages-panel", "confirmation"],
+  "links": [
+    {
+      "link_type_id": "344d6fd2",
+      "verb": "relates-to",
+      "target_id": "t13xxx",
+      "target_label": "Task-13",
+      "created_at": 1769994000000
+    }
+  ],
+  "properties": {
+    "estimate": "M",
+    "component": "messages-panel",
+    "replaces": "browser confirm() dialog"
+  }
+}

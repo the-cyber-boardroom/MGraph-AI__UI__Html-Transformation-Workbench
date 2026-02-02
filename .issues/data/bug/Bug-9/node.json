@@ -1,0 +1,27 @@
+{
+  "node_id": "b9f01a01",
+  "node_type": "bug",
+  "node_index": 9,
+  "label": "Bug-9",
+  "title": "Graph traversal API has severe performance issues at higher depths",
+  "description": "The `/nodes/api/nodes/{node_type}/{label}/graph?depth=N` endpoint has exponential performance degradation as depth increases.\n\n## Observed Performance (Feature-12 graph)\n\n| Depth | Response Time | Size |\n|-------|---------------|------|\n| 1 | ~2 seconds | 1.7 kB |\n| 2 | ~10 seconds | 2.1 kB |\n| 3 | ~15 seconds | 3.6 kB |\n\n## Impact\n- Depth 3 takes 15 seconds which makes the UI appear frozen\n- Users may click multiple times thinking it didn't work\n- Poor user experience\n\n## Possible Causes\n1. No caching of intermediate traversals\n2. Redundant node lookups during traversal\n3. Inefficient graph walking algorithm\n4. File I/O on every node access\n\n## Suggested Fixes\n1. Add in-memory caching for graph traversal\n2. Batch load all nodes upfront before traversal\n3. Use adjacency list pre-computed on startup\n4. Add loading indicator with progress feedback",
+  "status": "backlog",
+  "created_at": 1769994000000,
+  "updated_at": 1769994000000,
+  "created_by": "ui-claude",
+  "tags": ["backend", "performance", "graph-api", "critical"],
+  "links": [
+    {
+      "link_type_id": "344d6fd2",
+      "verb": "blocks",
+      "target_id": "18dacd07",
+      "target_label": "Feature-12",
+      "created_at": 1769994000000
+    }
+  ],
+  "properties": {
+    "severity": "high",
+    "component": "backend-api",
+    "affected_endpoint": "/nodes/api/nodes/{node_type}/{label}/graph"
+  }
+}
