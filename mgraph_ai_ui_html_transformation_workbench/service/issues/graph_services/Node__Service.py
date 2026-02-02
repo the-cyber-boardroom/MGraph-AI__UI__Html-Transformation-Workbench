@@ -335,7 +335,7 @@ class Node__Service(Type_Safe):                                                 
                     if target_node:
                         links.append(Schema__Graph__Link(source    = node.label      ,
                                                          target    = target_node.label,
-                                                         link_type = link.link_type))
+                                                         link_type = link.verb))
                         self._traverse_graph(target_node, depth - 1, visited, nodes, links)
 
         # Find and traverse incoming links

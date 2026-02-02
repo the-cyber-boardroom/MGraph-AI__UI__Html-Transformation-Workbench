@@ -6,11 +6,9 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from fastapi                                                                                            import HTTPException
-from osbot_utils.type_safe.primitives.core.Safe_UInt import Safe_UInt
-from osbot_utils.type_safe.primitives.domains.numerical.safe_int.Safe_Int__Positive import Safe_Int__Positive
-
+from osbot_utils.type_safe.primitives.core.Safe_UInt                                                    import Safe_UInt
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Response import Schema__Graph__Response
+from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Response                   import Schema__Graph__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request             import Schema__Node__Create__Request
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Response            import Schema__Node__Create__Response
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Delete__Response            import Schema__Node__Delete__Response
@@ -145,7 +143,7 @@ class Routes__Nodes(Fast_API__Routes):                                          
     def get_node_graph(self                              ,                          # Get node with connected nodes for graph visualization.
                        node_type : Safe_Str__Node_Type   ,                          # Type of the root node (bug, task, feature, etc.)
                        label     : Safe_Str__Node_Label  ,                          # Label of the root node (Bug-1, Feature-11, etc.)
-                       depth     : Safe_Int__Positive    = 1                        # Number of link hops to traverse (default: 1, max: 3)
+                       depth     : Safe_UInt             = 1                        # Number of link hops to traverse (default: 1, max: 3)
                   ) -> dict:                                                        # Graph response with root, nodes, and links
         try:
             response = self.service.get_node_graph(node_type = Safe_Str__Node_Type(node_type) ,
