@@ -1,0 +1,15 @@
+{
+  "node_id": "d4e5ec12",
+  "node_type": "task",
+  "node_index": 26,
+  "label": "Task-26",
+  "title": "in the kanban view add a visual clue (maybe label) to represent who the task is assigned to",
+  "description": "so that I can easily identify the ones I'm working on and the ones Claude Code (or another agent) is working on",
+  "status": "backlog",
+  "created_at": 1769996540194,
+  "updated_at": 1769996540194,
+  "created_by": "3beef70f",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}
