@@ -1,8 +1,8 @@
 {
   "node_id": "527ec667",
   "node_type": "task",
-  "node_index": 27,
-  "label": "Task-27",
+  "node_index": 29,
+  "label": "Task-29",
   "title": "add releases mode_workflow where we package the issues in done and remove from UI",
   "description": "this needs some thinking and most likely some backend changes, since we should also remove those issues from the ones retrieved from the server",
   "status": "backlog",
