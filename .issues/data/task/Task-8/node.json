@@ -5,9 +5,9 @@
   "label": "Task-8",
   "title": "Implement graph data fetching API",
   "description": "Backend endpoint to fetch node with connected nodes.\n\n## Requirements\n- GET /nodes/api/nodes/{label}/graph?depth=N\n- Return node + all nodes within N link hops\n- Include link information for rendering edges\n\n## Response Shape\n```json\n{\n  \"root\": \"Feature-11\",\n  \"nodes\": [...],\n  \"links\": [...]\n}\n```",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769989209287,
+  "updated_at": 1769992988194,
   "created_by": "dc000001",
   "tags": [
     "api",

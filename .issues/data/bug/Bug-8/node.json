@@ -1,0 +1,15 @@
+{
+  "node_id": "f152b65d",
+  "node_type": "bug",
+  "node_index": 8,
+  "label": "Bug-8",
+  "title": "when going from kanban to 'node detail' user should go back to the same kanban",
+  "description": "or we break the flow",
+  "status": "backlog",
+  "created_at": 1769993091422,
+  "updated_at": 1769993091422,
+  "created_by": "eaaed0cb",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

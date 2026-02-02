@@ -5,9 +5,9 @@
   "label": "Task-7",
   "title": "Add View Graph button to node detail",
   "description": "Add navigation to graph view from issue detail.\n\n## Requirements\n- Button in issue detail header\n- Opens graph view centered on current node\n- Pass node label as parameter",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769965000000,
-  "updated_at": 1769989210977,
+  "updated_at": 1769992980826,
   "created_by": "dc000001",
   "tags": [
     "ui",

@@ -5,9 +5,9 @@
   "label": "Task-15",
   "title": "Build D3.js force-directed graph component",
   "description": "Create the visual graph component using D3.js force simulation.\n\n## Background\nWith Task-14 providing the data, this task renders the interactive graph visualization.\n\n## Requirements\n- Create `graph-viewer.js` web component\n- Use D3.js force-directed layout\n- Color nodes by type (bug=red, task=blue, feature=green, etc.)\n- Show node labels and titles\n- Draw directed edges with link type labels\n- Pan and zoom support\n- Click node to select/highlight\n\n## Component API\n```javascript\n<graph-viewer \n    root-label=\"Feature-11\"\n    root-type=\"feature\" \n    depth=\"2\">\n</graph-viewer>\n```\n\n## Events to Emit\n- `node-selected` - when user clicks a node\n- `node-double-click` - navigate to node detail\n\n## Color Scheme\n```javascript\nconst colors = {\n    bug: '#ef4444',\n    task: '#3b82f6',\n    feature: '#22c55e',\n    version: '#f59e0b',\n    'user-story': '#06b6d4',\n    person: '#8b5cf6'\n};\n```\n\n## Files to Create\n- `components/graph-viewer/graph-viewer.js`\n- `components/graph-viewer/graph-viewer.css`",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769987000000,
-  "updated_at": 1769989445053,
+  "updated_at": 1769992963815,
   "created_by": "dc000001",
   "tags": [
     "ui",

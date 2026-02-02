@@ -5,9 +5,9 @@
   "label": "Task-16",
   "title": "Add View Graph button to node detail header",
   "description": "Add a button in node-detail view to open the graph visualization centered on the current node.\n\n## Requirements\n- Add 'View Graph' button in node-detail header (near Edit/Delete)\n- Button opens graph-viewer component\n- Pass current node's type and label as root\n- Default depth of 1 (show immediate connections)\n\n## Implementation\n```javascript\n// In node-detail.js header\n<button class=\"btn-graph\" @click=\"openGraphView\">\n    <icon>graph</icon> View Graph\n</button>\n\nopenGraphView() {\n    this.events.emit('show-graph-viewer', {\n        rootType: this.node.node_type,\n        rootLabel: this.node.label,\n        depth: 1\n    });\n}\n```\n\n## Navigation Options\n1. Open as modal/overlay on current view\n2. Navigate to dedicated graph page with back button\n3. Open in right sidebar panel\n\n## Depends On\n- Task-15 (graph-viewer component must exist)",
-  "status": "todo",
+  "status": "done",
   "created_at": 1769987000000,
-  "updated_at": 1769989447006,
+  "updated_at": 1769992966402,
   "created_by": "dc000001",
   "tags": [
     "ui",

@@ -1,13 +1,13 @@
 {
-  "total_nodes": 21,
-  "last_updated": 1769989055860,
+  "total_nodes": 24,
+  "last_updated": 1769993091439,
   "type_counts": [
     {
-      "count": 5,
+      "count": 7,
       "node_type": "bug"
     },
     {
-      "count": 2,
+      "count": 3,
       "node_type": "task"
     },
     {

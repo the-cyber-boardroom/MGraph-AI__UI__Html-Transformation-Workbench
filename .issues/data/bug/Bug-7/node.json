@@ -1,0 +1,15 @@
+{
+  "node_id": "633f89b6",
+  "node_type": "bug",
+  "node_index": 7,
+  "label": "Bug-7",
+  "title": "when creating a new message , data is lost if user clicks outside the modal window",
+  "description": "this causes the modal window to close and we lose the data",
+  "status": "backlog",
+  "created_at": 1769992646853,
+  "updated_at": 1769992646853,
+  "created_by": "dd2b9383",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}
