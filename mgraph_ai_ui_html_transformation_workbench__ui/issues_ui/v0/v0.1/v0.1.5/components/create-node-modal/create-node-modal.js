@@ -32,36 +32,34 @@
         // Call original render
         _originalRender.call(this);
 
-        // Bug-7 fix: Remove or modify the overlay click handler
+        // Bug-7 fix: Add a capturing click handler on the overlay
+        // that prevents closing when there's unsaved data
         const overlay = this.querySelector('#cnm-overlay');
-        if (overlay && this.state.visible) {
-            // Remove existing click listeners by cloning
-            const newOverlay = overlay.cloneNode(true);
-            overlay.parentNode.replaceChild(newOverlay, overlay);
+        if (overlay && this.state.visible && !overlay._v015Patched) {
+            // Mark as patched to avoid adding multiple handlers
+            overlay._v015Patched = true;
 
-            // Add new click handler that only closes on explicit button clicks
-            newOverlay.addEventListener('click', (e) => {
-                // Bug-7 fix: Only close if clicking EXACTLY on the overlay background
-                // NOT if clicking anywhere inside the modal content
-                // By checking if target is the overlay itself AND has data in form
-                if (e.target.id === 'cnm-overlay') {
+            // Add capturing handler that intercepts overlay background clicks
+            overlay.addEventListener('click', (e) => {
+                // Bug-7 fix: Only intercept if clicking EXACTLY on the overlay background
+                if (e.target.id === 'cnm-overlay' || e.target.classList.contains('cnm-overlay')) {
                     // Check if form has any data
                     if (this.hasUnsavedData()) {
                         // Don't close - user has data entered
-                        // Optionally show a subtle visual feedback
-                        const modal = newOverlay.querySelector('.cnm-modal');
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        // Show a subtle shake animation
+                        const modal = overlay.querySelector('.cnm-modal');
                         if (modal) {
                             modal.style.animation = 'none';
                             modal.offsetHeight; // Trigger reflow
                             modal.style.animation = 'cnm-shake 0.3s ease-in-out';
                         }
-                        e.stopPropagation();
-                        return;
+                        return false;
                     }
-                    // Only close if no data entered
-                    this.close();
                 }
-            });
+            }, true); // Capturing phase to intercept before other handlers
 
             // Add shake animation style if not present
             if (!document.getElementById('cnm-v015-styles')) {
