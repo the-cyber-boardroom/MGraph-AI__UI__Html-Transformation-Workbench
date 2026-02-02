@@ -134,6 +134,10 @@
         const area = this.querySelector('#gv-graph-area');
         if (!area) return;
 
+        // Get the area height for explicit sizing
+        const areaRect = area.getBoundingClientRect();
+        const containerHeight = Math.max(areaRect.height - 50, 400); // Subtract toolbar, min 400px
+
         // Create container with layout controls
         area.innerHTML = `
             <div style="display: flex; flex-direction: column; height: 100%;">
@@ -144,7 +148,7 @@
                     <button class="gv-layout-btn" data-layout="circular">Circular</button>
                     <button class="gv-layout-btn" data-layout="fit" style="margin-left: auto;">Fit View</button>
                 </div>
-                <div id="gv-visjs-container" style="flex: 1; background: #0d1117;"></div>
+                <div id="gv-visjs-container" style="flex: 1; min-height: ${containerHeight}px; background: #0d1117; position: relative;"></div>
             </div>
             <style>
                 .gv-layout-btn {
@@ -167,10 +171,17 @@
         `;
 
         const container = this.querySelector('#gv-visjs-container');
-        if (!container) return;
+        if (!container) {
+            console.error('[Vis.js] Container not found');
+            return;
+        }
+
+        // Debug: log container dimensions
+        console.log('[Vis.js] Container:', container.offsetWidth, 'x', container.offsetHeight);
 
         // Convert data
         const data = toVisJsFormat(this._graphData, this._rootLabel);
+        console.log('[Vis.js] Data:', data.nodes.length, 'nodes,', data.edges.length, 'edges');
 
         // Default options
         const options = {
@@ -192,8 +203,15 @@
             }
         };
 
-        // Create network
-        this._visNetwork = new vis.Network(container, data, options);
+        // Create network - vis-network standalone exposes vis.Network
+        console.log('[Vis.js] Creating network, vis object:', typeof vis, vis ? Object.keys(vis) : 'undefined');
+        try {
+            this._visNetwork = new vis.Network(container, data, options);
+            console.log('[Vis.js] Network created successfully');
+        } catch (err) {
+            console.error('[Vis.js] Failed to create network:', err);
+            return;
+        }
         this._visData = data;
 
         // Handle node selection
