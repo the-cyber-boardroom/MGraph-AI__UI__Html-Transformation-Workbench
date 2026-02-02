@@ -5,7 +5,7 @@
   "label": "Bug-11",
   "title": "CRITICAL: Create Issue modal buttons not working",
   "description": "In v0.1.5, the Create Issue modal is completely broken:\n\n## Symptoms\n1. Cannot change issue type (Bug, Task, Feature, etc.) - clicking type buttons does nothing\n2. Cannot click the 'Create' button - it doesn't respond\n3. Cancel button may also be affected\n\n## Likely Cause\nThis is probably caused by the Bug-7 fix in v0.1.5 (`create-node-modal.js`) which was supposed to prevent data loss on outside click. The click handler override may be intercepting all clicks on the modal, including button clicks.\n\n## Impact\n- **CRITICAL** - Cannot create any new issues in v0.1.5\n- Blocks all issue creation workflow\n\n## Reproduction Steps\n1. Open Issues UI v0.1.5\n2. Click '+ New' button\n3. Try to click on any type button (Bug, Task, Feature, etc.)\n4. Try to enter a title and click 'Create Task'\n5. Nothing happens - buttons don't respond\n\n## Related\n- Bug-7: Modal data lost on outside click (the fix that likely caused this)\n\n## Workaround\nUse v0.1.4 until this is fixed.",
-  "status": "todo",
+  "status": "review",
   "created_at": 1738483200000,
   "updated_at": 1738483200000,
   "created_by": "b70c3dcf",
