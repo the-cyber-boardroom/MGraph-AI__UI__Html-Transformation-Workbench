@@ -5,7 +5,7 @@
   "label": "Bug-7",
   "title": "when creating a new message , data is lost if user clicks outside the modal window",
   "description": "this causes the modal window to close and we lose the data",
-  "status": "todo",
+  "status": "review",
   "created_at": 1769992646853,
   "updated_at": 1769992646853,
   "created_by": "dd2b9383",

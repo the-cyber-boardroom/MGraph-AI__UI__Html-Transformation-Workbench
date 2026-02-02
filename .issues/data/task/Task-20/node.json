@@ -5,7 +5,7 @@
   "label": "Task-20",
   "title": "Add Vis.js graph visualization option",
   "description": "Add Vis.js Network as an alternative graph visualization library.\n\n## Why Vis.js?\n- Purpose-built for network/graph visualization\n- Excellent performance with large graphs\n- Rich interaction model (clustering, physics, hierarchical layouts)\n- Built-in clustering for complex graphs\n- Timeline view option for temporal data\n\n## Implementation\n1. Add vis-network CDN to index.html\n2. Create `graph-viewer-visjs.js` component\n3. Map API response to Vis.js format:\n   ```javascript\n   const nodes = new vis.DataSet([\n     { id: 'Feature-12', label: 'Feature-12', color: '#22c55e' },\n     { id: 'Task-14', label: 'Task-14', color: '#3b82f6' }\n   ]);\n   const edges = new vis.DataSet([\n     { from: 'Feature-12', to: 'Task-14', label: 'has-task' }\n   ]);\n   ```\n4. Add layout options: hierarchical, physics-based, circular\n5. Support node clustering for large graphs\n\n## Pros\n- Great performance\n- Built-in clustering\n- Multiple layout algorithms\n- Good touch support\n\n## Cons\n- Larger bundle size\n- Different styling approach than D3",
-  "status": "todo",
+  "status": "review",
   "created_at": 1769994000000,
   "updated_at": 1769994000000,
   "created_by": "eeeeffff",

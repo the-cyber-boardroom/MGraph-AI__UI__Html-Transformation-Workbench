@@ -5,7 +5,7 @@
   "label": "Task-25",
   "title": "on kanban board add support for the opening an issue on new tab",
   "description": "it should be possible to right click on the card and chose the 'open in new tab' option (of the browser). \n\nwe should also detect if the user has pressed (I think is the Command key in mac) the key that is normally used in browsers to open issues on new window\ncreate a plan to show how complex it would be to implement this",
-  "status": "todo",
+  "status": "review",
   "created_at": 1769994468336,
   "updated_at": 1769994468336,
   "created_by": "b70c3dcf",
