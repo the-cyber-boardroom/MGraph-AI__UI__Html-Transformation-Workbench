@@ -1,6 +1,11 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # Graph__Repository - Memory-FS based data access for graph nodes
 # Storage-agnostic: works with Memory, Local Disk, S3, SQLite, ZIP backends
+#
+# Phase 1 Changes:
+#   - node_load: Reads issue.json first, falls back to node.json
+#   - node_save: Always writes to issue.json (preserves node.json for now)
+#   - node_exists: Checks for either issue.json or node.json
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from typing                                                                                             import List, Optional
@@ -29,27 +34,27 @@ class Graph__Repository(Type_Safe):                                             
             self.storage_fs = self.memory_fs.storage_fs
 
     # ═══════════════════════════════════════════════════════════════════════════════
-    # Node Operations
+    # Node Operations - Phase 1: Dual File Support
     # ═══════════════════════════════════════════════════════════════════════════════
 
     @type_safe
-    def node_save(self, node: Schema__Node) -> bool:                             # Save node to storage
+    def node_save(self, node: Schema__Node) -> bool:                             # Save node to issue.json
         if not node.label:
             return False
-        path    = self.path_handler.path_for_node(node_type = node.node_type ,
-                                                  label     = node.label     )
-        data    = node.json()
-        content = json_dumps(data, indent=2)
-        return self.storage_fs.file__save(path, content.encode('utf-8'))
+
+        path_issue = self.path_handler.path_for_issue_json(node_type = node.node_type,  # Always write to issue.json
+                                                           label     = node.label     )
+        data       = node.json()
+        content    = json_dumps(data, indent=2)
+        return self.storage_fs.file__save(path_issue, content.encode('utf-8'))
 
     @type_safe
-    def node_load(self                              ,                            # Load node from storage
+    def node_load(self                              ,                            # Load node from issue.json or node.json
                   node_type : Safe_Str__Node_Type   ,
                   label     : Safe_Str__Node_Label
              ) -> Schema__Node:
-        path = self.path_handler.path_for_node(node_type = node_type ,
-                                               label     = label     )
-        if self.storage_fs.file__exists(path) is False:
+        path = self.get_issue_file_path(node_type, label)                        # Get actual file path (issue.json or node.json)
+        if path is None:
             return None
 
         content = self.storage_fs.file__str(path)
@@ -67,20 +72,45 @@ class Graph__Repository(Type_Safe):                                             
                     node_type : Safe_Str__Node_Type   ,
                     label     : Safe_Str__Node_Label
                ) -> bool:
-        path = self.path_handler.path_for_node(node_type = node_type ,
-                                               label     = label     )
-        if self.storage_fs.file__exists(path):
-            return self.storage_fs.file__delete(path)
-        return False
+        deleted_any  = False
+        path_issue   = self.path_handler.path_for_issue_json(node_type, label)   # Delete issue.json if exists
+        path_node    = self.path_handler.path_for_node_json(node_type, label)    # Delete node.json if exists
+
+        if self.storage_fs.file__exists(path_issue):
+            self.storage_fs.file__delete(path_issue)
+            deleted_any = True
+
+        if self.storage_fs.file__exists(path_node):
+            self.storage_fs.file__delete(path_node)
+            deleted_any = True
+
+        return deleted_any
 
     @type_safe
-    def node_exists(self                              ,                          # Check if node exists
+    def node_exists(self                              ,                          # Check if node exists (either file)
                     node_type : Safe_Str__Node_Type   ,
                     label     : Safe_Str__Node_Label
                ) -> bool:
-        path = self.path_handler.path_for_node(node_type = node_type ,
-                                               label     = label     )
-        return self.storage_fs.file__exists(path)
+        return self.get_issue_file_path(node_type, label) is not None
+
+    # ═══════════════════════════════════════════════════════════════════════════════
+    # File Path Resolution - Phase 1: Prefer issue.json over node.json
+    # ═══════════════════════════════════════════════════════════════════════════════
+
+    @type_safe
+    def get_issue_file_path(self                              ,                  # Get actual issue file path
+                            node_type : Safe_Str__Node_Type   ,                  # Prefers issue.json, falls back to node.json
+                            label     : Safe_Str__Node_Label
+                       ) -> str:
+        path_issue = self.path_handler.path_for_issue_json(node_type, label)     # Check issue.json first
+        if self.storage_fs.file__exists(path_issue):
+            return path_issue
+
+        path_node = self.path_handler.path_for_node_json(node_type, label)       # Fall back to node.json
+        if self.storage_fs.file__exists(path_node):
+            return path_node
+
+        return None                                                              # Neither exists
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Node Listing Operations
@@ -90,23 +120,30 @@ class Graph__Repository(Type_Safe):                                             
     def nodes_list_labels(self                              ,                    # List all node labels for a type
                           node_type : Safe_Str__Node_Type
                      ) -> List[Safe_Str__Node_Label]:
-        type_folder = self.path_handler.path_for_type_folder(node_type)          # e.g., ".issues/data/bug"
+        type_folder = self.path_handler.path_for_type_folder(node_type)
         all_paths   = self.storage_fs.files__paths()
 
-        labels = []
-        prefix = f"{type_folder}/"                                               # e.g., ".issues/data/bug/"
-        suffix = "/node.json"
+        labels = set()                                                           # Use set to avoid duplicates
+        prefix = f"{type_folder}/"
 
         for path in all_paths:
-            if path.startswith(prefix) and path.endswith(suffix):
-                relative = path[len(prefix):-len(suffix)]                        # Extract: "Bug-1" from ".issues/data/bug/Bug-1/node.json"
-                if '/' not in relative:                                          # Ensure no subdirectories
+            if path.startswith(prefix) is False:
+                continue
+
+            relative = path[len(prefix):]                                        # Remove prefix
+            parts    = relative.split('/')
+
+            if len(parts) >= 2:
+                label    = parts[0]                                              # First part is label folder
+                filename = parts[1]                                              # Second part is filename
+
+                if filename in ('issue.json', 'node.json'):                      # Check for either file
                     try:
-                        labels.append(Safe_Str__Node_Label(relative))
+                        labels.add(Safe_Str__Node_Label(label))
                     except Exception:
                         pass                                                     # Skip invalid label formats
 
-        return labels
+        return list(labels)
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Type Index Operations
@@ -118,7 +155,7 @@ class Graph__Repository(Type_Safe):                                             
                    ) -> Schema__Type__Index:
         path = self.path_handler.path_for_type_index(node_type)
         if self.storage_fs.file__exists(path) is False:
-            return Schema__Type__Index(node_type=node_type)                      # Return empty index
+            return Schema__Type__Index(node_type=node_type)
 
         content = self.storage_fs.file__str(path)
         if not content:
@@ -186,7 +223,6 @@ class Graph__Repository(Type_Safe):                                             
             types.append(Schema__Node__Type.from_json(item))
         return types
 
-    #todo: types should be a Type_Safe collection class
     def node_types_save(self, types: List[Schema__Node__Type]) -> bool:          # Save all node types
         path = self.path_handler.path_for_node_types()
         data = {'types': [t.json() for t in types]}

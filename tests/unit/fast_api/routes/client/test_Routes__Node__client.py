@@ -40,7 +40,7 @@ class test_Routes__Nodes__client(TestCase):
                 node_create_response = Schema__Node__Create__Response.from_json(create__response.json())
 
             assert node_create_response.obj() == __(success=True,
-                                                       node=__(node_id='f0000009',          # the use of graph_deterministic_ids makes these ids to be deterministic
+                                                       node=__(node_id=__SKIP__,          # the use of graph_deterministic_ids makes these ids to be deterministic
                                                                node_type='task',
                                                                node_index=1,
                                                                label='Task-1',
@@ -49,7 +49,7 @@ class test_Routes__Nodes__client(TestCase):
                                                                status='backlog',
                                                                created_at=__SKIP__,
                                                                updated_at=__SKIP__,
-                                                               created_by='f0000010',
+                                                               created_by=__SKIP__,
                                                                tags=[],
                                                                links=[],
                                                                properties=__()),

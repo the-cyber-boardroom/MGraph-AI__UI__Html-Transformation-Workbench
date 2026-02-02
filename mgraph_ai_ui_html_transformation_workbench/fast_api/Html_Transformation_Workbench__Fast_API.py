@@ -1,9 +1,14 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# Html_Transformation_Workbench__Fast_API - Main FastAPI application
+# Phase 1: Added ISSUES__ROOT_PATH env var support for root selection
+# ═══════════════════════════════════════════════════════════════════════════════
+
 import mgraph_ai_ui_html_transformation_workbench__ui
 from fastapi                                                                                    import Response
 from osbot_utils.utils.Env                                                                      import get_env
 from osbot_utils.utils.Files                                                                    import path_combine, file_contents
 from memory_fs.Memory_FS                                                                        import Memory_FS
-from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Comments import Routes__Comments
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Comments                import Routes__Comments
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Comments__Service import Comments__Service
 from osbot_fast_api_serverless.fast_api.routes.Routes__Info                                     import Routes__Info
 from osbot_utils.type_safe.primitives.domains.files.safe_str.Safe_Str__File__Path               import Safe_Str__File__Path
@@ -33,13 +38,20 @@ from mgraph_ai_ui_html_transformation_workbench.utils.Version                   
 ROUTES_PATHS__CONSOLE = [f'/{UI__CONSOLE__ROUTE__CONSOLE}',
                          '/events/server']
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# Environment Variable Names
+# ═══════════════════════════════════════════════════════════════════════════════
+
 DEFAULT__ISSUES_PATH       = '.issues'
 ENV_VAR__ISSUES__IN_MEMORY = 'ISSUES__IN_MEMORY'                                 # Set to 'false' to use local disk
 ENV_VAR__ISSUES__PATH      = 'ISSUES__PATH'                                      # Path to .issues folder
+ENV_VAR__ISSUES__ROOT_PATH = 'ISSUES__ROOT_PATH'                                 # NEW: Default root path within issues
+
 
 class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     run_in_memory   : bool                 = True                                # Default to memory, override via env var
     issues_path     : Safe_Str__File__Path = DEFAULT__ISSUES_PATH                # Default path, override via env var
+    root_path       : Safe_Str__File__Path = ''                                  # NEW: Root path within issues (empty = use issues_path)
     memory_fs       : Memory_FS            = None
 
     graph_repository      : Graph__Repository    = None
@@ -77,28 +89,29 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     # ═══════════════════════════════════════════════════════════════════════════════
     # Create all services with proper dependency chain
     # ═══════════════════════════════════════════════════════════════════════════════
-    def setup_services(self):                                                               # Initialize the service dependency chain
 
-        use_memory  = self.resolve_storage_mode()                                           # 1. Determine storage mode from env var or attribute
-        issues_path = self.resolve_issues_path()                                            # 2. Determine issues path from env var or attribute
+    def setup_services(self):                                                    # Initialize the service dependency chain
+        use_memory  = self.resolve_storage_mode()                                # 1. Determine storage mode from env var or attribute
+        issues_path = self.resolve_issues_path()                                 # 2. Determine issues path from env var or attribute
+        root_path   = self.resolve_root_path()                                   # 3. NEW: Determine root path from env var or attribute
 
-        if use_memory:                                                                      # 3. Create storage backend based on configuration
+        if use_memory:                                                           # 4. Create storage backend based on configuration
             storage_fs = Storage_FS__Memory()
         else:
             self.run_in_memory = False
             storage_fs = Storage_FS__Local_Disk(root_path=issues_path)
 
-        self.memory_fs = Memory_FS(storage_fs=storage_fs)                                   # 4. Create Memory-FS wrapper
+        self.memory_fs = Memory_FS(storage_fs=storage_fs)                        # 5. Create Memory-FS wrapper
 
-        self.graph_repository = Graph__Repository(memory_fs  = self.memory_fs       )       # 5. Create repository
+        self.graph_repository = Graph__Repository(memory_fs = self.memory_fs)    # 6. Create repository
 
-        self.type_service     = Type__Service    (repository=self.graph_repository)               # 6. Create services
-        self.node_service     = Node__Service    (repository=self.graph_repository)
-        self.link_service     = Link__Service    (repository=self.graph_repository)
+        self.type_service     = Type__Service    (repository = self.graph_repository)  # 7. Create services
+        self.node_service     = Node__Service    (repository = self.graph_repository)
+        self.link_service     = Link__Service    (repository = self.graph_repository)
         self.comments_service = Comments__Service(repository = self.graph_repository)
 
 
-        self.storage_status__service = Storage__Status__Service(storage_fs= storage_fs)
+        self.storage_status__service = Storage__Status__Service(storage_fs   = storage_fs)
         self.git_status__service     = Git__Status__Service    ()
         self.types_status__service   = Types__Status__Service  (type_service = self.type_service  )
         self.index_status__service   = Index__Status__Service  (type_service = self.type_service  ,
@@ -108,23 +121,42 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
                                                                types_service   = self.types_status__service  ,
                                                                index_service   = self.index_status__service  )
 
-        self.type_service.initialize_default_types()                                        # 7. Initialize default types (skips if already exist)
+        self.type_service.initialize_default_types()                             # 8. Initialize default types (skips if already exist)
 
-    def resolve_storage_mode(self) -> bool:                                                 # Determine if using in-memory storage
-        env_value = get_env(ENV_VAR__ISSUES__IN_MEMORY, None)                               # Check environment variable first
+        # Store resolved root path for later use
+        self.root_path = root_path
+
+    def resolve_storage_mode(self) -> bool:                                      # Determine if using in-memory storage
+        env_value = get_env(ENV_VAR__ISSUES__IN_MEMORY, None)                    # Check environment variable first
 
         if env_value is not None:
-            return env_value.lower() not in ('false', '0', 'no', 'off')                     # Any of these = use disk
+            return env_value.lower() not in ('false', '0', 'no', 'off')          # Any of these = use disk
 
-        return self.run_in_memory                                                           # Fall back to instance attribute
+        return self.run_in_memory                                                # Fall back to instance attribute
 
-    def resolve_issues_path(self) -> str:                                                   # Determine issues folder path
-        env_value = get_env(ENV_VAR__ISSUES__PATH, None)                                    # Check environment variable first
+    def resolve_issues_path(self) -> str:                                        # Determine issues folder path
+        env_value = get_env(ENV_VAR__ISSUES__PATH, None)                         # Check environment variable first
 
         if env_value:
             return env_value
 
-        return str(self.issues_path)                                                        # Fall back to instance attribute
+        return str(self.issues_path)                                             # Fall back to instance attribute
+
+    def resolve_root_path(self) -> str:                                          # NEW: Determine root path within issues
+        env_value = get_env(ENV_VAR__ISSUES__ROOT_PATH, None)                    # Check environment variable first
+
+        if env_value:
+            return env_value
+
+        if self.root_path:                                                       # Fall back to instance attribute
+            return str(self.root_path)
+
+        return ''                                                                # Empty = use issues_path as root
+
+    def get_current_root_path(self) -> str:                                      # NEW: Get the current effective root path
+        if self.root_path:
+            return self.root_path
+        return str(self.issues_path)
 
     def add_chrome_llm_routes(self):
         def get_file(file_path):

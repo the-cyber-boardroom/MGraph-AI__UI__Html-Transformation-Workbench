@@ -1,13 +1,14 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # Type__Service - Business logic for type definitions
 # Manages node types (bug, task, feature) and link types (blocks, has-task)
+# Phase 1: Added git-repo type for root issue support
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from typing                                                                                             import List, Optional
 from osbot_utils.type_safe.Type_Safe                                                                    import Type_Safe
 from osbot_utils.type_safe.primitives.domains.common.safe_str.Safe_Str__Text                            import Safe_Str__Text
 from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                                        import Obj_Id
-from osbot_utils.type_safe.type_safe_core.decorators.type_safe import type_safe
+from osbot_utils.type_safe.type_safe_core.decorators.type_safe                                          import type_safe
 
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Status, Safe_Str__Node_Type_Display, Safe_Str__Link_Verb
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Type                        import Schema__Node__Type
@@ -15,7 +16,7 @@ from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Type
 from mgraph_ai_ui_html_transformation_workbench.schemas.safe_str.Safe_Str__Hex_Color                    import Safe_Str__Hex_Color
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Graph__Repository         import Graph__Repository
 
-# todo: refactor .repository to .graph_repository
+
 class Type__Service(Type_Safe):                                                  # Type definition service
     repository : Graph__Repository                                               # Data access layer
 
@@ -40,16 +41,15 @@ class Type__Service(Type_Safe):                                                 
                          name           : Safe_Str__Node_Type                       ,
                          display_name   : Safe_Str__Node_Type_Display               ,
                          description    : Safe_Str__Text                 = ''       ,
-                         color          : Safe_Str__Hex_Color            = '#888888',       # todo: move to default static value
-                         statuses       : List[str]                      = None,
-                         default_status : Safe_Str__Status               = 'backlog'        # todo: move to default static value
+                         color          : Safe_Str__Hex_Color            = '#888888',
+                         statuses       : List[str]                      = None     ,
+                         default_status : Safe_Str__Status               = 'backlog'
                     ) -> Schema__Node__Type:
-        types = self.repository.node_types_load()                                           # todo: review this step since this is currently reloading it all from disk
+        types = self.repository.node_types_load()
 
-        # Check for duplicate
-        for t in types:                                                                     # todo: this should done via on an .exists(...) method
+        for t in types:
             if t.name == name:
-                return None  # Already exists
+                return None                                                      # Already exists
 
         status_list = statuses or ['backlog', 'in-progress', 'done']
 
@@ -70,13 +70,11 @@ class Type__Service(Type_Safe):                                                 
                     ) -> bool:
         types = self.repository.node_types_load()
 
-        # Check if any nodes of this type exist
-        type_index = self.repository.type_index_load(name)
+        type_index = self.repository.type_index_load(name)                       # Check if any nodes of this type exist
         if int(type_index.count) > 0:
-            return False  # Cannot delete type with existing nodes
+            return False                                                         # Cannot delete type with existing nodes
 
-        # Remove type
-        types = [t for t in types if str(t.name) != str(name)]
+        types = [t for t in types if str(t.name) != str(name)]                   # Remove type
         self.repository.node_types_save(types)
         return True
 
@@ -100,16 +98,15 @@ class Type__Service(Type_Safe):                                                 
     def create_link_type(self                                 ,                  # Create new link type
                          verb          : Safe_Str__Link_Verb  ,
                          inverse_verb  : Safe_Str__Link_Verb                  ,
-                         description   : Safe_Str__Text             = '',
-                         source_types  : List[Safe_Str__Node_Type]  = None,
+                         description   : Safe_Str__Text             = ''      ,
+                         source_types  : List[Safe_Str__Node_Type]  = None    ,
                          target_types  : List[Safe_Str__Node_Type]  = None
                     ) -> Schema__Link__Type:
-        types = self.repository.link_types_load()                               # todo: review this for multiple file system load
+        types = self.repository.link_types_load()
 
-        # Check for duplicate
-        for t in types:                                                         # todo: this should be done via an .exists()
+        for t in types:
             if str(t.verb) == str(verb):
-                return None  # Already exists
+                return None                                                      # Already exists
 
         link_type = Schema__Link__Type(link_type_id = Obj_Id()      ,
                                        verb         = verb          ,
@@ -127,11 +124,20 @@ class Type__Service(Type_Safe):                                                 
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def initialize_default_types(self) -> None:                                  # Set up default types
-        # Check if already initialized
-        if len(self.repository.node_types_load()) > 0:
+        if len(self.repository.node_types_load()) > 0:                           # Check if already initialized
             return
 
-        # Create default node types
+        # ───────────────────────────────────────────────────────────────────────────
+        # Node Types
+        # ───────────────────────────────────────────────────────────────────────────
+
+        self.create_node_type(name           = Safe_Str__Node_Type('git-repo')     ,  # NEW: Root issue type for git repositories
+                              display_name   = 'GitRepo'                           ,
+                              description    = 'Git repository root - contains all issues',
+                              color          = '#6366f1'                           ,  # Indigo color
+                              statuses       = ['active', 'archived']              ,
+                              default_status = 'active'                            )
+
         self.create_node_type(name           = Safe_Str__Node_Type('bug')          ,
                               display_name   = 'Bug'                               ,
                               description    = 'Defect or error in the system'     ,
@@ -160,7 +166,10 @@ class Type__Service(Type_Safe):                                                 
                               statuses       = ['active', 'inactive']              ,
                               default_status = 'active'                            )
 
-        # Create default link types
+        # ───────────────────────────────────────────────────────────────────────────
+        # Link Types
+        # ───────────────────────────────────────────────────────────────────────────
+
         self.create_link_type(verb         = Safe_Str__Link_Verb('blocks')          ,
                               inverse_verb = 'blocked-by'                           ,
                               description  = 'Prevents progress on target'          ,
@@ -170,7 +179,7 @@ class Type__Service(Type_Safe):                                                 
         self.create_link_type(verb         = Safe_Str__Link_Verb('has-task')        ,
                               inverse_verb = 'task-of'                              ,
                               description  = 'Contains as sub-work'                 ,
-                              source_types = ['feature']                            ,
+                              source_types = ['feature', 'git-repo']                ,  # git-repo can have tasks
                               target_types = ['task']                               )
 
         self.create_link_type(verb         = Safe_Str__Link_Verb('assigned-to')     ,
@@ -188,5 +197,11 @@ class Type__Service(Type_Safe):                                                 
         self.create_link_type(verb         = Safe_Str__Link_Verb('relates-to')      ,
                               inverse_verb = 'relates-to'                           ,
                               description  = 'General association (symmetric)'      ,
-                              source_types = ['bug', 'task', 'feature']             ,
+                              source_types = ['bug', 'task', 'feature', 'git-repo'] ,
+                              target_types = ['bug', 'task', 'feature', 'git-repo'] )
+
+        self.create_link_type(verb         = Safe_Str__Link_Verb('contains')        ,  # NEW: For hierarchical structure
+                              inverse_verb = 'contained-by'                         ,
+                              description  = 'Parent contains child issue'          ,
+                              source_types = ['git-repo', 'feature', 'task']        ,
                               target_types = ['bug', 'task', 'feature']             )
