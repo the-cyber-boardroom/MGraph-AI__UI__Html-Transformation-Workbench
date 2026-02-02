@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issues Tracker - v0.1.4</title>
+    <!-- Load base CSS from v0.1.0 -->
+    <link rel="stylesheet" href="../v0.1.0/css/app.css">
+    <!-- D3.js for graph visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Issues UI v0.1.4 - Graph Visualization                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!--
+    Changes from v0.1.3:
+    - Bug-5: Fix create button state reset
+    - Task-13: Messages Panel for errors/activities
+    - Task-14: Add getNodeGraph() to graph-service
+    - Task-15: D3.js force-directed graph component
+    - Task-16: View Graph button in node detail
+    - Feature-12: Complete graph visualization feature
+    -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- BASE v0.1.0 - Core Services                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Core Services (load order matters) -->
+    <script src="../v0.1.0/js/event-bus.js"></script>
+    <script src="../v0.1.0/js/config-manager.js"></script>
+    <script src="../v0.1.0/js/markdown-parser.js"></script>
+    <script src="../v0.1.0/js/graph-service.js"></script>
+
+    <!-- v0.1.4 Graph Service Override (adds getNodeGraph + new node types) -->
+    <script src="js/graph-service-override.js"></script>
+
+    <!-- v0.1.4 Messages Service -->
+    <script src="js/messages-service.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- v0.1.4 Shell - Enhanced with Graph Viewer + Messages Panel              -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- Load shell BEFORE the element is in DOM -->
+    <script src="components/shell/issues-shell.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Main Components from v0.1.0                                             -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.0/components/node-list/node-list.js"></script>
+    <script src="../v0.1.0/components/node-detail/node-detail.js"></script>
+    <script src="../v0.1.0/components/kanban-board/kanban-board.js"></script>
+    <script src="../v0.1.0/components/create-node-modal/create-node-modal.js"></script>
+
+    <!-- v0.1.2 Node List Override (fixes scroll issue) -->
+    <script src="../v0.1.2/components/node-list/node-list.js"></script>
+
+    <!-- v0.1.2 Kanban Board Override (drag-and-drop with optimistic UI) -->
+    <script src="../v0.1.2/components/kanban-board/kanban-board.js"></script>
+
+    <!-- v0.1.3 Kanban Board Override (add create buttons) -->
+    <script src="../v0.1.3/components/kanban-board/kanban-board.js"></script>
+
+    <!-- v0.1.3 Node Detail Override (markdown toggle + comments) -->
+    <script src="../v0.1.3/components/node-detail/node-detail.js"></script>
+
+    <!-- v0.1.4 Node Detail Override (View Graph button) -->
+    <script src="components/node-detail/node-detail.js"></script>
+
+    <!-- v0.1.4 Create Node Modal Override (Bug-5 fix) -->
+    <script src="components/create-node-modal/create-node-modal.js"></script>
+
+    <!-- Debug Components from v0.1.0 -->
+    <script src="../v0.1.0/components/events-viewer/events-viewer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- v0.1.2 Components - API Logger and Automation Runner                    -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="../v0.1.2/components/api-logger/api-logger.js"></script>
+    <script src="../v0.1.2/components/automation-runner/automation-runner.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- v0.1.4 New Components - Messages Panel & Graph Viewer                   -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <script src="components/messages-panel/messages-panel.js"></script>
+    <script src="components/graph-viewer/graph-viewer.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- Shell Element - Added AFTER all scripts are loaded                      -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+
+    <issues-shell></issues-shell>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- App Initialization                                                       -->
+    <!-- ═══════════════════════════════════════════════════════════════════════ -->
+    <script>
+        // Wait for DOM and all components to be ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Give custom elements time to register
+            requestAnimationFrame(() => {
+                // Register main components with the router
+                window.issuesApp.router.register(NodeList);
+                window.issuesApp.router.register(NodeDetail);
+                window.issuesApp.router.register(KanbanBoard);
+                window.issuesApp.router.register(GraphViewer);
+
+                // Register sidebar components
+                window.issuesApp.router.register(EventsViewer);
+                window.issuesApp.router.register(ApiLogger);
+                window.issuesApp.router.register(AutomationRunner);
+                window.issuesApp.router.register(MessagesPanel);
+
+                // Add the create modal to the body (it's a global component)
+                const createModal = document.createElement('create-node-modal');
+                document.body.appendChild(createModal);
+
+                console.log('[Issues UI v0.1.4] Initialized: Graph Visualization, Messages Panel, Bug Fixes');
+            });
+        });
+    </script>
+</body>
+</html>
