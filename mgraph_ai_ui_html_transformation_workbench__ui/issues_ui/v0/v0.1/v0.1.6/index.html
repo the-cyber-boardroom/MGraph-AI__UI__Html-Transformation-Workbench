@@ -30,10 +30,13 @@
     - U4: Child issues list and "Add Child Issue" button/form (P2)
     - U5: Tree view for nested issues with expand/collapse (P3)
     - Dynamic type loading from /types/api/types API
+    - Dynamic link types loading from /types/api/link-types API
+    - Filter relationship verbs by source issue type
 
     New Services:
     - RootService: Managing root issue folder selection
     - ChildIssuesService: Managing parent-child issue relationships
+    - LinkTypesService: Loading link types and filtering by source type
 
     Backend APIs (from brief-005):
     - GET /api/roots: List available root issue folders
@@ -42,6 +45,7 @@
     - POST /api/issues/children: Add child issue to parent
     - POST /api/issues/children/list: List children of an issue
     - POST /api/issues/convert: Convert issue to support child issues
+    - GET /types/api/link-types: List all link types with source_types
     -->
 
     <!-- ======================================================================= -->
@@ -71,6 +75,9 @@
 
     <!-- v0.1.6 Child Issues Service (new - handles parent-child relationships) -->
     <script src="js/child-issues-service.js"></script>
+
+    <!-- v0.1.6 Link Types Service (new - loads link types from API, filters by source type) -->
+    <script src="js/link-types-service.js"></script>
 
     <!-- ======================================================================= -->
     <!-- Shell - v0.1.4 base + v0.1.5 override + v0.1.6 override                 -->
@@ -198,7 +205,7 @@
                 const createModal = document.createElement('create-node-modal');
                 document.body.appendChild(createModal);
 
-                console.log('[Issues UI v0.1.6] Initialized: Phase 1 Complete - Root Selector, Child Issues, Tree View');
+                console.log('[Issues UI v0.1.6] Initialized: Phase 1 Complete - Root Selector, Child Issues, Tree View, Link Type Filtering');
             });
         });
     </script>

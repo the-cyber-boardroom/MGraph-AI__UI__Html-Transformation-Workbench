@@ -2,6 +2,7 @@
  * Node Detail Override - v0.1.6
  *
  * Purpose: Add child issue support for recursive issue model (Phase 1)
+ *          + Dynamic link types filtering by source type
  * Version: v0.1.6
  *
  * U3: "Convert to Parent" button - enables child issues for an issue
@@ -12,6 +13,7 @@
  * - Show "Convert to Parent" button when has_issues is false
  * - Show child issues list and "Add Child Issue" button when has_issues is true
  * - Modal form for creating child issues
+ * - Filter relationship verbs based on source type (uses LinkTypesService)
  */
 
 (function() {
@@ -599,11 +601,142 @@
                 outline: none;
                 border-color: #e94560;
             }
+
+            /* Form hints for link modal */
+            .nd-form-hint {
+                font-size: 11px;
+                color: #8a9cc4;
+                margin-top: 6px;
+            }
+            .nd-form-hint-error {
+                color: #f87171;
+            }
         `;
 
         return baseStyles + v016Styles;
     };
 
-    console.log('[Issues UI v0.1.6] Node Detail patched: U3 Convert to Parent, U4 Child Issues');
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // Link Types Filtering - Filter verbs based on source type
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    // Store original renderLinkModal
+    const _originalRenderLinkModal = NodeDetail.prototype.renderLinkModal;
+
+    // Override renderLinkModal to filter verbs by source type
+    NodeDetail.prototype.renderLinkModal = function() {
+        // Get the source type from the current node
+        const sourceType = this.graphService.parseTypeFromLabel(this.state.node?.label || '');
+
+        // Get valid verbs for this source type using the LinkTypesService
+        let verbOptions = [];
+        if (window.issuesApp.linkTypesService && window.issuesApp.linkTypesService.isInitialized) {
+            verbOptions = window.issuesApp.linkTypesService.getVerbsForSourceType(sourceType);
+        } else {
+            // Fallback to original behavior if service not ready
+            const linkTypes = window.issuesApp.linkTypes || {};
+            verbOptions = Object.keys(linkTypes).filter(v => !this.isInverseVerb(v));
+        }
+
+        // If current verb selection is not valid, reset to first valid option
+        if (verbOptions.length > 0 && !verbOptions.includes(this.state.linkModalVerb)) {
+            this.state.linkModalVerb = verbOptions[0];
+        }
+
+        // Build the modal HTML with filtered verbs
+        const linkTypes = window.issuesApp.linkTypes || {};
+
+        return `
+            <div class="nd-modal-overlay" id="nd-modal-overlay">
+                <div class="nd-modal">
+                    <div class="nd-modal-header">
+                        <h3>Add Relationship</h3>
+                        <button class="nd-modal-close" id="nd-modal-close">&times;</button>
+                    </div>
+                    <div class="nd-modal-body">
+                        <div class="nd-form-group">
+                            <label>Relationship Type</label>
+                            <select class="nd-select" id="nd-link-verb">
+                                ${verbOptions.length > 0 ? verbOptions.map(verb => {
+                                    const config = linkTypes[verb] || {};
+                                    const description = config.description ? ` - ${config.description}` : '';
+                                    return `
+                                        <option value="${verb}" ${this.state.linkModalVerb === verb ? 'selected' : ''}>
+                                            ${verb}${description}
+                                        </option>
+                                    `;
+                                }).join('') : `
+                                    <option value="" disabled>No valid relationships for ${sourceType}</option>
+                                `}
+                            </select>
+                            ${verbOptions.length === 0 ? `
+                                <div class="nd-form-hint nd-form-hint-error">
+                                    No relationship types are configured for ${sourceType} issues.
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="nd-form-group">
+                            <label>Target Node</label>
+                            <input type="text" class="nd-input" id="nd-link-search"
+                                   placeholder="Search by title or label..."
+                                   value="${this.escapeHtml(this.state.linkModalSearch)}">
+                        </div>
+
+                        ${this.state.linkModalResults.length > 0 ? `
+                            <div class="nd-search-results">
+                                ${this.state.linkModalResults.map(node => {
+                                    const nodeType = this.graphService.parseTypeFromLabel(node.label);
+                                    const typeConfig = window.issuesApp.nodeTypes[nodeType] || {};
+                                    const isSelected = this.state.linkModalTarget === node.label;
+                                    return `
+                                        <div class="nd-search-result ${isSelected ? 'selected' : ''}"
+                                             data-label="${node.label}">
+                                            <span class="nd-result-label" style="color: ${typeConfig.color}">
+                                                ${typeConfig.icon || ''} ${node.label}
+                                            </span>
+                                            <span class="nd-result-title">${this.escapeHtml(node.title || '')}</span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        ` : this.state.linkModalSearch.length >= 2 ? `
+                            <div class="nd-no-results">No matching nodes found.</div>
+                        ` : ''}
+                    </div>
+                    <div class="nd-modal-footer">
+                        <button class="nd-btn nd-btn-secondary" id="nd-modal-cancel">Cancel</button>
+                        <button class="nd-btn nd-btn-primary" id="nd-modal-create"
+                                ${!this.state.linkModalTarget || verbOptions.length === 0 ? 'disabled' : ''}>
+                            Create Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    };
+
+    // Override showLinkModal to set the first valid verb as default
+    const _originalShowLinkModal = NodeDetail.prototype.showLinkModal;
+    NodeDetail.prototype.showLinkModal = function() {
+        this.state.showLinkModal = true;
+        this.state.linkModalSearch = '';
+        this.state.linkModalResults = [];
+        this.state.linkModalTarget = null;
+
+        // Get valid verbs for current source type
+        const sourceType = this.graphService.parseTypeFromLabel(this.state.node?.label || '');
+        let verbOptions = [];
+        if (window.issuesApp.linkTypesService && window.issuesApp.linkTypesService.isInitialized) {
+            verbOptions = window.issuesApp.linkTypesService.getVerbsForSourceType(sourceType);
+        }
+
+        // Set default verb to first valid option, or 'relates-to' as fallback
+        this.state.linkModalVerb = verbOptions.length > 0 ? verbOptions[0] : 'relates-to';
+
+        this.render();
+    };
+
+    console.log('[Issues UI v0.1.6] Node Detail patched: U3 Convert to Parent, U4 Child Issues, Link Type Filtering');
 
 })();
