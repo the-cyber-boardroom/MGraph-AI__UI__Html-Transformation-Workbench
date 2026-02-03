@@ -9,9 +9,11 @@ from osbot_utils.utils.Env                                                      
 from osbot_utils.utils.Files                                                                     import path_combine, file_contents
 from memory_fs.Memory_FS                                                                         import Memory_FS
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Comments                 import Routes__Comments
-from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.phase_1                          import Routes__Roots
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.phase_1.Routes__Roots            import Routes__Roots
+from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.phase_1.Routes__Issues           import Routes__Issues
 from mgraph_ai_ui_html_transformation_workbench.schemas.issues.phase_1.Schema__Root              import Schema__Root__Select__Request
 from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Comments__Service  import Comments__Service
+from mgraph_ai_ui_html_transformation_workbench.service.issues.phase_1.Issue__Children__Service  import Issue__Children__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.phase_1.Root__Issue__Service      import Root__Issue__Service
 from mgraph_ai_ui_html_transformation_workbench.service.issues.phase_1.Root__Selection__Service  import Root__Selection__Service
 from osbot_fast_api_serverless.fast_api.routes.Routes__Info                                      import Routes__Info
@@ -68,8 +70,9 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
     comments_service      : Comments__Service    = None
 
     # Phase 1: Root selection services
-    root_selection_service : Root__Selection__Service = None
-    root_issue_service     : Root__Issue__Service     = None
+    root_selection_service  : Root__Selection__Service  = None
+    root_issue_service      : Root__Issue__Service      = None
+    issue_children_service  : Issue__Children__Service  = None
 
     # Status services
     storage_status__service : Storage__Status__Service = None
@@ -95,6 +98,7 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         self.add_routes(Routes__Server  , service = self.server_status_service )
         self.add_routes(Routes__Comments, service = self.comments_service      )
         self.add_routes(Routes__Roots   , service = self.root_selection_service)  # Phase 1
+        self.add_routes(Routes__Issues  , service = self.issue_children_service)  # Phase 1
 
         self.add_routes(Routes__Info)
         self.add_routes(Routes__Set_Cookie)
@@ -130,6 +134,8 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         self.root_selection_service = Root__Selection__Service(repository   = self.graph_repository,
                                                                path_handler = self.path_handler    )
         self.root_issue_service     = Root__Issue__Service    (repository   = self.graph_repository,
+                                                               path_handler = self.path_handler    )
+        self.issue_children_service = Issue__Children__Service(repository   = self.graph_repository,
                                                                path_handler = self.path_handler    )
 
         # Status services

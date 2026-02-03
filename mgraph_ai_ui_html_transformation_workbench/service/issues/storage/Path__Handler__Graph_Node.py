@@ -27,6 +27,7 @@ from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Ty
 FILE_NAME__ISSUE_JSON = 'issue.json'                                             # NEW: Preferred issue data file
 FILE_NAME__NODE_JSON  = 'node.json'                                              # LEGACY: Fallback for backward compat
 
+# todo: quite a number of raw primitives used below (which need to type safe primitives)
 
 class Path__Handler__Graph_Node(Type_Safe):                                      # Path handler for graph nodes
     base_path : Safe_Str__File__Path = '.issues'                                 # Root directory for issues
