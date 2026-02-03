@@ -1,0 +1,20 @@
+{
+  "node_id": "dac01ff9",
+  "node_type": "release",
+  "node_index": 5,
+  "label": "Release-5",
+  "title": "v0.2.31 - Dynamic Types + Link Types",
+  "description": "Release v0.2.31 for Phase-1.",
+  "status": "planned",
+  "created_at": 1770120670892,
+  "updated_at": 1770120670892,
+  "created_by": "system",
+  "tags": [
+    "release",
+    "v0.2.31"
+  ],
+  "links": [],
+  "properties": {
+    "release_tag": "v0.2.31"
+  }
+}

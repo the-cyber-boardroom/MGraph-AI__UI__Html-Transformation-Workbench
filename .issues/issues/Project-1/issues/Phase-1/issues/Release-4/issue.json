@@ -1,0 +1,20 @@
+{
+  "node_id": "522ba605",
+  "node_type": "release",
+  "node_index": 4,
+  "label": "Release-4",
+  "title": "v0.2.30 - Recursive UI Completed",
+  "description": "Release v0.2.30 for Phase-1.",
+  "status": "planned",
+  "created_at": 1770120670892,
+  "updated_at": 1770120670892,
+  "created_by": "system",
+  "tags": [
+    "release",
+    "v0.2.30"
+  ],
+  "links": [],
+  "properties": {
+    "release_tag": "v0.2.30"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "node_id": "d0b3b694",
+  "node_type": "phase",
+  "node_index": 1,
+  "label": "Phase-1",
+  "title": "Phase 1 - GitGraph Issues",
+  "description": "Phase 1 for Project-1 (GitGraph Issues).",
+  "status": "in-progress",
+  "created_at": 1770120670892,
+  "updated_at": 1770120670892,
+  "created_by": "system",
+  "tags": [
+    "phase-1"
+  ],
+  "links": [
+    {
+      "link_type_id": "3d5e7f91",
+      "verb": "has-release",
+      "target_id": "ddce3fa6",
+      "target_label": "Release-1",
+      "created_at": 1770120670892
+    },
+    {
+      "link_type_id": "3d5e7f91",
+      "verb": "has-release",
+      "target_id": "d61ace2f",
+      "target_label": "Release-2",
+      "created_at": 1770120670892
+    },
+    {
+      "link_type_id": "3d5e7f91",
+      "verb": "has-release",
+      "target_id": "e12881f1",
+      "target_label": "Release-3",
+      "created_at": 1770120670892
+    },
+    {
+      "link_type_id": "3d5e7f91",
+      "verb": "has-release",
+      "target_id": "522ba605",
+      "target_label": "Release-4",
+      "created_at": 1770120670892
+    },
+    {
+      "link_type_id": "3d5e7f91",
+      "verb": "has-release",
+      "target_id": "dac01ff9",
+      "target_label": "Release-5",
+      "created_at": 1770120670892
+    }
+  ],
+  "properties": {}
+}

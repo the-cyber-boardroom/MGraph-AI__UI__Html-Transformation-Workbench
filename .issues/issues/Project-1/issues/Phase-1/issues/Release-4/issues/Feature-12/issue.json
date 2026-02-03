@@ -17,13 +17,6 @@
   ],
   "links": [
     {
-      "link_type_id": "d181d74e",
-      "verb": "",
-      "target_id": "3dfc6c3d",
-      "target_label": "Version-1",
-      "created_at": 1769989196449
-    },
-    {
       "link_type_id": "15bb9670",
       "verb": "",
       "target_id": "62e54121",

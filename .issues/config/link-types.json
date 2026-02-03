@@ -66,19 +66,19 @@
         "bug",
         "task",
         "feature",
-        "version",
         "user-story",
         "project",
-        "release"
+        "release",
+        "phase"
       ],
       "target_types": [
         "bug",
         "task",
         "feature",
-        "version",
         "user-story",
         "project",
-        "release"
+        "release",
+        "phase"
       ]
     },
     {
@@ -87,7 +87,6 @@
       "inverse_verb": "feature-of",
       "description": "Version contains feature",
       "source_types": [
-        "version",
         "release",
         "project"
       ],
@@ -96,26 +95,11 @@
       ]
     },
     {
-      "link_type_id": "9b1c2d3e",
-      "verb": "has-version",
-      "inverse_verb": "version-of",
-      "description": "Project or release contains version",
-      "source_types": [
-        "project",
-        "release",
-        "git-repo"
-      ],
-      "target_types": [
-        "version"
-      ]
-    },
-    {
       "link_type_id": "1e2f3a4b",
       "verb": "has-bug",
       "inverse_verb": "bug-of",
       "description": "Version or feature contains bug",
       "source_types": [
-        "version",
         "feature",
         "release",
         "project"
@@ -139,6 +123,31 @@
       ]
     },
     {
+      "link_type_id": "2c4d6e80",
+      "verb": "has-phase",
+      "inverse_verb": "phase-of",
+      "description": "Project or repo contains a phase",
+      "source_types": [
+        "git-repo",
+        "project"
+      ],
+      "target_types": [
+        "phase"
+      ]
+    },
+    {
+      "link_type_id": "3d5e7f91",
+      "verb": "has-release",
+      "inverse_verb": "release-of",
+      "description": "Phase contains a release",
+      "source_types": [
+        "phase"
+      ],
+      "target_types": [
+        "release"
+      ]
+    },
+    {
       "link_type_id": "b2c3d4e5",
       "verb": "contains",
       "inverse_verb": "contained-by",
@@ -147,7 +156,7 @@
         "git-repo",
         "project",
         "release",
-        "version",
+        "phase",
         "feature",
         "user-story",
         "task"
@@ -155,7 +164,7 @@
       "target_types": [
         "project",
         "release",
-        "version",
+        "phase",
         "feature",
         "user-story",
         "task",

@@ -15,6 +15,21 @@
       "properties": []
     },
     {
+      "type_id": "9c3a72bf",
+      "name": "phase",
+      "display_name": "Phase",
+      "description": "Project phase grouping multiple releases",
+      "icon": "",
+      "color": "#14b8a6",
+      "statuses": [
+        "planned",
+        "in-progress",
+        "completed"
+      ],
+      "default_status": "planned",
+      "properties": []
+    },
+    {
       "type_id": "b384c6bd",
       "name": "bug",
       "display_name": "Bug",
@@ -77,22 +92,6 @@
         "inactive"
       ],
       "default_status": "active",
-      "properties": []
-    },
-    {
-      "type_id": "a1b2c3d4",
-      "name": "version",
-      "display_name": "Version",
-      "description": "Release milestone grouping features and tasks",
-      "icon": "",
-      "color": "#f59e0b",
-      "statuses": [
-        "planned",
-        "in-progress",
-        "released",
-        "deprecated"
-      ],
-      "default_status": "planned",
       "properties": []
     },
     {

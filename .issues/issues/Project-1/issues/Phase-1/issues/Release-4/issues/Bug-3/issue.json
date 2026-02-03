@@ -10,14 +10,6 @@
   "updated_at": 1769988280933,
   "created_by": "185acc53",
   "tags": [],
-  "links": [
-    {
-      "link_type_id": "41b71edb",
-      "verb": "relates-to",
-      "target_id": "f030a001",
-      "target_label": "Version-1",
-      "created_at": 1769988280933
-    }
-  ],
+  "links": [],
   "properties": {}
 }
