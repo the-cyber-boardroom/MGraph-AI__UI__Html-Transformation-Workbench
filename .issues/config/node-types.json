@@ -97,6 +97,20 @@
       ],
       "default_status": "draft",
       "properties": []
+    },
+    {
+      "name": "project",
+      "display_name": "Project",
+      "color": "#8b5cf6",
+      "statuses": ["proposed", "active", "on-hold", "completed", "archived"],
+      "default_status": "proposed"
+    },
+    {
+      "name": "release",
+      "display_name": "Release",
+      "color": "#f59e0b",
+      "statuses": ["planned", "in-progress", "testing", "released", "deprecated"],
+      "default_status": "planned"
     }
   ]
 }

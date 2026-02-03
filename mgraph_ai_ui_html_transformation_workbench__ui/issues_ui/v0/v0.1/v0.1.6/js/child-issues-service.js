@@ -25,7 +25,7 @@
          */
         _getBaseUrl() {
             const config = window.issuesApp.config;
-            return config?.apiBaseUrl || '/nodes';
+            return config?.apiBaseUrl || '/issues';
         }
 
         /**
