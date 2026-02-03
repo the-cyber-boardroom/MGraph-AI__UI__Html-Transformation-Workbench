@@ -1,5 +1,7 @@
 # Project-1: GitGraph Issues
 
+**Parent:** [GitRepo-1: Project Issues](../..)
+
 This project tracks the work for **GitGraph Issues**. It is organized into phases, each containing releases with features, tasks, and bugs.
 
 ## Phases

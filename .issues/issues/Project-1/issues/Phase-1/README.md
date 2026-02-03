@@ -1,5 +1,7 @@
 # Phase-1: Phase 1 - GitGraph Issues
 
+**Parent:** [Project-1: GitGraph Issues](../..)
+
 This phase groups the releases that deliver **Phase 1 - GitGraph Issues**. Each release below is a shippable slice with its own set of features, tasks, and bugs.
 
 ## Releases

@@ -1,5 +1,7 @@
 # Release-3: v0.2.29 - Phase 1 Tests + UI
 
+**Parent:** [Phase-1: Phase 1 - GitGraph Issues](../..)
+
 This release groups related work items into a single deliverable. Below are the direct child issues and any nested work under their features.
 
 ## Direct Child Issues

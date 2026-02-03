@@ -1,5 +1,7 @@
 # Release-5: v0.2.31 - Dynamic Types + Link Types
 
+**Parent:** [Phase-1: Phase 1 - GitGraph Issues](../..)
+
 This release groups related work items into a single deliverable. Below are the direct child issues and any nested work under their features.
 
 ## Direct Child Issues
