@@ -450,6 +450,35 @@
         return baseStyles + treeStyles;
     };
 
-    console.log('[Issues UI v0.1.6] Node List patched: U5 Tree View');
+    // Listen for types-loaded event to re-render type filter buttons
+    const _originalConnectedCallback = NodeList.prototype.connectedCallback;
+    NodeList.prototype.connectedCallback = function() {
+        if (_originalConnectedCallback) {
+            _originalConnectedCallback.call(this);
+        }
+
+        // Add types-loaded listener
+        if (window.issuesApp.events && !this._v016TypesListener) {
+            this._v016TypesListener = () => {
+                console.log('[v0.1.6] Types loaded, re-rendering Node List');
+                this.render();
+            };
+            window.issuesApp.events.on('types-loaded', this._v016TypesListener);
+        }
+    };
+
+    const _originalDisconnectedCallback = NodeList.prototype.disconnectedCallback;
+    NodeList.prototype.disconnectedCallback = function() {
+        if (window.issuesApp.events && this._v016TypesListener) {
+            window.issuesApp.events.off('types-loaded', this._v016TypesListener);
+            this._v016TypesListener = null;
+        }
+
+        if (_originalDisconnectedCallback) {
+            _originalDisconnectedCallback.call(this);
+        }
+    };
+
+    console.log('[Issues UI v0.1.6] Node List patched: U5 Tree View, Dynamic Types');
 
 })();
