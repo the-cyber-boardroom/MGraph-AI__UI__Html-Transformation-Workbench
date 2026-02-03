@@ -6,6 +6,7 @@
  *
  * Phase 1 Implementation:
  * - GET /api/roots: List available root issue folders
+ * - GET /api/roots/current: Get currently selected root
  * - POST /api/roots/select: Select a root context
  * - Track current root selection
  *
@@ -26,25 +27,65 @@
 
         /**
          * Initialize the root service
-         * Fetches available roots and selects the default
+         * Fetches current root and available roots
          */
         async initialize() {
             if (this._initialized) return;
 
             try {
                 this._loading = true;
-                await this.fetchRoots();
 
-                // Select first root by default if available
-                if (this._availableRoots.length > 0 && !this._currentRoot) {
-                    await this.selectRoot(this._availableRoots[0].path);
-                }
+                // Fetch current root first
+                await this.fetchCurrentRoot();
+
+                // Then fetch all available roots
+                await this.fetchRoots();
 
                 this._initialized = true;
             } catch (error) {
                 console.error('[RootService] Initialization failed:', error);
             } finally {
                 this._loading = false;
+            }
+        }
+
+        /**
+         * Fetch current root from server
+         * GET /api/roots/current
+         */
+        async fetchCurrentRoot() {
+            const config = window.issuesApp.config;
+            const baseUrl = config?.apiBaseUrl || '/nodes';
+
+            try {
+                const response = await fetch(`${baseUrl}/api/roots/current`);
+
+                if (!response.ok) {
+                    console.warn('[RootService] /api/roots/current not available');
+                    return null;
+                }
+
+                const data = await response.json();
+                if (data.success) {
+                    this._currentRoot = {
+                        path: data.path || '',
+                        label: data.label || 'Root',
+                        title: data.title || '',
+                        issueType: data.issue_type || 'root',
+                        hasIssues: data.has_issues || false
+                    };
+
+                    window.issuesApp.events.emit('root-changed', {
+                        root: this._currentRoot,
+                        previousRoot: null
+                    });
+                }
+
+                return this._currentRoot;
+
+            } catch (error) {
+                console.warn('[RootService] Failed to fetch current root:', error.message);
+                return null;
             }
         }
 
@@ -67,7 +108,19 @@
                 }
 
                 const data = await response.json();
-                this._availableRoots = data.roots || [];
+
+                // Map API response to internal format
+                // API returns: { success, roots: [{ path, label, title, issue_type, depth, has_issues, has_children }], total }
+                this._availableRoots = (data.roots || []).map(root => ({
+                    path: root.path || '',
+                    label: root.label || 'Root',
+                    title: root.title || '',
+                    displayName: root.title ? `${root.label}: ${root.title}` : root.label,
+                    issueType: root.issue_type || 'root',
+                    depth: root.depth || 0,
+                    hasIssues: root.has_issues || false,
+                    childCount: root.has_children || 0
+                }));
 
                 window.issuesApp.events.emit('roots-loaded', {
                     roots: this._availableRoots
@@ -114,7 +167,7 @@
                 const response = await fetch(`${baseUrl}/api/roots/select`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ root: rootPath })
+                    body: JSON.stringify({ path: rootPath })  // API expects 'path' field
                 });
 
                 if (!response.ok) {
@@ -123,7 +176,14 @@
                     this._currentRoot = this._findRoot(rootPath) || { path: rootPath, label: rootPath };
                 } else {
                     const data = await response.json();
-                    this._currentRoot = data.root || { path: rootPath, label: rootPath };
+                    // API returns { success, path, previous, message }
+                    // Find the full root info from available roots
+                    const selectedRoot = this._findRoot(data.path || rootPath);
+                    this._currentRoot = selectedRoot || {
+                        path: data.path || rootPath,
+                        label: data.path ? data.path.split('/').pop() : 'Root',
+                        issueType: 'root'
+                    };
                 }
 
                 // Emit event for UI updates
@@ -188,7 +248,21 @@
          */
         get currentRootDisplayName() {
             if (!this._currentRoot) return 'No root selected';
-            return this._currentRoot.displayName || this._currentRoot.label || this._currentRoot.path;
+            return this._currentRoot.displayName || this._currentRoot.title || this._currentRoot.label || this._currentRoot.path || 'Root';
+        }
+
+        /**
+         * Check if current root is the default (empty path)
+         */
+        get isDefaultRoot() {
+            return !this._currentRoot || !this._currentRoot.path || this._currentRoot.path === '';
+        }
+
+        /**
+         * Clear root selection (return to default)
+         */
+        async clearRoot() {
+            return await this.selectRoot('');
         }
     }
 

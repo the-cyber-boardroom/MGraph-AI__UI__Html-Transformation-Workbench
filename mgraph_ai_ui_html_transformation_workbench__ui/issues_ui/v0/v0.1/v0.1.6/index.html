@@ -21,15 +21,26 @@
     <!-- Issues UI v0.1.6 - Root Selector & Recursive Issue Model (Phase 1)      -->
     <!-- ======================================================================= -->
     <!--
+    Phase 1 Implementation - Recursive Issue Model ("Everything is an issue")
+
     Changes from v0.1.5:
     - U1: Root selector dropdown in header (P1)
     - U2: Current root context indicator (P1)
-    - New RootService for managing root issue folders
-    - Preparation for recursive issue model
+    - U3: "Convert to Parent" button in node-detail (P2)
+    - U4: Child issues list and "Add Child Issue" button/form (P2)
+    - U5: Tree view for nested issues with expand/collapse (P3)
+
+    New Services:
+    - RootService: Managing root issue folder selection
+    - ChildIssuesService: Managing parent-child issue relationships
 
     Backend APIs (from brief-005):
     - GET /api/roots: List available root issue folders
+    - GET /api/roots/current: Get currently selected root
     - POST /api/roots/select: Select a root context
+    - POST /api/issues/children: Add child issue to parent
+    - POST /api/issues/children/list: List children of an issue
+    - POST /api/issues/convert: Convert issue to support child issues
     -->
 
     <!-- ======================================================================= -->
@@ -53,6 +64,9 @@
 
     <!-- v0.1.6 Root Service (new - handles root selection) -->
     <script src="js/root-service.js"></script>
+
+    <!-- v0.1.6 Child Issues Service (new - handles parent-child relationships) -->
+    <script src="js/child-issues-service.js"></script>
 
     <!-- ======================================================================= -->
     <!-- Shell - v0.1.4 base + v0.1.5 override + v0.1.6 override                 -->
@@ -79,6 +93,9 @@
     <!-- v0.1.2 Node List Override (fixes scroll issue) -->
     <script src="../v0.1.2/components/node-list/node-list.js"></script>
 
+    <!-- v0.1.6 Node List Override (U5 Tree View) -->
+    <script src="components/node-list/node-list.js"></script>
+
     <!-- v0.1.2 Kanban Board Override (drag-and-drop with optimistic UI) -->
     <script src="../v0.1.2/components/kanban-board/kanban-board.js"></script>
 
@@ -96,6 +113,9 @@
 
     <!-- v0.1.5 Node Detail Override (+ New button, use confirm dialog, fix back) -->
     <script src="../v0.1.5/components/node-detail/node-detail.js"></script>
+
+    <!-- v0.1.6 Node Detail Override (U3 Convert to Parent, U4 Child Issues) -->
+    <script src="components/node-detail/node-detail.js"></script>
 
     <!-- v0.1.4 Create Node Modal Override (Bug-5 fix) -->
     <script src="../v0.1.4/components/create-node-modal/create-node-modal.js"></script>
@@ -171,7 +191,7 @@
                 const createModal = document.createElement('create-node-modal');
                 document.body.appendChild(createModal);
 
-                console.log('[Issues UI v0.1.6] Initialized: Root Selector, Context Indicator (Phase 1)');
+                console.log('[Issues UI v0.1.6] Initialized: Phase 1 Complete - Root Selector, Child Issues, Tree View');
             });
         });
     </script>
