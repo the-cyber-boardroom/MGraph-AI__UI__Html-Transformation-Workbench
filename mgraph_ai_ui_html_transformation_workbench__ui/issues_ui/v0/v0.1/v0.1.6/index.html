@@ -28,6 +28,7 @@
     - U2: Current root context indicator (P1)
     - U3: "Convert to Parent" button in node-detail (P2)
     - U4: Child issues list and "Add Child Issue" button/form (P2)
+    - U5: Tree view for nested issues with expand/collapse (P3)
 
     New Services:
     - RootService: Managing root issue folder selection
@@ -91,6 +92,9 @@
 
     <!-- v0.1.2 Node List Override (fixes scroll issue) -->
     <script src="../v0.1.2/components/node-list/node-list.js"></script>
+
+    <!-- v0.1.6 Node List Override (U5 Tree View) -->
+    <script src="components/node-list/node-list.js"></script>
 
     <!-- v0.1.2 Kanban Board Override (drag-and-drop with optimistic UI) -->
     <script src="../v0.1.2/components/kanban-board/kanban-board.js"></script>
@@ -187,7 +191,7 @@
                 const createModal = document.createElement('create-node-modal');
                 document.body.appendChild(createModal);
 
-                console.log('[Issues UI v0.1.6] Initialized: Phase 1 - Root Selector, Child Issues, Recursive Model');
+                console.log('[Issues UI v0.1.6] Initialized: Phase 1 Complete - Root Selector, Child Issues, Tree View');
             });
         });
     </script>
