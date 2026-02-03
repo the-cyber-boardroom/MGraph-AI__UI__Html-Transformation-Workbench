@@ -54,7 +54,7 @@
          */
         async fetchRoots() {
             const config = window.issuesApp.config;
-            const baseUrl = config?.apiBaseUrl || '/nodes';
+            const baseUrl = config?.apiBaseUrl || '/roots';
 
             try {
                 const response = await fetch(`${baseUrl}/api/roots`);
@@ -104,7 +104,7 @@
          */
         async selectRoot(rootPath) {
             const config = window.issuesApp.config;
-            const baseUrl = config?.apiBaseUrl || '/nodes';
+            const baseUrl = config?.apiBaseUrl || '/roots';
 
             const previousRoot = this._currentRoot;
 

@@ -153,22 +153,32 @@ class Issue__Children__Service(Type_Safe):                                      
     # Path Resolution Helpers
     # ═══════════════════════════════════════════════════════════════════════════════
 
-    def resolve_full_path(self, path: Safe_Str__File__Path) -> Safe_Str__File__Path:                               # Convert relative path to full path
+    def resolve_full_path(self, path: str) -> str:                               # Convert relative path to full path
         if not path:
-            return self.path_handler.base_path
+            base_path = str(self.path_handler.base_path)
+            if base_path and base_path != '.':
+                return base_path
+            return ''                                                            # Empty base_path = root is ''
 
-        base_path = self.path_handler.base_path
+        base_path = str(self.path_handler.base_path)
+
+        if not base_path or base_path == '.':                                    # No base_path, path is already relative to storage root
+            return path
 
         if path.startswith(base_path):
             return path
 
         return f"{base_path}/{path}"
 
-    def make_relative_path(self, full_path: Safe_Str__File__Path) -> Safe_Str__File__Path:                         # Convert full path to relative
+    def make_relative_path(self, full_path: str) -> str:                         # Convert full path to relative
         base_path = str(self.path_handler.base_path)
 
-        if full_path.startswith(f"{base_path}/"):
-            return full_path[len(base_path) + 1:]
+        if not base_path or base_path == '.':                                    # No base_path, path is already relative
+            return full_path
+
+        prefix = f"{base_path}/"
+        if full_path.startswith(prefix):
+            return full_path[len(prefix):]
 
         return full_path
 
@@ -176,21 +186,22 @@ class Issue__Children__Service(Type_Safe):                                      
     # Folder Operations
     # ═══════════════════════════════════════════════════════════════════════════════
 
-    def parent_exists(self, folder_path: Safe_Str__File__Path) -> bool:                           # Check if parent issue exists
-        issue_json = f"{folder_path}/{FILE_NAME__ISSUE_JSON}"
-        node_json  = f"{folder_path}/node.json"
+    def parent_exists(self, folder_path: str) -> bool:                           # Check if parent issue exists
+        issue_json = f"{folder_path}/{FILE_NAME__ISSUE_JSON}" if folder_path else FILE_NAME__ISSUE_JSON
+        node_json  = f"{folder_path}/node.json" if folder_path else "node.json"
 
         if self.repository.storage_fs.file__exists(issue_json):
             return True
         if self.repository.storage_fs.file__exists(node_json):
             return True
 
-        if folder_path == self.path_handler.base_path:                              # Root .issues/ is always valid parent
+        base_path = str(self.path_handler.base_path)                             # Root is always valid parent
+        if not folder_path or folder_path == base_path or folder_path == '.' or folder_path == '':
             return True
 
         return False
 
-    def folder_exists(self, folder_path: Safe_Str__File__Path) -> bool:                              # Check if folder exists (has any files)
+    def folder_exists(self, folder_path: str) -> bool:                           # Check if folder exists (has any files)
         all_paths = self.repository.storage_fs.files__paths()
         prefix    = f"{folder_path}/"
 

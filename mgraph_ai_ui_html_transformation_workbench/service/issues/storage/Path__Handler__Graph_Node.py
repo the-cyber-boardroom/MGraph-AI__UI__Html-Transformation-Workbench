@@ -30,7 +30,15 @@ FILE_NAME__NODE_JSON  = 'node.json'                                             
 # todo: quite a number of raw primitives used below (which need to type safe primitives)
 
 class Path__Handler__Graph_Node(Type_Safe):                                      # Path handler for graph nodes
-    base_path : Safe_Str__File__Path = '.issues'                                 # Root directory for issues
+    base_path : Safe_Str__File__Path = '.issues'                                 # Root directory for issues (empty or '.' for local disk)
+
+    def path_prefix(self) -> str:                                                # Get prefix for paths (empty or base_path/)
+        if self.base_path and str(self.base_path) != '.':
+            return f"{self.base_path}/"
+        return ""
+
+    def has_base_path(self) -> bool:                                             # Check if base_path is set (not empty or '.')
+        return bool(self.base_path) and str(self.base_path) != '.'
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Issue File Paths (Phase 1: Dual File Support)
@@ -41,14 +49,18 @@ class Path__Handler__Graph_Node(Type_Safe):                                     
                             node_type : Safe_Str__Node_Type   ,
                             label     : Safe_Str__Node_Label
                        ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}/{FILE_NAME__ISSUE_JSON}"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/{label}/{FILE_NAME__ISSUE_JSON}"
+        return f"data/{node_type}/{label}/{FILE_NAME__ISSUE_JSON}"
 
     @type_safe
     def path_for_node_json(self                              ,                   # Path to node.json (legacy)
                            node_type : Safe_Str__Node_Type   ,
                            label     : Safe_Str__Node_Label
                       ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}/{FILE_NAME__NODE_JSON}"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/{label}/{FILE_NAME__NODE_JSON}"
+        return f"data/{node_type}/{label}/{FILE_NAME__NODE_JSON}"
 
     @type_safe
     def path_for_node(self                              ,                        # DEPRECATED: Use path_for_issue_json
@@ -62,14 +74,18 @@ class Path__Handler__Graph_Node(Type_Safe):                                     
                              node_type : Safe_Str__Node_Type   ,
                              label     : Safe_Str__Node_Label
                         ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/{label}"
+        return f"data/{node_type}/{label}"
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Root Issue Path (Phase 1: Root issue support)
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def path_for_root_issue(self) -> str:                                        # Path to root issue.json
-        return f"{self.base_path}/{FILE_NAME__ISSUE_JSON}"
+        if self.has_base_path():
+            return f"{self.base_path}/{FILE_NAME__ISSUE_JSON}"
+        return FILE_NAME__ISSUE_JSON
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Child Issues Folder (Phase 1: Hierarchical structure)
@@ -80,7 +96,9 @@ class Path__Handler__Graph_Node(Type_Safe):                                     
                                node_type : Safe_Str__Node_Type   ,
                                label     : Safe_Str__Node_Label
                           ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}/issues"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/{label}/issues"
+        return f"data/{node_type}/{label}/issues"
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Attachment Paths
@@ -92,14 +110,18 @@ class Path__Handler__Graph_Node(Type_Safe):                                     
                             label     : Safe_Str__Node_Label  ,
                             filename  : Safe_Str__File__Name
                        ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}/attachments/{filename}"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/{label}/attachments/{filename}"
+        return f"data/{node_type}/{label}/attachments/{filename}"
 
     @type_safe
     def path_for_attachments_folder(self                              ,          # Path to attachments folder
                                     node_type : Safe_Str__Node_Type   ,
                                     label     : Safe_Str__Node_Label
                                ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}/attachments"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/{label}/attachments"
+        return f"data/{node_type}/{label}/attachments"
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Index Paths
@@ -109,32 +131,46 @@ class Path__Handler__Graph_Node(Type_Safe):                                     
     def path_for_type_index(self                              ,                  # Path to per-type index
                             node_type : Safe_Str__Node_Type
                        ) -> str:
-        return f"{self.base_path}/data/{node_type}/_index.json"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}/_index.json"
+        return f"data/{node_type}/_index.json"
 
     def path_for_global_index(self) -> str:                                      # Path to global index
-        return f"{self.base_path}/_index.json"
+        if self.has_base_path():
+            return f"{self.base_path}/_index.json"
+        return "_index.json"
 
     @type_safe
     def path_for_type_folder(self                              ,                 # Path to type folder
                              node_type : Safe_Str__Node_Type
                         ) -> str:
-        return f"{self.base_path}/data/{node_type}"
+        if self.has_base_path():
+            return f"{self.base_path}/data/{node_type}"
+        return f"data/{node_type}"
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Config Paths
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def path_for_node_types(self) -> str:                                        # Path to node-types.json
-        return f"{self.base_path}/config/node-types.json"
+        if self.has_base_path():
+            return f"{self.base_path}/config/node-types.json"
+        return "config/node-types.json"
 
     def path_for_link_types(self) -> str:                                        # Path to link-types.json
-        return f"{self.base_path}/config/link-types.json"
+        if self.has_base_path():
+            return f"{self.base_path}/config/link-types.json"
+        return "config/link-types.json"
 
     def path_for_settings(self) -> str:                                          # Path to settings.json
-        return f"{self.base_path}/config/settings.json"
+        if self.has_base_path():
+            return f"{self.base_path}/config/settings.json"
+        return "config/settings.json"
 
     def path_for_config_folder(self) -> str:                                     # Path to config folder
-        return f"{self.base_path}/config"
+        if self.has_base_path():
+            return f"{self.base_path}/config"
+        return "config"
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Label Generation
