@@ -7,9 +7,17 @@
   "description": "Project to develop the first MVP of the GitGraph Issues solution",
   "status": "active",
   "created_at": 1770089559881,
-  "updated_at": 1770090390892,
+  "updated_at": 1770117882543,
   "created_by": "e81cfe40",
   "tags": [],
-  "links": [],
+  "links": [
+    {
+      "link_type_id": "344d6fd2",
+      "verb": "has-task",
+      "target_id": "fff6493d",
+      "target_label": "Task-13",
+      "created_at": 1770117882543
+    }
+  ],
   "properties": {}
 }
