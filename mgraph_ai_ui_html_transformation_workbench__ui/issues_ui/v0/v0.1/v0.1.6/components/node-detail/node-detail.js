@@ -284,13 +284,17 @@
         const existing = document.querySelector('.nd-add-child-modal-overlay');
         if (existing) existing.remove();
 
-        // Get available types
+        // Get available types dynamically from API-loaded types
         const nodeTypes = window.issuesApp.nodeTypes || {};
-        const typeOptions = Object.keys(nodeTypes).filter(t =>
-            ['task', 'bug', 'feature', 'epic', 'story'].includes(t)
-        );
+        // Use all available types (no hardcoded filter)
+        const typeOptions = Object.keys(nodeTypes);
 
         const form = this.state.addChildForm || {};
+
+        // Set default type to first available if current type not in list
+        if (!typeOptions.includes(form.issueType) && typeOptions.length > 0) {
+            form.issueType = typeOptions[0];
+        }
 
         const modalHtml = `
             <div class="nd-add-child-modal-overlay" id="nd-add-child-overlay">
