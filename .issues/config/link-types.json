@@ -111,6 +111,34 @@
       "target_types": [
         "user-story"
       ]
+    },
+    {
+      "name": "project-contains",
+      "display_name": "Contains",
+      "reverse_name": "belongs-to-project",
+      "reverse_display_name": "Belongs to Project",
+      "color": "#8b5cf6",
+      "valid_sources": ["project"],
+      "valid_targets": ["release", "feature", "task", "bug"]
+    },
+    {
+      "name": "release-contains",
+      "display_name": "Contains",
+      "reverse_name": "belongs-to-release",
+      "reverse_display_name": "Belongs to Release",
+      "color": "#f59e0b",
+      "valid_sources": ["release"],
+      "valid_targets": ["feature", "task", "bug"]
+    },
+    {
+      "name": "contains",
+      "display_name": "Contains",
+      "reverse_name": "contained-by",
+      "reverse_display_name": "Contained By",
+      "color": "#6366f1",
+      "valid_sources": ["git-repo", "project", "release", "feature"],
+      "valid_targets": ["project", "release", "feature", "task", "bug", "person"]
     }
+
   ]
 }
