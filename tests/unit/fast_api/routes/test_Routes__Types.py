@@ -44,7 +44,7 @@ class test_Routes__Types(TestCase):
         types = self.routes.types()
 
         assert len(types) >= 4                                                   # bug, task, feature, person
-        type_names = [str(t.name) for t in types]
+        type_names = [t.get('name') for t in types]
         assert 'bug'  in type_names
         assert 'task' in type_names
 
@@ -60,7 +60,7 @@ class test_Routes__Types(TestCase):
         types = self.routes.types()
 
         assert len(types) == 1
-        assert str(types[0].name) == 'custom'
+        assert str(types[0].get('name')) == 'custom'
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Get Node Type Tests
@@ -173,7 +173,7 @@ class test_Routes__Types(TestCase):
         link_types = self.routes.link_types()
 
         assert len(link_types) >= 5                                              # blocks, has-task, assigned-to, etc.
-        verbs = [str(t.verb) for t in link_types]
+        verbs = [t.get('verb') for t in link_types]
         assert 'blocks'      in verbs
         assert 'has-task'    in verbs
         assert 'assigned-to' in verbs
@@ -190,7 +190,7 @@ class test_Routes__Types(TestCase):
         link_types = self.routes.link_types()
 
         assert len(link_types) == 1
-        assert str(link_types[0].verb) == 'custom-link'
+        assert str(link_types[0].get('verb')) == 'custom-link'
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Get Link Type Tests

@@ -32,8 +32,8 @@ class Routes__Types(Fast_API__Routes):                                          
     # ═══════════════════════════════════════════════════════════════════════════════
 
     @route_path('/api/types')
-    def types(self) -> List[Schema__Node__Type]:                                 # GET /api/types
-        return self.service.list_node_types()
+    def types(self) -> list: #List[Schema__Node__Type]:                                 # GET /api/types
+        return self.service.list_node_types().json()
 
     @route_path('/api/types/{name}')
     def type__get(self                        ,                                  # GET /api/types/{name}
@@ -60,8 +60,8 @@ class Routes__Types(Fast_API__Routes):                                          
     # ═══════════════════════════════════════════════════════════════════════════════
 
     @route_path('/api/link-types')
-    def link_types(self) -> List[Schema__Link__Type]:                            # GET /api/link-types
-        return self.service.list_link_types()
+    def link_types(self) -> list: #List[Schema__Link__Type]:                            # GET /api/link-types
+        return self.service.list_link_types().json()                                 # todo: note: due to bug in OSBot_Fast_API we can't return List[Schema__Link__Type], and need to convert this to a list
 
     @route_path('/api/link-types/{verb}')
     def link_type__get(self                        ,                             # GET /api/link-types/{verb}
@@ -78,9 +78,9 @@ class Routes__Types(Fast_API__Routes):                                          
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def setup_routes(self):                                                      # Configure all routes
-        #self.add_route_get   (self.types        )          # todo: see why fails pydantic
+        self.add_route_get   (self.types        )          # todo: see why fails pydantic
         self.add_route_get   (self.type__get    )
         self.add_route_delete(self.type__delete )
-        #self.add_route_get   (self.link_types   )
+        self.add_route_get   (self.link_types   )
         self.add_route_get   (self.link_type__get)
         return self

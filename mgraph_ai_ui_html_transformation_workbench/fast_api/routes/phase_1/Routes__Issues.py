@@ -44,7 +44,7 @@ class Routes__Issues(Fast_API__Routes):                                         
     # GET /api/issues/children - List Children
     # ═══════════════════════════════════════════════════════════════════════════════
 
-    @route_path('/api/issues/children')
+    @route_path('/api/issues/children/list')
     def issues_list_children(self                                    ,           # List children of an issue
                              request : Schema__List_Children__Request
                         ) -> Schema__Issue__Children__List__Response:
@@ -66,6 +66,6 @@ class Routes__Issues(Fast_API__Routes):                                         
 
     def setup_routes(self):                                                      # Configure all routes
         self.add_route_post(self.issues_add_child    )
-        self.add_route_get (self.issues_list_children)
+        self.add_route_post(self.issues_list_children)
         self.add_route_post(self.issues_convert      )
         return self

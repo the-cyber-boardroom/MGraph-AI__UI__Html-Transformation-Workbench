@@ -24,6 +24,7 @@ class Type__Service(Type_Safe):                                                 
     # Node Type Operations
     # ═══════════════════════════════════════════════════════════════════════════════
 
+    @type_safe
     def list_node_types(self) -> List[Schema__Node__Type]:                       # Get all node types
         return self.repository.node_types_load()
 
@@ -82,6 +83,7 @@ class Type__Service(Type_Safe):                                                 
     # Link Type Operations
     # ═══════════════════════════════════════════════════════════════════════════════
 
+    @type_safe
     def list_link_types(self) -> List[Schema__Link__Type]:                       # Get all link types
         return self.repository.link_types_load()
 

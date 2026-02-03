@@ -16,7 +16,6 @@ from osbot_utils.type_safe.primitives.domains.identifiers.Node_Id               
 from osbot_utils.type_safe.primitives.domains.identifiers.Obj_Id                                        import Obj_Id
 from osbot_utils.type_safe.primitives.domains.identifiers.safe_int.Timestamp_Now                        import Timestamp_Now
 from osbot_utils.type_safe.type_safe_core.decorators.type_safe                                          import type_safe
-from osbot_utils.utils.Files                                                                            import path_combine_safe
 from osbot_utils.utils.Json                                                                             import json_dumps, json_loads
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label, Safe_Str__Status
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node                              import Schema__Node
@@ -163,7 +162,7 @@ class Issue__Children__Service(Type_Safe):                                      
         if path.startswith(base_path):
             return path
 
-        return path_combine_safe(base_path, path)
+        return f"{base_path}/{path}"
 
     def make_relative_path(self, full_path: Safe_Str__File__Path) -> Safe_Str__File__Path:                         # Convert full path to relative
         base_path = str(self.path_handler.base_path)
