@@ -113,13 +113,15 @@ class Html_Transformation_Workbench__Fast_API(Serverless__Fast_API):
         root_path   = self.resolve_root_path()
 
         if use_memory:
-            storage_fs = Storage_FS__Memory()
+            storage_fs      = Storage_FS__Memory()
+            path_base       = issues_path                                        # Memory storage needs full path prefix
         else:
             self.run_in_memory = False
-            storage_fs = Storage_FS__Local_Disk(root_path=issues_path)
+            storage_fs      = Storage_FS__Local_Disk(root_path=issues_path)
+            path_base       = ''                                                 # Local disk storage already rooted at issues_path
 
         self.memory_fs    = Memory_FS(storage_fs=storage_fs)
-        self.path_handler = Path__Handler__Graph_Node(base_path=issues_path)
+        self.path_handler = Path__Handler__Graph_Node(base_path=path_base)
 
         self.graph_repository = Graph__Repository(memory_fs    = self.memory_fs   ,
                                                   path_handler = self.path_handler)

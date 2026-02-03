@@ -104,12 +104,15 @@ class Root__Selection__Service(Type_Safe):                                      
             return True                                                          # Empty path = default root
 
         base_path = str(self.path_handler.base_path)
-        if path == base_path:                                                    # .issues/ itself is always valid
-            return True
+
+        if base_path and base_path != '.':
+            if path == base_path:                                                # base_path itself is always valid
+                return True
 
         full_path = path
-        if path.startswith(base_path) is False:                                  # Build full path if relative
-            full_path = f"{base_path}/{path}"
+        if base_path and base_path != '.':                                       # Build full path if relative
+            if path.startswith(base_path) is False:
+                full_path = f"{base_path}/{path}"
 
         issue_json = f"{full_path}/{FILE_NAME__ISSUE_JSON}"                      # Check for issue.json or node.json
         node_json  = f"{full_path}/{FILE_NAME__NODE_JSON}"
@@ -130,8 +133,9 @@ class Root__Selection__Service(Type_Safe):                                      
         root_path  = self.path_handler.path_for_root_issue()
         root_issue = self.load_issue_from_path(root_path)
 
-        has_issues    = self.has_issues_folder(base_path)
-        child_count   = self.count_top_level_issues()
+        effective_base = base_path if base_path and base_path != '.' else ''     # Normalize empty/dot to ''
+        has_issues     = self.has_issues_folder(effective_base)
+        child_count    = self.count_top_level_issues()
 
         if root_issue:                                                           # If root issue.json exists
             return Schema__Root__Candidate(path         = ''                                          ,
@@ -155,11 +159,13 @@ class Root__Selection__Service(Type_Safe):                                      
         if issue_data is None:
             return None
 
-        base_path    = str(self.path_handler.base_path)
+        base_path     = str(self.path_handler.base_path)
         relative_path = folder_path
 
-        if folder_path.startswith(f"{base_path}/"):                              # Make path relative
-            relative_path = folder_path[len(base_path) + 1:]
+        if base_path and base_path != '.':                                       # Make path relative if base_path is set
+            prefix = f"{base_path}/"
+            if folder_path.startswith(prefix):
+                relative_path = folder_path[len(prefix):]
 
         depth        = self.calculate_depth(folder_path)
         has_issues   = self.has_issues_folder(folder_path)
@@ -180,8 +186,9 @@ class Root__Selection__Service(Type_Safe):                                      
         base_path = str(self.path_handler.base_path)
         full_path = path
 
-        if path.startswith(base_path) is False:
-            full_path = f"{base_path}/{path}"
+        if base_path and base_path != '.':                                       # Prepend base_path if set and path is relative
+            if path.startswith(base_path) is False:
+                full_path = f"{base_path}/{path}"
 
         return self.create_candidate_from_folder(full_path)
 
@@ -190,10 +197,10 @@ class Root__Selection__Service(Type_Safe):                                      
     # ═══════════════════════════════════════════════════════════════════════════════
 
     def scan_for_issue_folders(self) -> List[str]:                               # Find all folders with issue/node.json
-        folders   = set()
-        all_paths = self.repository.storage_fs.files__paths()
-        base_path = str(self.path_handler.base_path)
-        data_prefix = f"{base_path}/data/"
+        folders     = set()
+        all_paths   = self.repository.storage_fs.files__paths()
+        base_path   = str(self.path_handler.base_path)
+        data_prefix = f"{base_path}/data/" if base_path and base_path != '.' else "data/"
 
         for path in all_paths:
             if path.startswith(data_prefix) is False:
@@ -201,7 +208,7 @@ class Root__Selection__Service(Type_Safe):                                      
 
             if path.endswith(f'/{FILE_NAME__ISSUE_JSON}') or path.endswith(f'/{FILE_NAME__NODE_JSON}'):
                 folder = path.rsplit('/', 1)[0]                                  # Get parent folder
-                if folder != base_path:                                          # Exclude root
+                if folder != base_path and folder != '.':                        # Exclude root
                     folders.add(folder)
 
         return list(folders)
@@ -219,7 +226,7 @@ class Root__Selection__Service(Type_Safe):                                      
 
     def count_top_level_issues(self) -> int:                                     # Count issues in data/ folders
         base_path = str(self.path_handler.base_path)
-        data_path = f"{base_path}/data/"
+        data_path = f"{base_path}/data/" if base_path and base_path != '.' else "data/"
         all_paths = self.repository.storage_fs.files__paths()
         folders   = set()
 
@@ -273,23 +280,30 @@ class Root__Selection__Service(Type_Safe):                                      
     # Depth Calculation
     # ═══════════════════════════════════════════════════════════════════════════════
 
-    def calculate_depth(self, folder_path: str) -> int:                          # Calculate nesting depth from .issues/
+    def calculate_depth(self, folder_path: str) -> int:                          # Calculate nesting depth from root
         base_path = str(self.path_handler.base_path)
 
-        if folder_path == base_path:
+        if not folder_path:
             return 0
 
-        if folder_path.startswith(base_path) is False:
-            return 0
+        if base_path and base_path != '.':
+            if folder_path == base_path:
+                return 0
 
-        relative = folder_path[len(base_path):].strip('/')                       # Remove base path
+            if folder_path.startswith(base_path) is False:
+                relative = folder_path                                           # Already relative
+            else:
+                relative = folder_path[len(base_path):].strip('/')               # Remove base path
+        else:
+            relative = folder_path.strip('/')                                    # No base path to remove
+
         if not relative:
             return 0
 
         parts = relative.split('/')
 
         depth = 0                                                                # Count issues/ segments for depth
-        for i, part in enumerate(parts):
+        for part in parts:
             if part == 'issues':
                 depth += 1
 
