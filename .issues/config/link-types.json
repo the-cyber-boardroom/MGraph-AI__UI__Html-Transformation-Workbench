@@ -21,7 +21,9 @@
       "description": "Contains as sub-work",
       "source_types": [
         "feature",
-        "version"
+        "version",
+        "release",
+        "project"
       ],
       "target_types": [
         "task"
@@ -59,20 +61,24 @@
       "link_type_id": "41b71edb",
       "verb": "relates-to",
       "inverse_verb": "relates-to",
-      "description": "General association (symmetric)",
+      "description": "General association (symmetric, deprecated)",
       "source_types": [
         "bug",
         "task",
         "feature",
         "version",
-        "user-story"
+        "user-story",
+        "project",
+        "release"
       ],
       "target_types": [
         "bug",
         "task",
         "feature",
         "version",
-        "user-story"
+        "user-story",
+        "project",
+        "release"
       ]
     },
     {
@@ -81,10 +87,26 @@
       "inverse_verb": "feature-of",
       "description": "Version contains feature",
       "source_types": [
-        "version"
+        "version",
+        "release",
+        "project"
       ],
       "target_types": [
         "feature"
+      ]
+    },
+    {
+      "link_type_id": "9b1c2d3e",
+      "verb": "has-version",
+      "inverse_verb": "version-of",
+      "description": "Project or release contains version",
+      "source_types": [
+        "project",
+        "release",
+        "git-repo"
+      ],
+      "target_types": [
+        "version"
       ]
     },
     {
@@ -94,7 +116,9 @@
       "description": "Version or feature contains bug",
       "source_types": [
         "version",
-        "feature"
+        "feature",
+        "release",
+        "project"
       ],
       "target_types": [
         "bug"
@@ -106,38 +130,38 @@
       "inverse_verb": "story-of",
       "description": "Feature driven by user story",
       "source_types": [
-        "feature"
+        "feature",
+        "release",
+        "project"
       ],
       "target_types": [
         "user-story"
       ]
     },
     {
-      "name": "project-contains",
-      "display_name": "Contains",
-      "reverse_name": "belongs-to-project",
-      "reverse_display_name": "Belongs to Project",
-      "color": "#8b5cf6",
-      "valid_sources": ["project"],
-      "valid_targets": ["release", "feature", "task", "bug"]
-    },
-    {
-      "name": "release-contains",
-      "display_name": "Contains",
-      "reverse_name": "belongs-to-release",
-      "reverse_display_name": "Belongs to Release",
-      "color": "#f59e0b",
-      "valid_sources": ["release"],
-      "valid_targets": ["feature", "task", "bug"]
-    },
-    {
-      "name": "contains",
-      "display_name": "Contains",
-      "reverse_name": "contained-by",
-      "reverse_display_name": "Contained By",
-      "color": "#6366f1",
-      "valid_sources": ["git-repo", "project", "release", "feature"],
-      "valid_targets": ["project", "release", "feature", "task", "bug", "person"]
+      "link_type_id": "b2c3d4e5",
+      "verb": "contains",
+      "inverse_verb": "contained-by",
+      "description": "Generic containment for hierarchical organization",
+      "source_types": [
+        "git-repo",
+        "project",
+        "release",
+        "version",
+        "feature",
+        "user-story",
+        "task"
+      ],
+      "target_types": [
+        "project",
+        "release",
+        "version",
+        "feature",
+        "user-story",
+        "task",
+        "bug",
+        "person"
+      ]
     }
 
   ]

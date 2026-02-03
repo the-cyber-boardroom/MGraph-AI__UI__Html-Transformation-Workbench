@@ -1,0 +1,15 @@
+{
+  "node_id": "821de903",
+  "node_type": "project",
+  "node_index": 2,
+  "label": "Project-2",
+  "title": "Html Transformation Workbench",
+  "description": "UI to transform HTML",
+  "status": "active",
+  "created_at": 1770090423346,
+  "updated_at": 1770090429405,
+  "created_by": "aab647eb",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

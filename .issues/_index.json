@@ -1,6 +1,6 @@
 {
-  "total_nodes": 45,
-  "last_updated": 1770089559907,
+  "total_nodes": 46,
+  "last_updated": 1770090423365,
   "type_counts": [
     {
       "count": 14,
@@ -27,7 +27,7 @@
       "node_type": "user-story"
     },
     {
-      "count": 1,
+      "count": 2,
       "node_type": "project"
     },
     {

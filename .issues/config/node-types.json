@@ -1,6 +1,20 @@
 {
   "types": [
     {
+      "type_id": "5e9a9a12",
+      "name": "git-repo",
+      "display_name": "Git Repo",
+      "description": "Root container for all issues in a repository",
+      "icon": "",
+      "color": "#6366f1",
+      "statuses": [
+        "active",
+        "archived"
+      ],
+      "default_status": "active",
+      "properties": []
+    },
+    {
       "type_id": "b384c6bd",
       "name": "bug",
       "display_name": "Bug",
@@ -101,16 +115,22 @@
     {
       "name": "project",
       "display_name": "Project",
+      "type_id": "6f7a8b9c",
+      "description": "Top-level initiative or product area",
       "color": "#8b5cf6",
       "statuses": ["proposed", "active", "on-hold", "completed", "archived"],
-      "default_status": "proposed"
+      "default_status": "proposed",
+      "properties": []
     },
     {
       "name": "release",
       "display_name": "Release",
+      "type_id": "7c8d9e0f",
+      "description": "Release or milestone grouping work",
       "color": "#f59e0b",
       "statuses": ["planned", "in-progress", "testing", "released", "deprecated"],
-      "default_status": "planned"
+      "default_status": "planned",
+      "properties": []
     }
   ]
 }
