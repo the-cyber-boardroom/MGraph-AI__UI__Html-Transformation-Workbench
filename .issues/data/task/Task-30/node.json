@@ -1,0 +1,15 @@
+{
+  "node_id": "dd61566d",
+  "node_type": "task",
+  "node_index": 30,
+  "label": "Task-30",
+  "title": "When viewing an issue, I should be able to add new linked issue (bug_task)",
+  "description": "this is very useful for example when I'm reviewing an issue and want to add not just a comment about it, but a bug that is related to this new feature/task",
+  "status": "backlog",
+  "created_at": 1770040253467,
+  "updated_at": 1770040253467,
+  "created_by": "d8f434a3",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

@@ -1,0 +1,15 @@
+{
+  "node_id": "ce1d8044",
+  "node_type": "task",
+  "node_index": 31,
+  "label": "Task-31",
+  "title": "Write the backend code for graph schema refactoring - Phase 1",
+  "description": "as described in this briefing document:\n\ndocs/dev-briefs/v0.2.26__add-mgraph-support__and__issue-pod-architecture/v0.2.26__issues__brief-005__implementation-phase-1.md",
+  "status": "backlog",
+  "created_at": 1770063401704,
+  "updated_at": 1770063401704,
+  "created_by": "1e0a5260",
+  "tags": [],
+  "links": [],
+  "properties": {}
+}

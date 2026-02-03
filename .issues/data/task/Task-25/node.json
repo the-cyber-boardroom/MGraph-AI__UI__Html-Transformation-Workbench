@@ -5,11 +5,20 @@
   "label": "Task-25",
   "title": "on kanban board add support for the opening an issue on new tab",
   "description": "it should be possible to right click on the card and chose the 'open in new tab' option (of the browser). \n\nwe should also detect if the user has pressed (I think is the Command key in mac) the key that is normally used in browsers to open issues on new window\ncreate a plan to show how complex it would be to implement this",
-  "status": "review",
+  "status": "in-progress",
   "created_at": 1769994468336,
-  "updated_at": 1769994468336,
+  "updated_at": 1770047006877,
   "created_by": "b70c3dcf",
   "tags": [],
   "links": [],
-  "properties": {}
+  "properties": {
+    "comments": [
+      {
+        "id": "798e42b6-9087-480d-8ce2-7ae9b17cc0ed",
+        "author": "human",
+        "text": "so the right click is working ok, but when I do 'Command+Click' the target is opened in both tab (my current one and the new tab). the expected behaviour is that only the new tab should open and my current window/tab stays the same (which is the idea of opening the issue in a new tab :) )",
+        "created_at": 1770040159525
+      }
+    ]
+  }
 }

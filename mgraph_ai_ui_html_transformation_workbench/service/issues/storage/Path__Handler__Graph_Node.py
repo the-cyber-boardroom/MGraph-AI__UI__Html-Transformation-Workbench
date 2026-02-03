@@ -1,12 +1,16 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # Path__Handler__Graph_Node - Path generation for graph-based issue tracking
-# Generates paths for the .issues/ directory structure:
-#   data/{node_type}/{Label}/node.json
+# Phase 1: Added dual file support (issue.json preferred, node.json fallback)
+#
+# Storage structure:
+#   data/{node_type}/{Label}/issue.json    <- NEW: Preferred file
+#   data/{node_type}/{Label}/node.json     <- LEGACY: Read-only fallback
 #   data/{node_type}/{Label}/attachments/{filename}
 #   data/{node_type}/_index.json
 #   config/node-types.json
 #   config/link-types.json
 #   _index.json
+#   issue.json                             <- NEW: Root issue (optional)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 from osbot_utils.type_safe.Type_Safe                                                         import Type_Safe
@@ -16,19 +20,42 @@ from osbot_utils.type_safe.primitives.domains.files.safe_str.Safe_Str__File__Nam
 from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types          import Safe_Str__Node_Type, Safe_Str__Node_Label
 
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# File Name Constants
+# ═══════════════════════════════════════════════════════════════════════════════
+
+FILE_NAME__ISSUE_JSON = 'issue.json'                                             # NEW: Preferred issue data file
+FILE_NAME__NODE_JSON  = 'node.json'                                              # LEGACY: Fallback for backward compat
+
+# todo: quite a number of raw primitives used below (which need to type safe primitives)
+
 class Path__Handler__Graph_Node(Type_Safe):                                      # Path handler for graph nodes
     base_path : Safe_Str__File__Path = '.issues'                                 # Root directory for issues
 
     # ═══════════════════════════════════════════════════════════════════════════════
-    # Node Paths
+    # Issue File Paths (Phase 1: Dual File Support)
     # ═══════════════════════════════════════════════════════════════════════════════
 
     @type_safe
-    def path_for_node(self                              ,                        # Path to node JSON file
-                      node_type : Safe_Str__Node_Type   ,                        # e.g., "bug"
-                      label     : Safe_Str__Node_Label                           # e.g., "Bug-27"
+    def path_for_issue_json(self                              ,                  # Path to issue.json (preferred)
+                            node_type : Safe_Str__Node_Type   ,
+                            label     : Safe_Str__Node_Label
+                       ) -> str:
+        return f"{self.base_path}/data/{node_type}/{label}/{FILE_NAME__ISSUE_JSON}"
+
+    @type_safe
+    def path_for_node_json(self                              ,                   # Path to node.json (legacy)
+                           node_type : Safe_Str__Node_Type   ,
+                           label     : Safe_Str__Node_Label
+                      ) -> str:
+        return f"{self.base_path}/data/{node_type}/{label}/{FILE_NAME__NODE_JSON}"
+
+    @type_safe
+    def path_for_node(self                              ,                        # DEPRECATED: Use path_for_issue_json
+                      node_type : Safe_Str__Node_Type   ,                        # Kept for backward compatibility
+                      label     : Safe_Str__Node_Label
                  ) -> str:
-        return f"{self.base_path}/data/{node_type}/{label}/node.json"
+        return self.path_for_node_json(node_type, label)                         # Returns legacy path
 
     @type_safe
     def path_for_node_folder(self                              ,                 # Path to node folder
@@ -36,6 +63,24 @@ class Path__Handler__Graph_Node(Type_Safe):                                     
                              label     : Safe_Str__Node_Label
                         ) -> str:
         return f"{self.base_path}/data/{node_type}/{label}"
+
+    # ═══════════════════════════════════════════════════════════════════════════════
+    # Root Issue Path (Phase 1: Root issue support)
+    # ═══════════════════════════════════════════════════════════════════════════════
+
+    def path_for_root_issue(self) -> str:                                        # Path to root issue.json
+        return f"{self.base_path}/{FILE_NAME__ISSUE_JSON}"
+
+    # ═══════════════════════════════════════════════════════════════════════════════
+    # Child Issues Folder (Phase 1: Hierarchical structure)
+    # ═══════════════════════════════════════════════════════════════════════════════
+
+    @type_safe
+    def path_for_issues_folder(self                              ,               # Path to issues/ subfolder
+                               node_type : Safe_Str__Node_Type   ,
+                               label     : Safe_Str__Node_Label
+                          ) -> str:
+        return f"{self.base_path}/data/{node_type}/{label}/issues"
 
     # ═══════════════════════════════════════════════════════════════════════════════
     # Attachment Paths
