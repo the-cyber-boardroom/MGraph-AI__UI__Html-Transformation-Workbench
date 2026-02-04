@@ -7,12 +7,12 @@
 
 from typing                                                                                             import List
 from fastapi                                                                                            import HTTPException
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Type, Safe_Str__Link_Verb
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Type__Service             import Type__Service
+from issues_fs.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Type, Safe_Str__Link_Verb
+from issues_fs.issues.graph_services.Type__Service             import Type__Service
 from osbot_fast_api.api.decorators.route_path                                                           import route_path
 from osbot_fast_api.api.routes.Fast_API__Routes                                                         import Fast_API__Routes
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Type                        import Schema__Node__Type
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Type                        import Schema__Link__Type
+from issues_fs.schemas.graph.Schema__Node__Type                        import Schema__Node__Type
+from issues_fs.schemas.graph.Schema__Link__Type                        import Schema__Link__Type
 
 
 TAG__ROUTES_TYPES = 'types'

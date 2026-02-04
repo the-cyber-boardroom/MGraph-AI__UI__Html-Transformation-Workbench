@@ -8,8 +8,8 @@
 #   GET  /api/roots/current      - Get currently selected root
 #   POST /api/roots/select       - Select a new root
 # ═══════════════════════════════════════════════════════════════════════════════
-from mgraph_ai_ui_html_transformation_workbench.schemas.issues.phase_1.Schema__Root             import Schema__Root__List__Response, Schema__Root__Select__Request, Schema__Root__Select__Response, Schema__Root__Current__Response
-from mgraph_ai_ui_html_transformation_workbench.service.issues.phase_1.Root__Selection__Service import Root__Selection__Service
+from issues_fs.schemas.issues.phase_1.Schema__Root             import Schema__Root__List__Response, Schema__Root__Select__Request, Schema__Root__Select__Response, Schema__Root__Current__Response
+from issues_fs.issues.phase_1.Root__Selection__Service import Root__Selection__Service
 from osbot_fast_api.api.decorators.route_path                                                   import route_path
 from osbot_fast_api.api.routes.Fast_API__Routes                                                 import Fast_API__Routes
 

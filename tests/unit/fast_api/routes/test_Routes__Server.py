@@ -8,17 +8,17 @@ from fastapi                                                                    
 from osbot_utils.type_safe.primitives.core.Safe_UInt                                            import Safe_UInt
 from osbot_utils.type_safe.primitives.domains.common.safe_str.Safe_Str__Text                    import Safe_Str__Text
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.Routes__Server                  import Routes__Server
-from mgraph_ai_ui_html_transformation_workbench.schemas.status.Schema__API__Info                import Schema__API__Info
-from mgraph_ai_ui_html_transformation_workbench.schemas.status.Schema__Git__Status              import Schema__Git__Status
-from mgraph_ai_ui_html_transformation_workbench.schemas.status.Schema__Index__Status            import Schema__Index__Status
-from mgraph_ai_ui_html_transformation_workbench.schemas.status.Schema__Server__Status           import Schema__Server__Status__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.status.Schema__Storage__Status          import Schema__Storage__Status
-from mgraph_ai_ui_html_transformation_workbench.schemas.status.Schema__Types__Status            import Schema__Types__Status
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Git__Status__Service      import Git__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Index__Status__Service    import Index__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Server__Status__Service   import Server__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Storage__Status__Service  import Storage__Status__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.status.Types__Status__Service    import Types__Status__Service
+from issues_fs.schemas.status.Schema__API__Info                import Schema__API__Info
+from issues_fs.schemas.status.Schema__Git__Status              import Schema__Git__Status
+from issues_fs.schemas.status.Schema__Index__Status            import Schema__Index__Status
+from issues_fs.schemas.status.Schema__Server__Status           import Schema__Server__Status__Response
+from issues_fs.schemas.status.Schema__Storage__Status          import Schema__Storage__Status
+from issues_fs.schemas.status.Schema__Types__Status            import Schema__Types__Status
+from issues_fs.issues.status.Git__Status__Service      import Git__Status__Service
+from issues_fs.issues.status.Index__Status__Service    import Index__Status__Service
+from issues_fs.issues.status.Server__Status__Service   import Server__Status__Service
+from issues_fs.issues.status.Storage__Status__Service  import Storage__Status__Service
+from issues_fs.issues.status.Types__Status__Service    import Types__Status__Service
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

@@ -2,8 +2,8 @@ from unittest                                                                   
 from osbot_fast_api_serverless.utils.Version                                                 import version__osbot_fast_api_serverless
 from osbot_utils.testing.Graph__Deterministic__Ids                                           import graph_deterministic_ids
 from osbot_utils.testing.__                                                                  import __, __SKIP__
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request  import Schema__Node__Create__Request
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Response import Schema__Node__Create__Response
+from issues_fs.schemas.graph.Schema__Node__Create__Request  import Schema__Node__Create__Request
+from issues_fs.schemas.graph.Schema__Node__Create__Response import Schema__Node__Create__Response
 from tests.unit.Html_Transformation_Workbench__Test_Objs                                      import setup__html_transformation_workbench__test_objs
 
 

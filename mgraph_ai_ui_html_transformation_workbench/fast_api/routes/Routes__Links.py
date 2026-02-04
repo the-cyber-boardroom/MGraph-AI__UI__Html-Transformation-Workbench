@@ -7,12 +7,12 @@
 
 from fastapi                                                                                            import HTTPException
 
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Label, Safe_Str__Node_Type
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Create__Request import Schema__Link__Create__Request
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Create__Response import Schema__Link__Create__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__Delete__Response import Schema__Link__Delete__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Link__List__Response import Schema__Link__List__Response
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Link__Service import Link__Service
+from issues_fs.schemas.graph.Safe_Str__Graph_Types import Safe_Str__Node_Label, Safe_Str__Node_Type
+from issues_fs.schemas.graph.Schema__Link__Create__Request import Schema__Link__Create__Request
+from issues_fs.schemas.graph.Schema__Link__Create__Response import Schema__Link__Create__Response
+from issues_fs.schemas.graph.Schema__Link__Delete__Response import Schema__Link__Delete__Response
+from issues_fs.schemas.graph.Schema__Link__List__Response import Schema__Link__List__Response
+from issues_fs.issues.graph_services.Link__Service import Link__Service
 from osbot_fast_api.api.decorators.route_path                                                           import route_path
 from osbot_fast_api.api.routes.Fast_API__Routes                                                         import Fast_API__Routes
 

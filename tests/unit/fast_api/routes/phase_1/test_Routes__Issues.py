@@ -10,10 +10,10 @@ from osbot_utils.testing.Pytest import skip_pytest
 from memory_fs.helpers.Memory_FS__In_Memory                                                             import Memory_FS__In_Memory
 from osbot_utils.utils.Json                                                                             import json_dumps
 from mgraph_ai_ui_html_transformation_workbench.fast_api.routes.phase_1.Routes__Issues                  import Routes__Issues, ROUTES_PATHS__ISSUES, TAG__ROUTES_ISSUES
-from mgraph_ai_ui_html_transformation_workbench.schemas.issues.phase_1.Schema__Issue__Children          import Schema__Add_Child__Request, Schema__List_Children__Request, Schema__Convert__Request
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Graph__Repository         import Graph__Repository
-from mgraph_ai_ui_html_transformation_workbench.service.issues.phase_1.Issue__Children__Service         import Issue__Children__Service
-from mgraph_ai_ui_html_transformation_workbench.service.issues.storage.Path__Handler__Graph_Node        import Path__Handler__Graph_Node
+from issues_fs.schemas.issues.phase_1.Schema__Issue__Children          import Schema__Add_Child__Request, Schema__List_Children__Request, Schema__Convert__Request
+from issues_fs.issues.graph_services.Graph__Repository         import Graph__Repository
+from issues_fs.issues.phase_1.Issue__Children__Service         import Issue__Children__Service
+from issues_fs.issues.storage.Path__Handler__Graph_Node        import Path__Handler__Graph_Node
 
 
 class test_Routes__Issues(TestCase):

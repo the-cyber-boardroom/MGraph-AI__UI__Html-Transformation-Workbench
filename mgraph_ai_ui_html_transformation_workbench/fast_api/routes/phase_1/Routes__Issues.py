@@ -7,8 +7,8 @@
 #   GET  /api/issues/children         - List children of an issue
 #   POST /api/issues/convert          - Convert issue to new structure (create issues/ folder)
 # ═══════════════════════════════════════════════════════════════════════════════
-from mgraph_ai_ui_html_transformation_workbench.schemas.issues.phase_1.Schema__Issue__Children   import Schema__Add_Child__Request, Schema__Issue__Child__Response, Schema__Issue__Child__Create, Schema__List_Children__Request, Schema__Issue__Children__List__Response, Schema__Convert__Request, Schema__Issue__Convert__Response
-from mgraph_ai_ui_html_transformation_workbench.service.issues.phase_1.Issue__Children__Service  import Issue__Children__Service
+from issues_fs.schemas.issues.phase_1.Schema__Issue__Children   import Schema__Add_Child__Request, Schema__Issue__Child__Response, Schema__Issue__Child__Create, Schema__List_Children__Request, Schema__Issue__Children__List__Response, Schema__Convert__Request, Schema__Issue__Convert__Response
+from issues_fs.issues.phase_1.Issue__Children__Service  import Issue__Children__Service
 from osbot_fast_api.api.decorators.route_path                                                    import route_path
 from osbot_fast_api.api.routes.Fast_API__Routes                                                  import Fast_API__Routes
 

@@ -7,18 +7,18 @@
 
 from fastapi                                                                                            import HTTPException
 from osbot_utils.type_safe.primitives.core.Safe_UInt                                                    import Safe_UInt
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Graph__Response                   import Schema__Graph__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Request             import Schema__Node__Create__Request
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Create__Response            import Schema__Node__Create__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Delete__Response            import Schema__Node__Delete__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__List__Response              import Schema__Node__List__Response
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Request             import Schema__Node__Update__Request
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node__Update__Response            import Schema__Node__Update__Response
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service             import Node__Service
+from issues_fs.schemas.graph.Safe_Str__Graph_Types                     import Safe_Str__Node_Type, Safe_Str__Node_Label
+from issues_fs.schemas.graph.Schema__Graph__Response                   import Schema__Graph__Response
+from issues_fs.schemas.graph.Schema__Node__Create__Request             import Schema__Node__Create__Request
+from issues_fs.schemas.graph.Schema__Node__Create__Response            import Schema__Node__Create__Response
+from issues_fs.schemas.graph.Schema__Node__Delete__Response            import Schema__Node__Delete__Response
+from issues_fs.schemas.graph.Schema__Node__List__Response              import Schema__Node__List__Response
+from issues_fs.schemas.graph.Schema__Node__Update__Request             import Schema__Node__Update__Request
+from issues_fs.schemas.graph.Schema__Node__Update__Response            import Schema__Node__Update__Response
+from issues_fs.issues.graph_services.Node__Service             import Node__Service
 from osbot_fast_api.api.decorators.route_path                                                           import route_path
 from osbot_fast_api.api.routes.Fast_API__Routes                                                         import Fast_API__Routes
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Schema__Node                              import Schema__Node
+from issues_fs.schemas.graph.Schema__Node                              import Schema__Node
 
 
 TAG__ROUTES_NODES = 'nodes'

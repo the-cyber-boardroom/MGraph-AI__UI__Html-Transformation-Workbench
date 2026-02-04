@@ -8,7 +8,7 @@ from osbot_utils.testing.Pytest                                                 
 from osbot_fast_api_serverless.fast_api.Serverless__Fast_API__Config                                     import Serverless__Fast_API__Config
 from osbot_utils.testing.Temp_Env_Vars                                                                   import Temp_Env_Vars
 from mgraph_ai_ui_html_transformation_workbench.fast_api.Html_Transformation_Workbench__Fast_API         import Html_Transformation_Workbench__Fast_API, ENV_VAR__ISSUES__IN_MEMORY, ENV_VAR__ISSUES__PATH
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Node__Service              import Node__Service
+from issues_fs.issues.graph_services.Node__Service              import Node__Service
 
 
 class test_Routes__Nodes__local_data(TestCase):

@@ -4,13 +4,13 @@
 from osbot_fast_api.api.decorators.route_path import route_path
 
 from osbot_fast_api.api.routes.Fast_API__Routes                                                     import Fast_API__Routes
-from mgraph_ai_ui_html_transformation_workbench.schemas.graph.Safe_Str__Graph_Types                 import Safe_Str__Node_Type, Safe_Str__Node_Label
-from mgraph_ai_ui_html_transformation_workbench.schemas.issues.Schema__Comment                      import (Schema__Comment__Create__Request,
+from issues_fs.schemas.graph.Safe_Str__Graph_Types                 import Safe_Str__Node_Type, Safe_Str__Node_Label
+from issues_fs.schemas.issues.Schema__Comment                      import (Schema__Comment__Create__Request,
                                                                                                             Schema__Comment__Update__Request,
                                                                                                             Schema__Comment__Response,
                                                                                                             Schema__Comment__List__Response,
                                                                                                             Schema__Comment__Delete__Response)
-from mgraph_ai_ui_html_transformation_workbench.service.issues.graph_services.Comments__Service     import Comments__Service
+from issues_fs.issues.graph_services.Comments__Service     import Comments__Service
 
 class Routes__Comments(Fast_API__Routes):                                         # Comments API routes
     tag     : str               = 'comments'
