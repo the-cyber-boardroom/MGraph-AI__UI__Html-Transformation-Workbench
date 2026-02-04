@@ -20,6 +20,7 @@ include = [
 python = "^3.12"
 osbot-fast-api-serverless      = "*"
 memory_fs                      = "*"
+issues_fs                      = "*"
 
 [build-system]
 requires      = ["poetry-core>=1.0.0"]
